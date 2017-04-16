@@ -47,5 +47,42 @@
         android:layout_width="45dp"
         android:layout_height="45dp" />
 
+    <ImageButton
+        android:id="@+id/ge_center_menu_order"
+        android:src="@drawable/logo"
+        android:background="@drawable/center_menu"
+        android:layout_toLeftOf="@+id/ge_center_menu"
+        android:layout_alignParentBottom="true"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="52dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp" />
+
+    <ImageButton
+        android:id="@+id/ge_center_menu_prices"
+        android:src="@drawable/logo"
+        android:background="@drawable/center_menu"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/ge_center_menu"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="16dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp" />
+
+    <ImageButton
+        android:id="@+id/ge_center_menu_summary"
+        android:src="@drawable/logo"
+        android:background="@drawable/center_menu"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/ge_center_menu"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="52dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp" />
+
 
 </RelativeLayout>

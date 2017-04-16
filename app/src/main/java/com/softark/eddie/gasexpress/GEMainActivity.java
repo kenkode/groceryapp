@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageButton;
 
 import com.softark.eddie.gasexpress.adapters.DistributorAdapter;
 import com.softark.eddie.gasexpress.data.Distributors;
@@ -15,11 +16,21 @@ public class GEMainActivity extends AppCompatActivity {
     private DistributorAdapter adapter;
     private Distributors distributors;
     private RecyclerDecorator recyclerDecorator;
+    private ImageButton menuButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gemain);
+        menuButton = (ImageButton) findViewById(R.id.ge_center_menu);
+
+
+
+
+
+
+
+
 
         recyclerDecorator = new RecyclerDecorator(this, 2, 10, true);
 
