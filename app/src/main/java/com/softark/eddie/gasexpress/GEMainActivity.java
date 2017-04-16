@@ -27,7 +27,6 @@ public class GEMainActivity extends AppCompatActivity {
         distributorRecyclerView.addItemDecoration(recyclerDecorator);
         distributorRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
-
         distributors = new Distributors();
 
         adapter = new DistributorAdapter(distributors.getDistributors(), this);

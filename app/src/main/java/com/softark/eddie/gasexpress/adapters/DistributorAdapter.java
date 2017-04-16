@@ -1,12 +1,14 @@
 package com.softark.eddie.gasexpress.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.softark.eddie.gasexpress.PriceActivity;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.models.Distributor;
 
@@ -44,6 +46,16 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
 
         holder.distributorName.setText(distributor.getName());
 
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PriceActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
+
+
     }
 
     @Override
@@ -55,9 +67,11 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
     class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView distributorName;
+        public View view;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            view = itemView;
             distributorName = (TextView) itemView.findViewById(R.id.distributor_name);
         }
     }

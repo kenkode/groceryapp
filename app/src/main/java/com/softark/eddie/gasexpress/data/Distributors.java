@@ -3,6 +3,7 @@ package com.softark.eddie.gasexpress.data;
 import com.softark.eddie.gasexpress.models.Distributor;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Created by Eddie on 4/16/2017.
@@ -19,6 +20,7 @@ public class Distributors {
         for (int i = 0; i < distributors1.length; i++) {
             distributors1[i] = new Distributor();
             distributors1[i].setName(distributorNames[i]);
+            distributors1[i].setId(UUID.randomUUID().toString());
             distributors.add(distributors1[i]);
         }
     }

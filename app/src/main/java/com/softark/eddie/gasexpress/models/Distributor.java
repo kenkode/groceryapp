@@ -6,6 +6,7 @@ package com.softark.eddie.gasexpress.models;
 
 public class Distributor {
 
+    private String id;
     private String name;
     private String image;
 
@@ -23,5 +24,13 @@ public class Distributor {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
