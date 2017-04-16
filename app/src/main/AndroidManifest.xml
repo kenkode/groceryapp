@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".GEMainActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".GESplashActivity"
             android:theme="@style/GESplashTheme">
@@ -20,9 +20,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PriceActivity"
-            android:theme="@style/PriceTheme"
-            android:parentActivityName=".GEMainActivity">
+        <activity
+            android:name=".PriceActivity"
+            android:parentActivityName=".GEMainActivity"
+            android:theme="@style/PriceTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".GEMainActivity" />
+        </activity>
+        <activity
+            android:name=".PreviousPurchasesActivity"
+            android:label="History"
+            android:parentActivityName=".GEMainActivity"
+            android:theme="@style/PriceTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".GEMainActivity" />
