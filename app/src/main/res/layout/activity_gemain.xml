@@ -16,7 +16,6 @@
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
         android:src="@drawable/brand_logo" />
 
     <TextView
@@ -34,6 +33,7 @@
         android:layout_below="@+id/our_distributor_text"
         android:layout_marginTop="16sp"
         android:layout_width="match_parent"
+        android:layout_above="@+id/ge_center_menu_prices"
         android:layout_height="wrap_content" />
 
     <ImageButton
@@ -43,6 +43,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:scaleType="centerCrop"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
         android:layout_width="45dp"
         android:layout_height="45dp" />

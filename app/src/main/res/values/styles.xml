@@ -14,6 +14,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="RegisterTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorGrayAccent</item>
+    </style>
+
     <style name="GESplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:background">@android:color/white</item>
     </style>
