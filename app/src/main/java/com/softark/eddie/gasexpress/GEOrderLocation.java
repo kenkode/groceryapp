@@ -111,7 +111,6 @@ public class GEOrderLocation extends AppCompatActivity implements
         this.googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                Toast.makeText(GEOrderLocation.this, latLng.latitude + "", Toast.LENGTH_LONG).show();
                 if(marker != null) {
                     marker.remove();
                 }

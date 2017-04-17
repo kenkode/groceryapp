@@ -29,7 +29,7 @@ public class GESplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 updateProgress();
-                Intent intent = new Intent(GESplashActivity.this, GEMainActivity.class);
+                Intent intent = new Intent(GESplashActivity.this, GELoginActivity.class);
                 startActivity(intent);
                 finish();
             }

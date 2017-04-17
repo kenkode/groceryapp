@@ -19,7 +19,13 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".GESplashActivity"
-            android:theme="@style/GESplashTheme" />
+            android:theme="@style/GESplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".PriceActivity"
             android:parentActivityName=".GEMainActivity"
@@ -59,18 +65,18 @@
             android:theme="@style/RegisterTheme">
 
         </activity>
-        <activity android:name=".GEOrderLocation"
+        <activity
+            android:name=".GEOrderLocation"
+            android:parentActivityName=".GEOrderActivity"
             android:theme="@style/RegisterTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".GEOrderActivity" />
         </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCQWEcHRAVHVNPQLfntrr7T3P6rmOfO4NI"/>
+            android:value="AIzaSyCQWEcHRAVHVNPQLfntrr7T3P6rmOfO4NI" />
 
         <meta-data
             android:name="com.google.android.gms.version"

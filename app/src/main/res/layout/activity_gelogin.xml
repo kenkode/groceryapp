@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/edittext_wrapper"
         android:gravity="center"
-        android:hint="Express Pin" />
+        android:hint="Express Pin"
+        android:inputType="number" />
 
     <ImageView
         android:id="@+id/ge_login_logo"
