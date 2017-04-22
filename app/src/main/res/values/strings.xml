@@ -10,4 +10,10 @@
         <item>K-Gas</item>
     </string-array>
     <string name="title_activity_georder_location">Map</string>
+    <string name="title_activity_gas_express">Gas Express</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
