@@ -15,46 +15,43 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".GEMainActivity"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".GESplashActivity"
             android:theme="@style/GESplashTheme">
 
         </activity>
         <activity
             android:name=".PriceActivity"
-            android:parentActivityName=".GEMainActivity"
+            android:parentActivityName=".GasExpress"
             android:theme="@style/PriceTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GEMainActivity" />
+                android:value=".GasExpress" />
         </activity>
         <activity
             android:name=".PreviousPurchasesActivity"
             android:label="History"
-            android:parentActivityName=".GEMainActivity"
+            android:parentActivityName=".GasExpress"
             android:theme="@style/PriceTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GEMainActivity" />
+                android:value=".GasExpress" />
         </activity>
         <activity
             android:name=".GEOrderActivity"
             android:label="Purchase"
-            android:parentActivityName=".GEMainActivity"
+            android:parentActivityName=".GasExpress"
             android:theme="@style/PriceTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GEMainActivity" />
+                android:value=".GasExpress" />
         </activity>
         <activity
             android:name=".GERegisterActivity"
-            android:parentActivityName=".GEMainActivity"
+            android:parentActivityName=".GasExpress"
             android:theme="@style/RegisterTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GEMainActivity" />
+                android:value=".GasExpress" />
         </activity>
         <activity
             android:name=".GELoginActivity"

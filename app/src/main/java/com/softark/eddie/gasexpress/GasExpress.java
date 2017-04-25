@@ -1,5 +1,6 @@
 package com.softark.eddie.gasexpress;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.softark.eddie.gasexpress.adapters.DistributorAdapter;
-import com.softark.eddie.gasexpress.data.Distributors;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
 
 public class GasExpress extends AppCompatActivity
@@ -24,7 +24,6 @@ public class GasExpress extends AppCompatActivity
 
     private RecyclerView distributorRecyclerView;
     private RecyclerDecorator recyclerDecorator;
-    private Distributors distributors;
     private DistributorAdapter adapter;
 
     @Override
@@ -39,8 +38,7 @@ public class GasExpress extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(GasExpress.this, GEOrderActivity.class));
             }
         });
 
@@ -59,9 +57,9 @@ public class GasExpress extends AppCompatActivity
         distributorRecyclerView.addItemDecoration(recyclerDecorator);
         distributorRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
-        distributors = new Distributors();
+        int[] sizes = {6, 8, 10, 14};
 
-        adapter = new DistributorAdapter(distributors.getDistributors(), this);
+        adapter = new DistributorAdapter(sizes, this);
 
         distributorRecyclerView.setAdapter(adapter);
 
@@ -105,9 +103,7 @@ public class GasExpress extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
 

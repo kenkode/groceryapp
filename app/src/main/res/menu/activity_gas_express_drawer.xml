@@ -4,19 +4,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/brand_logo"
-            android:title="Summary" />
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/distributor"
-            android:title="Distributors" />
+            android:icon="@drawable/history"
+            android:title="History" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/gas_location"
+            android:icon="@drawable/station"
             android:title="Stations" />
         <item
             android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/place"
             android:title="My Locations" />
     </group>
 
@@ -25,6 +21,7 @@
         <menu>
             <item
                 android:id="@+id/logout"
+                android:icon="@drawable/exit"
                 android:title="Logout" />
         </menu>
     </item>

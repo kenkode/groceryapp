@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.softark.eddie.gasexpress.PriceActivity;
 import com.softark.eddie.gasexpress.R;
-import com.softark.eddie.gasexpress.models.Distributor;
 
 import java.util.ArrayList;
 
@@ -20,12 +19,12 @@ import java.util.ArrayList;
 
 public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.ViewHolder> {
 
-    private ArrayList<Distributor> distributors;
+    private int[] sizes;
     private Context context;
     private LayoutInflater inflater;
 
-    public DistributorAdapter(ArrayList<Distributor> distributors, Context context) {
-        this.distributors = distributors;
+    public DistributorAdapter(int[] sizes, Context context) {
+        this.sizes = sizes;
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -37,14 +36,14 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
 
     @Override
     public int getItemCount() {
-        return distributors.size();
+        return sizes.length;
     }
 
     @Override
     public void onBindViewHolder(DistributorAdapter.ViewHolder holder, int position) {
-        Distributor distributor = distributors.get(position);
+        int size = sizes[position];
 
-        holder.distributorName.setText(distributor.getName());
+        holder.distributorName.setText(String.valueOf(size));
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +53,6 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
                 context.startActivity(intent);
             }
         });
-
 
     }
 

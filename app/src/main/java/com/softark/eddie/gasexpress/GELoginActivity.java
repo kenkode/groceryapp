@@ -27,7 +27,7 @@ public class GELoginActivity extends AppCompatActivity {
                     keyCount++;
                 }
                 if(keyCount >= 4) {
-                    startActivity(new Intent(GELoginActivity.this, GEMainActivity.class));
+                    startActivity(new Intent(GELoginActivity.this, GasExpress.class));
                     keyCount = 0;
                 }
                 return false;

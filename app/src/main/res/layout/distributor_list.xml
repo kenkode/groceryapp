@@ -10,19 +10,20 @@
 
         <ImageView
             android:id="@+id/distributor_logo"
-            android:layout_width="101.8dp"
-            android:layout_height="99.4dp"
-            android:layout_centerHorizontal="true"
+            android:layout_width="50.9dp"
+            android:layout_centerVertical="true"
+            android:layout_height="49.7dp"
             android:src="@drawable/distributor" />
 
         <TextView
             android:id="@+id/distributor_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/distributor_logo"
-            android:layout_centerHorizontal="true"
-            android:paddingBottom="4sp"
-            android:text="K-Gas" />
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="32sp"
+            android:textSize="24sp"
+            android:text="6 Kg" />
 
     </RelativeLayout>
 

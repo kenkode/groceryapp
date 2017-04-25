@@ -35,7 +35,6 @@
         android:layout_below="@+id/our_distributor_text"
         android:layout_marginTop="16sp"
         android:layout_width="match_parent"
-        android:layout_above="@+id/ge_center_menu_prices"
         android:layout_height="wrap_content" />
 
 

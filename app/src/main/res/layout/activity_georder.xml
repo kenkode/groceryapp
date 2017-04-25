@@ -26,7 +26,7 @@
         <Spinner
             android:layout_toRightOf="@+id/distributor_text"
             android:id="@+id/order_distributor"
-            android:entries="@array/distributors"
+            android:entries="@array/sizes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -51,7 +51,7 @@
         <Spinner
             android:id="@+id/order_size"
             android:layout_toRightOf="@+id/size_text"
-            android:entries="@array/distributors"
+            android:entries="@array/sizes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/distributor_details"/>
