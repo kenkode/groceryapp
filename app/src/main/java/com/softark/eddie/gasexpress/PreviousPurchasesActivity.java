@@ -17,13 +17,12 @@ public class PreviousPurchasesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_previous_purchases);
-        history = new History();
+        history = new History(this);
 
         historyRecycler = (RecyclerView) findViewById(R.id.history_list);
-        RecyclerDecorator decorator = new RecyclerDecorator(this, 1, 10, true);
+        RecyclerDecorator decorator = new RecyclerDecorator(this, 1, 4, true);
         historyRecycler.addItemDecoration(decorator);
 
-        HistoryAdapter adapter = new HistoryAdapter(this, history.getHistory());
-        historyRecycler.setAdapter(adapter);
+        history.getHistory(historyRecycler);
     }
 }

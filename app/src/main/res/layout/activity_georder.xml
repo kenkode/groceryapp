@@ -17,84 +17,70 @@
 
         <TextView
             android:id="@+id/distributor_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Distributor"
             android:textColor="@color/colorPrimary"
-            android:textSize="18dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="18dp" />
 
         <Spinner
-            android:layout_toRightOf="@+id/distributor_text"
             android:id="@+id/order_distributor"
-            android:entries="@array/sizes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/distributor_text" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/size_details"
-        android:layout_marginTop="16dp"
-        android:layout_below="@+id/distributor_details"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/distributor_details"
+        android:layout_marginTop="16dp">
 
         <TextView
             android:id="@+id/size_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/distributor_details"
             android:text="Size"
             android:textColor="@color/colorPrimary"
-            android:layout_below="@+id/distributor_details"
-            android:textSize="18dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="18dp" />
 
         <Spinner
             android:id="@+id/order_size"
-            android:layout_toRightOf="@+id/size_text"
-            android:entries="@array/sizes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/distributor_details"/>
+            android:layout_below="@+id/distributor_details"
+            android:layout_toRightOf="@+id/size_text" />
 
     </LinearLayout>
 
     <Spinner
         android:id="@+id/order_location"
-        android:layout_below="@+id/size_details"
-        android:layout_marginTop="16dp"
-        android:entries="@array/sizes"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/size_details"
+        android:layout_marginTop="16dp" />
 
     <ImageView
         android:id="@+id/order_provider_logo"
         android:layout_width="120dp"
         android:layout_height="170dp"
-        android:layout_above="@+id/estimated_time"
+        android:layout_above="@+id/order_button"
         android:layout_centerHorizontal="true"
         android:src="@drawable/distributor" />
 
-    <TextView
-        android:id="@+id/distr_name"
-        android:layout_below="@+id/order_provider_logo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="-32dp"
-        android:text="Hashi"
-        android:layout_width="wrap_content"
-        android:layout_above="@+id/estimated_time"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/estimated_time"
-        android:layout_width="wrap_content"
-        android:text="Estimated delivery time: 45min"
-        android:textStyle="italic"
-        android:textSize="16dp"
-        android:textColor="@color/colorPrimary"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/order_button"
-        android:layout_centerHorizontal="true" />
+    <!--<TextView-->
+        <!--android:id="@+id/estimated_time"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_above="@+id/order_button"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:text="Estimated delivery time: 45min"-->
+        <!--android:textColor="@color/colorPrimary"-->
+        <!--android:textSize="16dp"-->
+        <!--android:textStyle="italic" />-->
 
     <Button
         android:id="@+id/order_button"

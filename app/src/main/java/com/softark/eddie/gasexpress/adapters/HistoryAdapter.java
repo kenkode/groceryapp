@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.softark.eddie.gasexpress.R;
+import com.softark.eddie.gasexpress.models.History;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,10 +20,10 @@ import java.util.HashMap;
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
     private Context context;
-    private ArrayList<HashMap<String, String>> history;
+    private ArrayList<History> history;
     private LayoutInflater inflater;
 
-    public HistoryAdapter(Context context, ArrayList<HashMap<String, String>> history) {
+    public HistoryAdapter(Context context, ArrayList<History> history) {
         this.context = context;
         this.history = history;
         inflater = LayoutInflater.from(context);
@@ -35,12 +36,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(HistoryAdapter.ViewHolder holder, int position) {
-        HashMap<String, String> hist = history.get(position);
+        History h = history.get(position);
 
-        holder.gasType.setText(hist.get("type"));
-        holder.gasCost.setText(hist.get("price"));
-        holder.arrTime.setText(hist.get("time"));
-        holder.purDate.setText(hist.get("date"));
+        holder.gasType.setText(h.getType());
+        holder.gasCost.setText(h.getPrice());
+        holder.arrTime.setText(h.getDate());
+        holder.purDate.setText(h.getDate());
 
     }
 
