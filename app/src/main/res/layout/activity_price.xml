@@ -10,20 +10,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.softark.eddie.gasexpress.PriceActivity">
 
-    <TextView
-        android:id="@+id/price_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="K-Gas"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20dp" />
-
     <ListView
         android:id="@+id/price_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/price_title"
         android:layout_marginTop="8dp"
         android:divider="@android:color/transparent"
         android:dividerHeight="4dp" />

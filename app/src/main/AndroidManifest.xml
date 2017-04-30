@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.softark.eddie.gasexpress">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -21,6 +22,7 @@
         </activity>
         <activity
             android:name=".PriceActivity"
+            android:label="Gas Prices"
             android:parentActivityName=".GasExpress"
             android:theme="@style/PriceTheme">
             <meta-data

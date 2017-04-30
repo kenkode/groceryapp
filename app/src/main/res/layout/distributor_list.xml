@@ -8,22 +8,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/distributor_logo"
-            android:layout_width="50.9dp"
+        <TextView
+            android:id="@+id/gas_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16sp"
             android:layout_centerVertical="true"
-            android:layout_height="49.7dp"
-            android:src="@drawable/distributor" />
+            android:layout_marginStart="16sp"
+            android:text="6"
+            android:textColor="@android:color/black"
+            android:textSize="32sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/distributor_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_alignBaseline="@+id/gas_size"
+            android:layout_centerHorizontal="true"
+            android:layout_toEndOf="@+id/gas_size"
+            android:layout_toRightOf="@+id/gas_size"
+            android:text="Kg"
+            android:textSize="14sp" />
+
+        <ImageButton
+            android:id="@+id/size_more_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="32sp"
-            android:textSize="24sp"
-            android:text="6 Kg" />
+            android:layout_centerVertical="true"
+            android:src="@drawable/arrow_forward" />
 
     </RelativeLayout>
 

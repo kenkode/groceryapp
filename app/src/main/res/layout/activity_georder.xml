@@ -58,16 +58,14 @@
 
     </LinearLayout>
 
-    <EditText
+    <Spinner
         android:id="@+id/order_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/size_details"
         android:layout_marginTop="16dp"
-        android:background="@drawable/edittext_wrapper"
-        android:focusable="false"
-        android:gravity="center"
-        android:hint="Your Location" />
+        android:entries="@array/sizes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 
     <ImageView
         android:id="@+id/order_provider_logo"

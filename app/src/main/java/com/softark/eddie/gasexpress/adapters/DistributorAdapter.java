@@ -6,8 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.PriceActivity;
 import com.softark.eddie.gasexpress.R;
 
@@ -19,11 +21,11 @@ import java.util.ArrayList;
 
 public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.ViewHolder> {
 
-    private int[] sizes;
+    private String[] sizes;
     private Context context;
     private LayoutInflater inflater;
 
-    public DistributorAdapter(int[] sizes, Context context) {
+    public DistributorAdapter(String[] sizes, Context context) {
         this.sizes = sizes;
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -41,14 +43,15 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
 
     @Override
     public void onBindViewHolder(DistributorAdapter.ViewHolder holder, int position) {
-        int size = sizes[position];
+        final int size = Integer.parseInt(sizes[position]);
 
         holder.distributorName.setText(String.valueOf(size));
 
-        holder.view.setOnClickListener(new View.OnClickListener() {
+        holder.moreInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PriceActivity.class);
+                intent.putExtra(Constants.SIZE, size);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
@@ -66,11 +69,13 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
 
         public TextView distributorName;
         public View view;
+        public ImageButton moreInfo;
 
         public ViewHolder(View itemView) {
             super(itemView);
             view = itemView;
-            distributorName = (TextView) itemView.findViewById(R.id.distributor_name);
+            distributorName = (TextView) itemView.findViewById(R.id.gas_size);
+            moreInfo = (ImageButton) itemView.findViewById(R.id.size_more_info);
         }
     }
 

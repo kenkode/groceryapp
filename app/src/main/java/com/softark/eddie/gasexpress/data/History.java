@@ -19,7 +19,7 @@ public class History {
 
         for (int i = 0; i < h.length; i++) {
             h[i] = new HashMap<>();
-            h[i].put("type", "K-Gas");
+            h[i].put("type", "K-GasData");
             h[i].put("price", "1000");
             h[i].put("time", "45");
             h[i].put("date", "12/2/17");

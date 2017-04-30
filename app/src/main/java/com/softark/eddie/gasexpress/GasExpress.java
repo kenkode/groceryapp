@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.softark.eddie.gasexpress.adapters.DistributorAdapter;
+import com.softark.eddie.gasexpress.data.SizeData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
 
 public class GasExpress extends AppCompatActivity
@@ -25,6 +26,7 @@ public class GasExpress extends AppCompatActivity
     private RecyclerView distributorRecyclerView;
     private RecyclerDecorator recyclerDecorator;
     private DistributorAdapter adapter;
+    private SizeData sizeData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,8 @@ public class GasExpress extends AppCompatActivity
         setContentView(R.layout.activity_gas_express);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        sizeData = new SizeData(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setBackground(getResources().getColor(R.color.colorPrimary));
@@ -57,11 +61,7 @@ public class GasExpress extends AppCompatActivity
         distributorRecyclerView.addItemDecoration(recyclerDecorator);
         distributorRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
-        int[] sizes = {6, 8, 10, 14};
-
-        adapter = new DistributorAdapter(sizes, this);
-
-        distributorRecyclerView.setAdapter(adapter);
+        sizeData.getSizes(distributorRecyclerView);
 
     }
 

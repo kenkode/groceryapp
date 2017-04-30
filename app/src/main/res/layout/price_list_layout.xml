@@ -8,7 +8,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/gas_size"
+            android:id="@+id/gas_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -28,6 +28,7 @@
 
         <Button
             android:text="Purchase"
+            android:id="@+id/purchase_button"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
