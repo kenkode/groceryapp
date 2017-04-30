@@ -17,9 +17,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".GESplashActivity"
-            android:theme="@style/GESplashTheme">
-
-        </activity>
+            android:theme="@style/GESplashTheme"></activity>
         <activity
             android:name=".PriceActivity"
             android:label="Gas Prices"
@@ -57,11 +55,11 @@
         </activity>
         <activity
             android:name=".GELoginActivity"
-            android:theme="@style/RegisterTheme"></activity>
+            android:theme="@style/RegisterTheme" />
         <activity
-            android:name=".GEOrderLocation"
+            android:name=".GELocation"
             android:parentActivityName=".GEOrderActivity"
-            android:theme="@style/RegisterTheme">
+            android:theme="@style/PriceTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".GEOrderActivity" />
@@ -83,6 +81,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".GEMyLocationActivity"
+            android:label="My Locations"
+            android:parentActivityName=".GEOrderActivity"
+            android:theme="@style/PriceTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".GasExpress" />
         </activity>
     </application>
 

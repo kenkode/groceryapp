@@ -4,7 +4,7 @@
     android:id="@+id/activity_georder_location"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.softark.eddie.gasexpress.GEOrderLocation">
+    tools:context="com.softark.eddie.gasexpress.GELocation">
 
     <TextView
         android:id="@+id/search_location"
@@ -26,6 +26,7 @@
     <Button
         android:id="@+id/select_place_button"
         android:layout_width="match_parent"
+        android:onClick="setResult"
         android:text="Done"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

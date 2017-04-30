@@ -71,7 +71,6 @@ public class PriceAdapter extends BaseAdapter {
             }
         });
 
-
         gasName.setText(String.valueOf(gas.getName()));
         gasPrice.setText(String.valueOf(gas.getPrice()));
 

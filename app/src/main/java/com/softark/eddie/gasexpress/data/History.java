@@ -48,8 +48,8 @@ public class History {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                                 com.softark.eddie.gasexpress.models.History h = new com.softark.eddie.gasexpress.models.History();
                                 h.setDate(jsonObject.getString("created_at"));
-                                h.setType(jsonObject.getString("name"));
-                                h.setPrice(jsonObject.getString("price"));
+                                h.setType(jsonObject.getString("size"));
+                                h.setPrice(jsonObject.getString("gas_id"));
                                 h.setTime(jsonObject.getString("created_at"));
                                 histories.add(h);
                             }

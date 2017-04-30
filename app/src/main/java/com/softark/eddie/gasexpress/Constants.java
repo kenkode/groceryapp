@@ -22,6 +22,14 @@ public class Constants {
 
     public static final String HISTORY = MAIN_URL + "history";
 
+    public static final String DISTRIBUTOR_POSITION = MAIN_URL + "distributor_position";
 
+    public static final String SIZE_POSITION = MAIN_URL + "size_position";
+
+    public static final String GET_MY_LOCATIONS = MAIN_URL + "my_locations";
+
+    public static final String ADD_LOCATION = MAIN_URL + "add_location";
+
+    public static final String DISABLE_LOCATION = MAIN_URL + "disable_location";
 
 }

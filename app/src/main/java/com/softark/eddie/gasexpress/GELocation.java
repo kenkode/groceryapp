@@ -1,7 +1,9 @@
 package com.softark.eddie.gasexpress;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -13,6 +15,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -38,26 +42,40 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.security.Permission;
 import java.util.List;
+import java.util.Locale;
 
-public class GEOrderLocation extends AppCompatActivity implements
+public class GELocation extends AppCompatActivity implements
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private static final float DEFAULT_ZOOM = 15;
+    private static final float DEFAULT_ZOOM = 6;
     private GoogleMap googleMap;
     private Marker marker;
     private GoogleApiClient googleApiClient;
     private boolean mPermissionGranted;
     private Location mLastKnownLocation;
-    private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
+    private final LatLng mDefaultLocation = new LatLng(1.2921, 36.8219);
     private LocationListener locationListener;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_georder_location);
+
+        button = (Button) findViewById(R.id.select_place_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    setResult();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
@@ -67,6 +85,36 @@ public class GEOrderLocation extends AppCompatActivity implements
                 .addApi(Places.PLACE_DETECTION_API)
                 .build();
         googleApiClient.connect();
+    }
+
+    public void setResult() throws IOException {
+        if(marker != null) {
+            LatLng position = marker.getPosition();
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            List<Address> addresses = geocoder.getFromLocation(position.latitude, position.longitude, 1);
+            String cityName = addresses.get(0).getAddressLine(0);
+            String stateName = addresses.get(0).getAddressLine(1);
+            String countryName = addresses.get(0).getAddressLine(2);
+            com.softark.eddie.gasexpress.models.Location location = new com.softark.eddie.gasexpress.models.Location();
+            location.setAddress(cityName);
+            location.setType(1);
+            location.setLat(position.latitude);
+            location.setLng(position.longitude);
+            Intent intent = new Intent();
+            intent.putExtra("location", location);
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            setResult();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

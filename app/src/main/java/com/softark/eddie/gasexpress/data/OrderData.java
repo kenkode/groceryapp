@@ -6,9 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -16,11 +14,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
-import com.softark.eddie.gasexpress.GEOrderLocation;
+import com.softark.eddie.gasexpress.GELocation;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
-import com.softark.eddie.gasexpress.adapters.PriceAdapter;
 import com.softark.eddie.gasexpress.models.Distributor;
-import com.softark.eddie.gasexpress.models.Gas;
 import com.softark.eddie.gasexpress.models.Location;
 
 import org.json.JSONArray;
@@ -83,11 +79,10 @@ public class OrderData {
                                 location.setAddress(object.getString("address"));
                                 location.setLat(object.getDouble("lat"));
                                 location.setLng(object.getDouble("lng"));
+                                location.setId(object.getString("location_id"));
                                 locationArrayList.add(location);
                                 lstLocation.add(object.getString("address"));
                             }
-
-                            lstLocation.add("+ Select Location");
 
                             spnDistributor.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,
                                     lstDistributors));
@@ -98,11 +93,6 @@ public class OrderData {
                             spnLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 @Override
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                    if(lstLocation.get(position).equals("+ Select Location")) {
-                                        Intent intent = new Intent(context, GEOrderLocation.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        context.startActivity(intent);
-                                    }
                                     strLocation = lstLocation.get(position);
                                 }
 
