@@ -17,6 +17,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.GELocation;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
+import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.models.Distributor;
 import com.softark.eddie.gasexpress.models.Gas;
 import com.softark.eddie.gasexpress.models.Location;
@@ -38,7 +39,7 @@ public class OrderData {
 
     private Context context;
     private RequestSingleton singleton;
-
+    private GEPreference preference;
     final ArrayList<Distributor> distributorArrayList = new ArrayList<>();
     final ArrayList<Location> locationArrayList = new ArrayList<>();
 
@@ -49,6 +50,7 @@ public class OrderData {
     public OrderData(Context context) {
         this.context = context;
         singleton = new RequestSingleton(context);
+        preference = new GEPreference(context);
     }
 
     public void populateSpinners(final Spinner spnDistributor, final Spinner spnSize, final Spinner spnLocation, final TextView price) {
@@ -135,7 +137,7 @@ public class OrderData {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("user", "12345");
+                params.put("user", preference.getUser().get(GEPreference.USER_ID));
                 return params;
             }
         };
@@ -197,6 +199,7 @@ public class OrderData {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("distributor", distributor);
+                params.put("user", preference.getUser().get(GEPreference.USER_ID));
                 return params;
             }
         };
@@ -224,7 +227,7 @@ public class OrderData {
                 params.put("lat", "1.2821");
                 params.put("lng", "36.8781");
                 params.put("location", strLocation);
-                params.put("user", "12345");
+                params.put("user", preference.getUser().get(GEPreference.USER_ID));
                 return params;
             }
         };

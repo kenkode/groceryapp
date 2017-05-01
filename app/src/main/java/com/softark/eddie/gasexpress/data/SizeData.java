@@ -13,6 +13,7 @@ import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.adapters.DistributorAdapter;
 import com.softark.eddie.gasexpress.adapters.PriceAdapter;
+import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.models.Gas;
 
 import org.json.JSONArray;
@@ -67,7 +68,16 @@ public class SizeData {
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                     }
-                });
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                GEPreference preference = new GEPreference(context);
+                params.put("user", preference.getUser().get(GEPreference.USER_ID));
+                return params;
+            }
+        };
 
         requestSingleton.addToRequestQueue(stringRequest);
     }

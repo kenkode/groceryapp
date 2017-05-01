@@ -48,7 +48,7 @@
         android:background="@drawable/edittext_wrapper"
         android:gravity="center"
         android:hint="Express Pin"
-        android:inputType="number"
+        android:inputType="numberPassword"
         android:theme="@style/EditTextStyle" />
 
     <Button

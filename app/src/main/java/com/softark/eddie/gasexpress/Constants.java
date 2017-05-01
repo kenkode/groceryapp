@@ -32,4 +32,6 @@ public class Constants {
 
     public static final String DISABLE_LOCATION = MAIN_URL + "disable_location";
 
+    public static final String AUTH_USER = MAIN_URL + "authenticate_user";
+
 }
