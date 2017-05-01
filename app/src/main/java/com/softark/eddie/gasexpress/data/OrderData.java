@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -17,6 +18,7 @@ import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.GELocation;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.models.Distributor;
+import com.softark.eddie.gasexpress.models.Gas;
 import com.softark.eddie.gasexpress.models.Location;
 
 import org.json.JSONArray;
@@ -49,7 +51,7 @@ public class OrderData {
         singleton = new RequestSingleton(context);
     }
 
-    public void populateSpinners(final Spinner spnDistributor, final Spinner spnSize, final Spinner spnLocation) {
+    public void populateSpinners(final Spinner spnDistributor, final Spinner spnSize, final Spinner spnLocation, final TextView price) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.POPULATE_ORDER,
                 new Response.Listener<String>() {
@@ -106,7 +108,9 @@ public class OrderData {
                                 @Override
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                     Distributor distributor = distributorArrayList.get(position);
-                                    populateSizes(spnSize, distributor.getId());
+                                    price.setText("Kes 0");
+                                    strSize = "";
+                                    populateSizes(spnSize, price, distributor.getId());
                                     strDistributor = distributor.getId();
                                 }
 
@@ -138,20 +142,27 @@ public class OrderData {
         singleton.addToRequestQueue(stringRequest);
     }
 
-    public void populateSizes(final Spinner spnSize, final String distributor) {
+    public void populateSizes(final Spinner spnSize, final TextView price, final String distributor) {
+
+        final ArrayList<Gas> gases = new ArrayList<>();
+        final List<String> sizes = new ArrayList<>();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.GET_SIZES,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            JSONArray jsonObject = new JSONArray(response);
-//                            String[] sizes = new String[jsonObject.length()];
-                            final List<String> sizes = new ArrayList<>();
-                            for (int i = 0; i < jsonObject.length(); i++) {
-                                sizes.add(jsonObject.getString(i));
+                            JSONArray jsonArray= new JSONArray(response);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                Gas gas = new Gas();
+                                gas.setId(object.getString("id"));
+                                gas.setPrice(object.getDouble("price"));
+                                gas.setSize(object.getInt("size"));
+                                gas.setName(object.getString("name"));
+                                gases.add(gas);
+                                sizes.add(object.getString("size"));
                             }
-                            Log.i("distr", distributor);
 
                             spnSize.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,
                                     sizes));
@@ -160,6 +171,8 @@ public class OrderData {
                                 @Override
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                     strSize = String.valueOf(sizes.get(position));
+                                    Gas gas = gases.get(position);
+                                    price.setText("Kes " + gas.getPrice());
                                 }
 
                                 @Override

@@ -15,6 +15,10 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
+    <style name="EditTextStyle">
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+    </style>
+
     <style name="FABOrderTheme" parent="Theme.AppCompat.Light">
 
     </style>

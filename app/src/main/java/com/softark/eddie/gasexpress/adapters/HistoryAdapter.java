@@ -40,7 +40,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
         holder.gasType.setText(h.getType());
         holder.gasCost.setText(h.getPrice());
-        holder.arrTime.setText(h.getDate());
+        holder.size.setText(h.getSize() + " Kg");
         holder.purDate.setText(h.getDate());
 
     }
@@ -53,14 +53,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView gasType, arrTime, gasCost, purDate;
+        public TextView gasType, size, gasCost, purDate;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             gasCost = (TextView) itemView.findViewById(R.id.hist_gas_price);
             gasType = (TextView) itemView.findViewById(R.id.hist_gas_type);
-            arrTime = (TextView) itemView.findViewById(R.id.hist_gas_arrival_time);
+            size = (TextView) itemView.findViewById(R.id.hist_gas_size);
             purDate = (TextView) itemView.findViewById(R.id.hist_gas_purchase_date);
 
         }

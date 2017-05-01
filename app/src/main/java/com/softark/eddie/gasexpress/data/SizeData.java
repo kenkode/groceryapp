@@ -19,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,17 +39,23 @@ public class SizeData {
     }
 
     public void getSizes(final RecyclerView recyclerView) {
+        final ArrayList<Gas> gases = new ArrayList<>();
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.GET_SIZES,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            JSONArray jsonObject = new JSONArray(response);
-                            String[] sizes = new String[jsonObject.length()];
-                            for (int i = 0; i < jsonObject.length(); i++) {
-                                sizes[i] = jsonObject.getString(i);
+                            JSONArray jsonArray= new JSONArray(response);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                Gas gas = new Gas();
+                                gas.setId(object.getString("id"));
+                                gas.setPrice(object.getDouble("price"));
+                                gas.setSize(object.getInt("size"));
+                                gases.add(gas);
                             }
-                            adapter = new DistributorAdapter(sizes, context);
+                            adapter = new DistributorAdapter(gases, context);
                             recyclerView.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -6,10 +6,19 @@ package com.softark.eddie.gasexpress.models;
 
 public class History {
 
-    String type;
-    String price;
-    String time;
-    String date;
+    private String type;
+    private String price;
+    private String time;
+    private String date;
+    private int size;
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
 
     public String getType() {
         return type;
@@ -24,7 +33,7 @@ public class History {
     }
 
     public void setPrice(String price) {
-        this.price = price;
+        this.price = "Kes " + price;
     }
 
     public String getTime() {

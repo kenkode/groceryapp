@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.PriceActivity;
 import com.softark.eddie.gasexpress.R;
+import com.softark.eddie.gasexpress.models.Gas;
 
 import java.util.ArrayList;
 
@@ -21,11 +22,11 @@ import java.util.ArrayList;
 
 public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.ViewHolder> {
 
-    private String[] sizes;
+    private ArrayList<Gas> sizes;
     private Context context;
     private LayoutInflater inflater;
 
-    public DistributorAdapter(String[] sizes, Context context) {
+    public DistributorAdapter(ArrayList<Gas> sizes, Context context) {
         this.sizes = sizes;
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -38,25 +39,24 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
 
     @Override
     public int getItemCount() {
-        return sizes.length;
+        return sizes.size();
     }
 
     @Override
     public void onBindViewHolder(DistributorAdapter.ViewHolder holder, int position) {
-        final int size = Integer.parseInt(sizes[position]);
+        final Gas size = sizes.get(position);
 
-        holder.distributorName.setText(String.valueOf(size));
+        holder.distributorName.setText(String.valueOf(size.getSize()));
 
         holder.moreInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PriceActivity.class);
-                intent.putExtra(Constants.SIZE, size);
+                intent.putExtra(Constants.SIZE, size.getSize());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });
-
     }
 
     @Override

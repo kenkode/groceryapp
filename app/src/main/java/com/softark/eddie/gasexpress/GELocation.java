@@ -15,6 +15,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -65,14 +67,26 @@ public class GELocation extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_georder_location);
 
-        button = (Button) findViewById(R.id.select_place_button);
+        button = (Button) findViewById(R.id.select_my_place);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    setResult();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(mLastKnownLocation != null) {
+                    setCurrLocation();
+                }else {
+                    if(ContextCompat.checkSelfPermission(GELocation.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+                        mPermissionGranted = true;
+                    }else {
+                        ActivityCompat.requestPermissions(GELocation.this, new String[]{
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                        }, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                    }
+
+                    if(mPermissionGranted) {
+                        mLastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+                    }
+                    setCurrLocation();
                 }
             }
         });
@@ -85,6 +99,32 @@ public class GELocation extends AppCompatActivity implements
                 .addApi(Places.PLACE_DETECTION_API)
                 .build();
         googleApiClient.connect();
+    }
+
+    public void setCurrLocation() {
+        Geocoder geocoder = new Geocoder(GELocation.this, Locale.getDefault());
+        List<Address> addresses = null;
+        if(mLastKnownLocation != null) {
+            try {
+                addresses = geocoder.getFromLocation(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude(), 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String cityName = addresses.get(0).getAddressLine(0);
+            String stateName = addresses.get(0).getAddressLine(1);
+            String countryName = addresses.get(0).getAddressLine(2);
+            com.softark.eddie.gasexpress.models.Location location = new com.softark.eddie.gasexpress.models.Location();
+            location.setAddress(cityName);
+            location.setType(1);
+            location.setLat(mLastKnownLocation.getLatitude());
+            location.setLng(mLastKnownLocation.getLongitude());
+            Intent intent = new Intent();
+            intent.putExtra("location", location);
+            setResult(Activity.RESULT_OK, intent);
+        }else {
+            Toast.makeText(this, "Location is turned off", Toast.LENGTH_LONG).show();
+        }
+        finish();
     }
 
     public void setResult() throws IOException {
@@ -177,7 +217,7 @@ public class GELocation extends AppCompatActivity implements
     }
 
     private void goTo(LatLng latLng) {
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
 
     }
 
@@ -196,7 +236,7 @@ public class GELocation extends AppCompatActivity implements
         }
 
         if(mLastKnownLocation != null) {
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()), 15));
         }else {
             Log.d("LOCATION", "Last known is unknown");
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
@@ -246,5 +286,25 @@ public class GELocation extends AppCompatActivity implements
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.i("LOCATION", connectionResult.getErrorMessage());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.maps_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.done_selecting_location:
+                try {
+                    setResult();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+        return true;
     }
 }

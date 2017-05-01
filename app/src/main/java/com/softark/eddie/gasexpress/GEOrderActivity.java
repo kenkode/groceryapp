@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.data.MyLocationData;
@@ -28,6 +29,7 @@ public class GEOrderActivity extends AppCompatActivity {
     private Button placeOrder, locationBtn;
     public static final int LOCATION = 1022;
     private MyLocationData locationData;
+    private TextView price;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +42,9 @@ public class GEOrderActivity extends AppCompatActivity {
         distributor = (Spinner) findViewById(R.id.order_distributor);
         size = (Spinner) findViewById(R.id.order_size);
         placeOrder = (Button) findViewById(R.id.order_button);
+        price = (TextView) findViewById(R.id.order_gas_price);
 
-        orderData.populateSpinners(distributor, size, selectLocation);
+        orderData.populateSpinners(distributor, size, selectLocation, price);
 
         Intent intent = getIntent();
         Gas gas = intent.getParcelableExtra(Constants.GAS);
@@ -49,8 +52,12 @@ public class GEOrderActivity extends AppCompatActivity {
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                orderData.placeOrder();
-                startActivity(new Intent(GEOrderActivity.this, PreviousPurchasesActivity.class));
+                if(!(selectLocation.getCount() < 1 || distributor.getCount() < 1 || size.getCount() < 1)) {
+                    orderData.placeOrder();
+                    startActivity(new Intent(GEOrderActivity.this, PreviousPurchasesActivity.class));
+                }else {
+                    Toast.makeText(GEOrderActivity.this, "Provide all required details", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

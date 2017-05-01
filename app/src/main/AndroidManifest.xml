@@ -55,7 +55,14 @@
         </activity>
         <activity
             android:name=".GELoginActivity"
-            android:theme="@style/RegisterTheme" />
+            android:theme="@style/PriceTheme"
+            android:label="Login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".GELocation"
             android:parentActivityName=".GEOrderActivity"
@@ -76,11 +83,6 @@
             android:name=".GasExpress"
             android:label="@string/title_activity_gas_express"
             android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".GEMyLocationActivity"

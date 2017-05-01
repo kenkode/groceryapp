@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8sp">
+
+    <ImageView
+        android:id="@+id/warning_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16sp"
+        android:layout_marginStart="16sp"
+        android:src="@drawable/warning" />
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8sp"
+        android:layout_marginRight="8sp"
+        android:layout_toRightOf="@+id/warning_image"
+        android:text="Please provide your details"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp" />
+
+</RelativeLayout>

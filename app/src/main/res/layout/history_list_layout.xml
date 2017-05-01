@@ -17,7 +17,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/hist_gas_arrival_time"
+            android:id="@+id/hist_gas_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/hist_gas_type"
@@ -27,7 +27,7 @@
             android:id="@+id/hist_gas_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/hist_gas_arrival_time"
+            android:layout_below="@+id/hist_gas_size"
             android:text="K-Gas" />
 
         <TextView
