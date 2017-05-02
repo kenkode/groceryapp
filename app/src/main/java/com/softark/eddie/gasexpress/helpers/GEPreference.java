@@ -12,6 +12,7 @@ import java.util.Map;
 
 public class GEPreference {
 
+    public static final String USER_EMAIL = "user_email";
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Context context;
@@ -38,10 +39,11 @@ public class GEPreference {
     }
 
 // User preference
-    public void setUser(String id, String name, String phone) {
+    public void setUser(String id, String name, String phone, String email) {
         editor.putString(USER_ID, id);
         editor.putString(USER_NAME, name);
         editor.putString(USER_PHONE, phone);
+        editor.putString(USER_EMAIL, email);
         editor.putBoolean(USER_LOGGED, true);
         editor.apply();
     }
@@ -56,6 +58,7 @@ public class GEPreference {
         user.put(USER_ID, sharedPreferences.getString(USER_ID, ""));
         user.put(USER_NAME, sharedPreferences.getString(USER_NAME, ""));
         user.put(USER_PHONE, sharedPreferences.getString(USER_PHONE, ""));
+        user.put(USER_EMAIL, sharedPreferences.getString(USER_EMAIL, ""));
         return user;
     }
 

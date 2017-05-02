@@ -16,8 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:label="Gas Express"
             android:name=".GESplashActivity"
-            android:theme="@style/GESplashTheme"></activity>
+            android:theme="@style/GESplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".PriceActivity"
             android:label="Gas Prices"
@@ -47,22 +54,18 @@
         </activity>
         <activity
             android:name=".GERegisterActivity"
+            android:label="Register"
             android:parentActivityName=".GasExpress"
-            android:theme="@style/RegisterTheme">
+            android:theme="@style/PriceTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".GasExpress" />
         </activity>
         <activity
+            android:windowSoftInputMode="adjustResize"
             android:name=".GELoginActivity"
             android:theme="@style/PriceTheme"
-            android:label="Login">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:label="Login" />
         <activity
             android:name=".GELocation"
             android:parentActivityName=".GEOrderActivity"

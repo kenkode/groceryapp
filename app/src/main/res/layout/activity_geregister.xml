@@ -12,30 +12,73 @@
 
     <EditText
         android:id="@+id/register_customer_name"
+        android:theme="@style/EditTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edittext_wrapper"
+        android:background="@drawable/register_edittext_wrapper"
         android:gravity="center_vertical"
-        android:hint="Name"
+        android:hint="e.g John Smith"
         android:paddingLeft="8dp" />
 
     <EditText
-        android:id="@+id/register_customer_phone"
+        android:id="@+id/register_customer_email"
+        android:theme="@style/EditTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/register_customer_name"
         android:layout_marginTop="16dp"
-        android:background="@drawable/edittext_wrapper"
+        android:background="@drawable/register_edittext_wrapper"
         android:gravity="center_vertical"
-        android:hint="Phone number"
+        android:hint="john@example.com"
+        android:inputType="textEmailAddress"
         android:paddingLeft="8dp" />
+
+    <EditText
+        android:id="@+id/register_customer_phone"
+        android:theme="@style/EditTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/register_customer_email"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/register_edittext_wrapper"
+        android:gravity="center_vertical"
+        android:hint="+254123456789"
+        android:paddingLeft="8dp" />
+
+    <LinearLayout
+        android:id="@+id/location_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/register_customer_phone"
+        android:layout_marginTop="16dp">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/location" />
+
+        <EditText
+            android:id="@+id/register_customer_location"
+            android:theme="@style/EditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/register_edittext_wrapper"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:hint="Location"
+            android:paddingLeft="8dp" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/register_customer_phone"
+        android:layout_below="@+id/location_details"
         android:layout_marginTop="16dp"
+        android:background="@drawable/edittext_wrapper"
         android:backgroundTint="@color/colorPrimary"
         android:text="Register"
         android:textColor="@android:color/white" />

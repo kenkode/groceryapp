@@ -12,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
+import com.softark.eddie.gasexpress.GERegisterActivity;
 import com.softark.eddie.gasexpress.GasExpress;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
@@ -39,7 +40,7 @@ public class UserData {
         preference = new GEPreference(context);
     }
 
-    public void authUser(final String phone, final String pin) {
+    public void authUser(final String phone) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.AUTH_USER,
                 new Response.Listener<String>() {
@@ -49,17 +50,24 @@ public class UserData {
                             JSONObject jsonObject = new JSONObject(response);
                             Log.i("RETR", response);
                             if(jsonObject.getString("status").equals("E")) {
-                                preference.setUser(jsonObject.getString("id"), jsonObject.getString("name"), phone);
+                                JSONObject user = jsonObject.getJSONObject("user");
+                                String id = user.getString("id");
+                                String name = user.getString("name");
+                                String phone = user.getString("phone");
+                                String email = user.getString("email");
+                                preference.setUser(id, name, phone, email);
                                 Intent intent = new Intent(context, GasExpress.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 context.startActivity(intent);
                             }else if(jsonObject.getString("status").equals("DNE")) {
-                                Toast.makeText(context, "Wrong details provided", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(context, GERegisterActivity.class);
+                                intent.putExtra("phone", phone);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 },
                 new Response.ErrorListener() {
@@ -73,7 +81,6 @@ public class UserData {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("phone", phone);
-                params.put("pin", pin);
                 return params;
             }
         };
