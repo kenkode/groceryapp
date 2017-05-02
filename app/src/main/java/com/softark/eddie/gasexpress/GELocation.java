@@ -110,17 +110,19 @@ public class GELocation extends AppCompatActivity implements
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            String cityName = addresses.get(0).getAddressLine(0);
-            String stateName = addresses.get(0).getAddressLine(1);
-            String countryName = addresses.get(0).getAddressLine(2);
-            com.softark.eddie.gasexpress.models.Location location = new com.softark.eddie.gasexpress.models.Location();
-            location.setAddress(cityName);
-            location.setType(1);
-            location.setLat(mLastKnownLocation.getLatitude());
-            location.setLng(mLastKnownLocation.getLongitude());
-            Intent intent = new Intent();
-            intent.putExtra("location", location);
-            setResult(Activity.RESULT_OK, intent);
+            if(addresses != null) {
+                String cityName = addresses.get(0).getAddressLine(0);
+                com.softark.eddie.gasexpress.models.Location location = new com.softark.eddie.gasexpress.models.Location();
+                location.setAddress(cityName);
+                location.setType(1);
+                location.setLat(mLastKnownLocation.getLatitude());
+                location.setLng(mLastKnownLocation.getLongitude());
+                Intent intent = new Intent();
+                intent.putExtra("location", location);
+                setResult(Activity.RESULT_OK, intent);
+            }else {
+                Toast.makeText(GELocation.this, "Please try again", Toast.LENGTH_LONG).show();
+            }
         }else {
             Toast.makeText(this, "Location is turned off", Toast.LENGTH_LONG).show();
         }
@@ -299,7 +301,11 @@ public class GELocation extends AppCompatActivity implements
         switch (item.getItemId()) {
             case R.id.done_selecting_location:
                 try {
-                    setResult();
+                    if(marker != null) {
+                        setResult();
+                    }else {
+                        Toast.makeText(GELocation.this, "Please select a location", Toast.LENGTH_LONG).show();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

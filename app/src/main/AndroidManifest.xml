@@ -16,8 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:label="Gas Express"
             android:name=".GESplashActivity"
+            android:label="Gas Express"
             android:theme="@style/GESplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,24 +56,20 @@
             android:name=".GERegisterActivity"
             android:label="Register"
             android:parentActivityName=".GasExpress"
-            android:theme="@style/PriceTheme">
+            android:theme="@style/PriceTheme"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".GasExpress" />
         </activity>
         <activity
-            android:windowSoftInputMode="adjustResize"
             android:name=".GELoginActivity"
+            android:label="Login"
             android:theme="@style/PriceTheme"
-            android:label="Login" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".GELocation"
-            android:parentActivityName=".GEOrderActivity"
-            android:theme="@style/PriceTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GEOrderActivity" />
-        </activity>
+            android:theme="@style/PriceTheme"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -85,8 +81,7 @@
         <activity
             android:name=".GasExpress"
             android:label="@string/title_activity_gas_express"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".GEMyLocationActivity"
             android:label="My Locations"

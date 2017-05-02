@@ -51,7 +51,6 @@ public class GasExpress extends AppCompatActivity
 
         sizeData = new SizeData(this);
         preference = new GEPreference(this);
-        Log.i("IDU", preference.getUser().get(GEPreference.USER_NAME));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setBackground(getResources().getColor(R.color.colorPrimary));

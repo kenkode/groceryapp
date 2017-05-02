@@ -10,7 +10,7 @@ public class Constants {
 
     public static final String GAS = "gas";
 
-    public static final String MAIN_URL = "http://45.55.201.219/gas_express/";
+    public static final String MAIN_URL = "http://192.168.0.26:8080/ge/";
 
     public static final String GET_GASES = MAIN_URL + "get_gases";
 
@@ -33,5 +33,7 @@ public class Constants {
     public static final String DISABLE_LOCATION = MAIN_URL + "disable_location";
 
     public static final String AUTH_USER = MAIN_URL + "authenticate_user";
+
+    public static final String ADD_USER = MAIN_URL + "add_user";
 
 }

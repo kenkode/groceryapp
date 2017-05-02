@@ -47,6 +47,7 @@ public class SizeData {
                     @Override
                     public void onResponse(String response) {
                         try {
+
                             JSONArray jsonArray= new JSONArray(response);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.getJSONObject(i);
@@ -74,6 +75,7 @@ public class SizeData {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 GEPreference preference = new GEPreference(context);
+                Log.i("LETS", preference.getUser().get(GEPreference.USER_ID));
                 params.put("user", preference.getUser().get(GEPreference.USER_ID));
                 return params;
             }
