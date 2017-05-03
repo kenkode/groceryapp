@@ -9,7 +9,11 @@
         <item
             android:id="@+id/my_locations"
             android:icon="@drawable/place"
-            android:title="My Locations" />
+            android:title="Delivery Locations" />
+        <item
+            android:id="@+id/my_cart"
+            android:icon="@drawable/shopping_cart"
+            android:title="Cart" />
     </group>
 
     <item

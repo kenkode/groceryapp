@@ -2,6 +2,7 @@ package com.softark.eddie.gasexpress.data;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -42,6 +43,7 @@ public class History {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.i("SMT", response);
                         try {
                             JSONArray jsonArray = new JSONArray(response);
 

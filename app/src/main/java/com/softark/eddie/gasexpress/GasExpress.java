@@ -5,10 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,16 +14,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.adapters.DistributorAdapter;
 import com.softark.eddie.gasexpress.data.SizeData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
-import com.softark.eddie.gasexpress.models.Location;
 
 import java.util.Map;
 
@@ -39,6 +35,7 @@ public class GasExpress extends AppCompatActivity
     private GEPreference preference;
     private TextView userName, userPhone;
     private Map<String, String> user;
+    private ImageButton accessories, bulkGas;
 
     public static final int LOCATION = 1022;
 
@@ -51,6 +48,23 @@ public class GasExpress extends AppCompatActivity
 
         sizeData = new SizeData(this);
         preference = new GEPreference(this);
+
+        accessories = (ImageButton) findViewById(R.id.acc_and_services_more_info);
+        bulkGas = (ImageButton) findViewById(R.id.bulk_gas_more_info);
+
+        bulkGas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(GasExpress.this, GEBulkGasActivity.class));
+            }
+        });
+
+        accessories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(GasExpress.this, GEAccessoryActivity.class));
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setBackground(getResources().getColor(R.color.colorPrimary));
@@ -120,6 +134,9 @@ public class GasExpress extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.my_locations) {
             Intent intent = new Intent(GasExpress.this, GEMyLocationActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.my_cart) {
+            Intent intent = new Intent(GasExpress.this, GECartActivity.class);
             startActivity(intent);
         } else if(id == R.id.logout) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
