@@ -26,7 +26,8 @@
             android:text="1,000"
             android:textSize="18dp" />
 
-        <Button
+        <ImageButton
+            android:src="@drawable/add_shopping_cart"
             android:text="Purchase"
             android:id="@+id/purchase_button"
             android:layout_alignParentEnd="true"
@@ -34,7 +35,6 @@
             android:layout_width="wrap_content"
             android:layout_centerVertical="true"
             android:textColor="@android:color/white"
-            android:backgroundTint="@color/colorPrimary"
             android:layout_height="wrap_content" />
 
     </RelativeLayout>

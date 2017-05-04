@@ -59,15 +59,15 @@ public class PriceAdapter extends BaseAdapter {
 
         TextView gasName= (TextView) convertView.findViewById(R.id.gas_name);
         TextView gasPrice = (TextView) convertView.findViewById(R.id.gas_price);
-        Button purchase = (Button) convertView.findViewById(R.id.purchase_button);
+        ImageButton purchase = (ImageButton) convertView.findViewById(R.id.purchase_button);
 
         purchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, GEOrderActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(Constants.GAS, gas);
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, GEOrderActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.putExtra(Constants.GAS, gas);
+//                context.startActivity(intent);
             }
         });
 
