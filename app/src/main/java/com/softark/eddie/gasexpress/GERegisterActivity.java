@@ -16,6 +16,8 @@ import com.softark.eddie.gasexpress.models.Location;
 
 import java.util.Calendar;
 
+import static com.softark.eddie.gasexpress.Constants.LOCATION_ID;
+
 public class GERegisterActivity extends AppCompatActivity {
 
     private EditText name, email, phone, location, birthday, description;
@@ -23,7 +25,6 @@ public class GERegisterActivity extends AppCompatActivity {
     private Button registerButton;
     private UserData userData;
     private Location userLocation;
-    public static final int LOCATION_ID = 1089;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

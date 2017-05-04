@@ -3,6 +3,8 @@ package com.softark.eddie.gasexpress.data;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -33,13 +35,16 @@ public class SizeData {
     private RequestSingleton requestSingleton;
     private Context context;
     private DistributorAdapter adapter;
+    private GEPreference preference;
 
     public SizeData(Context context) {
         this.context = context;
         requestSingleton = new RequestSingleton(context);
+        preference = new GEPreference(context);
+        Log.i("ASDF", preference.getUser().get(GEPreference.USER_ID));
     }
 
-    public void getSizes(final RecyclerView recyclerView) {
+    public void getSizes(final RecyclerView recyclerView, final ProgressBar progressBar) {
         final ArrayList<Gas> gases = new ArrayList<>();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.GET_SIZES,
@@ -47,6 +52,7 @@ public class SizeData {
                     @Override
                     public void onResponse(String response) {
                         try {
+                            progressBar.setVisibility(View.GONE);
 
                             JSONArray jsonArray= new JSONArray(response);
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -67,6 +73,7 @@ public class SizeData {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        progressBar.setVisibility(View.GONE);
                         error.printStackTrace();
                     }
                 })
@@ -74,7 +81,6 @@ public class SizeData {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                GEPreference preference = new GEPreference(context);
                 Log.i("LETS", preference.getUser().get(GEPreference.USER_ID));
                 params.put("user", preference.getUser().get(GEPreference.USER_ID));
                 return params;

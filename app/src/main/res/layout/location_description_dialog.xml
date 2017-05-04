@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/location_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/dialog_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="4dp"
+                android:src="@mipmap/gx_launcher_circle" />
+
+            <TextView
+                android:id="@+id/info_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_toRightOf="@+id/dialog_icon"
+                android:padding="8dp"
+                android:text="Location description"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20dp" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <EditText
+        android:id="@+id/location_description"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:theme="@style/EditTextStyle"
+        android:layout_below="@+id/location_card"
+        android:background="@drawable/register_edittext_wrapper"
+        android:gravity="top|start"
+        android:padding="8dp" />
+
+    <Button
+        android:id="@+id/discard_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/location_description"
+        android:backgroundTint="@color/colorRedAccent"
+        android:text="Discard Location"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/save_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/location_description"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Save"
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>

@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.softark.eddie.gasexpress.adapters.DistributorAdapter;
@@ -28,7 +29,7 @@ import java.util.Map;
 public class GasExpress extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private RecyclerView distributorRecyclerView;
+    private RecyclerView sizeRecyclerView;
     private RecyclerDecorator recyclerDecorator;
     private DistributorAdapter adapter;
     private SizeData sizeData;
@@ -36,6 +37,7 @@ public class GasExpress extends AppCompatActivity
     private TextView userName, userPhone;
     private Map<String, String> user;
     private ImageButton accessories, bulkGas;
+    private ProgressBar sizeProgressBar;
 
     public static final int LOCATION = 1022;
 
@@ -51,6 +53,7 @@ public class GasExpress extends AppCompatActivity
 
         accessories = (ImageButton) findViewById(R.id.acc_and_services_more_info);
         bulkGas = (ImageButton) findViewById(R.id.bulk_gas_more_info);
+        sizeProgressBar = (ProgressBar) findViewById(R.id.gas_size_progress);
 
         bulkGas.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,11 +98,11 @@ public class GasExpress extends AppCompatActivity
 
         recyclerDecorator = new RecyclerDecorator(this, 2, 10, true);
 
-        distributorRecyclerView = (RecyclerView) findViewById(R.id.distr_list);
-        distributorRecyclerView.addItemDecoration(recyclerDecorator);
-        distributorRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        sizeRecyclerView = (RecyclerView) findViewById(R.id.distr_list);
+        sizeRecyclerView.addItemDecoration(recyclerDecorator);
+        sizeRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
-        sizeData.getSizes(distributorRecyclerView);
+        sizeData.getSizes(sizeRecyclerView, sizeProgressBar);
 
     }
 

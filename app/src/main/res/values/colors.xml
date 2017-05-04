@@ -6,4 +6,6 @@
     <color name="colorGrayAccent">#95989A</color>
     <color name="colorLightGrayAccent">#10787C81</color>
     <color name="backgroundColor">#ccd3ef</color>
+    <color name="colorYellowAccent">#FFFC00</color>
+    <color name="colorRedAccent">#bd081c</color>
 </resources>

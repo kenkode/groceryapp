@@ -11,14 +11,20 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ge_laucher"
+        android:icon="@mipmap/gx_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".GESplashActivity"
             android:label="Gas Express"
-            android:theme="@style/GESplashTheme" />
+            android:theme="@style/GESplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".PriceActivity"
             android:label="Gas Prices"
@@ -75,17 +81,11 @@
         <activity
             android:name=".GasExpress"
             android:label="@string/title_activity_gas_express"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".GEMyLocationActivity"
             android:label="My Locations"
-            android:parentActivityName=".GEOrderActivity"
+            android:parentActivityName=".GasExpress"
             android:theme="@style/PriceTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

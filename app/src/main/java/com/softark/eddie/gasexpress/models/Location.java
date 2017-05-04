@@ -14,6 +14,7 @@ public class Location implements Parcelable {
     private double lat;
     private String address;
     private int type;
+    private String description;
 
     public String getId() {
         return id;
@@ -55,6 +56,14 @@ public class Location implements Parcelable {
         this.type = type;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     @Override
     public int describeContents() {
@@ -68,6 +77,7 @@ public class Location implements Parcelable {
         dest.writeDouble(this.lat);
         dest.writeString(this.address);
         dest.writeInt(this.type);
+        dest.writeString(this.description);
     }
 
     public Location() {
@@ -79,6 +89,7 @@ public class Location implements Parcelable {
         this.lat = in.readDouble();
         this.address = in.readString();
         this.type = in.readInt();
+        this.description = in.readString();
     }
 
     public static final Creator<Location> CREATOR = new Creator<Location>() {

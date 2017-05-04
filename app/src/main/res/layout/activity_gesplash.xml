@@ -13,19 +13,16 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="108dp"
+        android:layout_height="108dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/logo" />
+        android:src="@drawable/gx_launcher_circle" />
 
     <ProgressBar
         android:id="@+id/logo_progress"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="104dp"
-        android:layout_height="104dp"
-        android:layout_marginLeft="-4dp"
-        android:layout_marginStart="-4dp"
-        android:layout_marginTop="-4dp"
+        android:layout_width="108dp"
+        android:layout_height="108dp"
         android:layout_alignLeft="@+id/logo"
         android:layout_alignStart="@+id/logo"
         android:layout_alignTop="@+id/logo"

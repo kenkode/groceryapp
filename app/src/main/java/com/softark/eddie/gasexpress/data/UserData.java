@@ -127,6 +127,8 @@ public class UserData {
                 intent.putExtra("phone", phone);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+            }else if(jsonObject.getString("status").equals("EE")) {
+                Toast.makeText(context, "Email exists", Toast.LENGTH_LONG).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();

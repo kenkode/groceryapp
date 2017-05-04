@@ -30,10 +30,12 @@ public class MyLocationData {
 
     private Context context;
     private RequestSingleton singleton;
+    private GEPreference preference;
 
     public MyLocationData(Context context) {
         this.context = context;
         singleton = new RequestSingleton(context);
+        preference = new GEPreference(context);
     }
 
     public void getLocation(final RecyclerView recyclerView) {
@@ -74,7 +76,7 @@ public class MyLocationData {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("user", "12345");
+                params.put("user", preference.getUser().get(GEPreference.USER_ID));
                 return params;
             }
         };
@@ -103,7 +105,8 @@ public class MyLocationData {
                 params.put("lat", String.valueOf(location.getLat()));
                 params.put("address", location.getAddress());
                 params.put("type", String.valueOf(location.getType()));
-                params.put("user", "12345");
+                params.put("desc", String.valueOf(location.getDescription()));
+                params.put("user", preference.getUser().get(GEPreference.USER_ID));
                 return params;
             }
         };
