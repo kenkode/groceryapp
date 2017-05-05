@@ -18,6 +18,10 @@ public class Constants {
 
     public static final String GET_SIZES = MAIN_URL + "get_sizes";
 
+    public static final String GET_BULK = MAIN_URL + "get_bulk_gas";
+
+    public static final String GET_ACC_SERVICE = MAIN_URL + "get_acc_service";
+
     public static final String POPULATE_ORDER = MAIN_URL + "populate_order";
 
     public static final String PLACE_ORDER = MAIN_URL + "place_order";

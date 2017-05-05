@@ -24,7 +24,7 @@ public class GECartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        cartData = new CartData();
+        cartData = new CartData(this);
         adapter = new CartAdapter(this, cartData.getCart());
 
         RecyclerDecorator decorator = new RecyclerDecorator(this, 1, 4, true);

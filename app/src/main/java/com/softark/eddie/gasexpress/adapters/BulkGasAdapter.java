@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,8 +51,15 @@ public class BulkGasAdapter extends RecyclerView.Adapter<BulkGasAdapter.ViewHold
     @Override
     public void onBindViewHolder(BulkGasAdapter.ViewHolder holder, final int position) {
         final BulkGas gas = gases.get(position);
-        final String name = String.valueOf(gas.getSize()).concat(" ").concat(gas.getMetric());
+        String metric;
+        if(gas.getMetric() == 1) {
+            metric = "Kg";
+        }else {
+            metric = "Tons";
+        }
+        final String name = String.valueOf(gas.getSize()).concat(" ").concat(metric);
         holder.name.setText(name);
+        holder.price.setText("Ksh ".concat(String.valueOf(gas.getPrice())));
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,12 +69,13 @@ public class BulkGasAdapter extends RecyclerView.Adapter<BulkGasAdapter.ViewHold
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name;
+        public TextView name, price;
         public ImageButton add;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.bulk_text);
+            price = (TextView) itemView.findViewById(R.id.bulk_price);
             add = (ImageButton) itemView.findViewById(R.id.bulk_gas_more_info);
         }
     }

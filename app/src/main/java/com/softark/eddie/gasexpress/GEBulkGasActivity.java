@@ -23,10 +23,7 @@ public class GEBulkGasActivity extends AppCompatActivity {
         bulkGasList = (RecyclerView) findViewById(R.id.bulk_gas_list);
         bulkGasList.setLayoutManager(gridLayoutManager);
         bulkGasList.addItemDecoration(decorator);
-        BulkGasData data = new BulkGasData();
-        BulkGasAdapter adapter = new BulkGasAdapter(this, data.getBulkGases());
-        bulkGasList.setAdapter(adapter);
-
-
+        BulkGasData data = new BulkGasData(this);
+        data.getBulkGases(bulkGasList);
     }
 }
