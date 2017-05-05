@@ -16,6 +16,10 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
+    <style name="CartTheme" parent="PriceTheme">
+        <item name="android:textColorSecondary">@color/colorPrimary</item>
+    </style>
+
     <style name="EditTextStyle">
         <item name="android:textColorPrimary">@color/colorPrimary</item>
     </style>

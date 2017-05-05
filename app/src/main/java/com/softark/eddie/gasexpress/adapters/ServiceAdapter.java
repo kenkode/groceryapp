@@ -5,11 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
+import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.models.Accessory;
 import com.softark.eddie.gasexpress.models.Service;
 
@@ -51,14 +53,22 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
     public void onBindViewHolder(ServiceAdapter.ViewHolder holder, final int position) {
         final Service service = services.get(position);
         holder.name.setText(service.getName());
+        holder.add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cart.getInstance().addService(service);
+            }
+        });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
+        public Button add;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.service_name);
+            add = (Button) itemView.findViewById(R.id.add_to_cart);
         }
     }
 

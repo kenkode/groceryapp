@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
+import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.models.Accessory;
 
 import java.util.ArrayList;
@@ -55,6 +56,7 @@ public class AccessoryAdapter extends RecyclerView.Adapter<AccessoryAdapter.View
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, accessory.getName().concat(" added to cart"), Toast.LENGTH_LONG).show();
+                Cart.getInstance().addProduct(accessory);
             }
         });
     }

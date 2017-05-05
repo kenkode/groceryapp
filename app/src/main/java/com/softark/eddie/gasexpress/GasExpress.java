@@ -3,10 +3,12 @@ package com.softark.eddie.gasexpress;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteAccessPermException;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,8 +24,14 @@ import android.widget.TextView;
 import com.softark.eddie.gasexpress.adapters.DistributorAdapter;
 import com.softark.eddie.gasexpress.data.SizeData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
+import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
+import com.softark.eddie.gasexpress.models.Accessory;
+import com.softark.eddie.gasexpress.models.Gas;
+import com.softark.eddie.gasexpress.models.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class GasExpress extends AppCompatActivity
@@ -70,11 +78,11 @@ public class GasExpress extends AppCompatActivity
         });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setBackground(getResources().getColor(R.color.colorPrimary));
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(GasExpress.this, GEOrderActivity.class);
+                Intent intent = new Intent(GasExpress.this, GECartActivity.class);
                 startActivity(intent);
             }
         });

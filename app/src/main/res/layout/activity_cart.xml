@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_cart"
     android:layout_width="match_parent"
@@ -8,33 +9,54 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.softark.eddie.gasexpress.GECartActivity"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:context="com.softark.eddie.gasexpress.GECartActivity">
 
-    <Button
-        android:text="Clear Cart"
-        android:id="@+id/clear_cart"
-        android:drawableLeft="@drawable/remove_shopping_cart"
-        android:layout_width="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:text="Check Out"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:id="@+id/check_out"
-        android:textColor="@color/colorPrimary"
-        android:drawableLeft="@drawable/check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/shopping_list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_below="@+id/clear_cart"
-        android:layout_marginTop="8dp"
-        android:layout_height="wrap_content"
-        app:layoutManager="LinearLayoutManager"/>
+        android:layout_height="wrap_content">
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/clear_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/remove_shopping_cart"
+            android:text="Clear Cart"
+            android:textColor="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/check_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@drawable/check"
+            android:text="Check Out"
+            android:textColor="@color/colorPrimary" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/shopping_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/clear_cart"
+            android:layout_marginTop="8dp"
+            app:layoutManager="LinearLayoutManager" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/accessories_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/shopping_list"
+            android:layout_marginTop="8dp"
+            app:layoutManager="LinearLayoutManager" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/service_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/accessories_list"
+            android:layout_marginTop="8dp"
+            app:layoutManager="LinearLayoutManager" />
+
+    </RelativeLayout>
+
+</ScrollView>

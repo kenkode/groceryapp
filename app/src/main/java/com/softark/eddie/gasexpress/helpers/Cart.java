@@ -26,12 +26,12 @@ public class Cart {
         services = new ArrayList<>();
     }
 
-    private static class CartHelper {
+    private static class Helper {
         private static final Cart CART = new Cart();
     }
 
     public static Cart getInstance() {
-        return CartHelper.CART;
+        return Helper.CART;
     }
 
     public static void addGas(Gas gas) {

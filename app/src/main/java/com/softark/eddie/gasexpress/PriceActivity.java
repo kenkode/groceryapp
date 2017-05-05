@@ -3,10 +3,8 @@ package com.softark.eddie.gasexpress;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 
-import com.softark.eddie.gasexpress.adapters.PriceAdapter;
 import com.softark.eddie.gasexpress.data.GasData;
 
 public class PriceActivity extends AppCompatActivity {

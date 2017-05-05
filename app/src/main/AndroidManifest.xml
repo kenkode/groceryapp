@@ -95,7 +95,7 @@
             android:name=".GECartActivity"
             android:label="Cart"
             android:parentActivityName=".GasExpress"
-            android:theme="@style/PriceTheme">
+            android:theme="@style/CartTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".GasExpress" />

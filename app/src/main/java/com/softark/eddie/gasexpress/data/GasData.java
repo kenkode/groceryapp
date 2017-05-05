@@ -1,7 +1,6 @@
 package com.softark.eddie.gasexpress.data;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
@@ -11,7 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
-import com.softark.eddie.gasexpress.adapters.PriceAdapter;
+import com.softark.eddie.gasexpress.adapters.GasAdapter;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.models.Gas;
 
@@ -58,7 +57,7 @@ public class GasData {
                                 gases.add(gas);
                             }
 
-                            PriceAdapter adapter = new PriceAdapter(context, gases);
+                            GasAdapter adapter = new GasAdapter(context, gases);
                             listView.setAdapter(adapter);
 
                         } catch (JSONException e) {

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.GEOrderActivity;
 import com.softark.eddie.gasexpress.R;
+import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.models.Gas;
 
 import java.util.ArrayList;
@@ -22,13 +23,13 @@ import java.util.HashMap;
  * Created by Eddie on 4/16/2017.
  */
 
-public class PriceAdapter extends BaseAdapter {
+public class GasAdapter extends BaseAdapter {
 
     private ArrayList<Gas> gases;
     private LayoutInflater inflater;
     private Context context;
 
-    public PriceAdapter(Context context, ArrayList<Gas> gases) {
+    public GasAdapter(Context context, ArrayList<Gas> gases) {
         this.gases = gases;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -46,7 +47,7 @@ public class PriceAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -59,15 +60,12 @@ public class PriceAdapter extends BaseAdapter {
 
         TextView gasName= (TextView) convertView.findViewById(R.id.gas_name);
         TextView gasPrice = (TextView) convertView.findViewById(R.id.gas_price);
-        ImageButton purchase = (ImageButton) convertView.findViewById(R.id.purchase_button);
+        ImageButton addToCart = (ImageButton) convertView.findViewById(R.id.purchase_button);
 
-        purchase.setOnClickListener(new View.OnClickListener() {
+        addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(context, GEOrderActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent.putExtra(Constants.GAS, gas);
-//                context.startActivity(intent);
+                Cart.getInstance().addGas(gas);
             }
         });
 

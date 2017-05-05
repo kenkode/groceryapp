@@ -14,7 +14,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.adapters.DistributorAdapter;
-import com.softark.eddie.gasexpress.adapters.PriceAdapter;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.models.Gas;
 
