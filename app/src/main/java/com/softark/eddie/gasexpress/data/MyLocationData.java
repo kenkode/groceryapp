@@ -2,6 +2,8 @@ package com.softark.eddie.gasexpress.data;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -9,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
+import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.adapters.LocationAdapter;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
@@ -20,6 +23,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,8 +42,9 @@ public class MyLocationData {
         preference = new GEPreference(context);
     }
 
-    public void getLocation(final RecyclerView recyclerView) {
+    public void getLocation(final RecyclerView recyclerView, final Spinner spinner) {
         final ArrayList<Location> locations = new ArrayList<>();
+        final List<String> list = new ArrayList<>();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.GET_MY_LOCATIONS,
                 new Response.Listener<String>() {
@@ -56,10 +61,18 @@ public class MyLocationData {
                                 location.setAddress(object.getString("address"));
                                 location.setType(object.getInt("type"));
                                 location.setId(object.getString("location_id"));
+                                list.add(object.getString("address"));
                                 locations.add(location);
                             }
-                            LocationAdapter adapter = new LocationAdapter(context, locations);
-                            recyclerView.setAdapter(adapter);
+
+                            if(recyclerView != null) {
+                                LocationAdapter adapter = new LocationAdapter(context, locations);
+                                recyclerView.setAdapter(adapter);
+                            }
+
+                            if(spinner != null) {
+                                spinner.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_custom, list));
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();

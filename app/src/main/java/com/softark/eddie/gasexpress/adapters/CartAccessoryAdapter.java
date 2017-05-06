@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.helpers.Cart;
@@ -54,7 +55,8 @@ public class CartAccessoryAdapter extends RecyclerView.Adapter<CartAccessoryAdap
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                items.remove(position);
+                Toast.makeText(context, item.getName().concat(" removed"), Toast.LENGTH_LONG).show();
+                Cart.removeProduct(position);
                 notifyItemRemoved(position);
                 notifyDataSetChanged();
             }

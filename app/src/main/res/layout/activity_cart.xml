@@ -42,10 +42,18 @@
             app:layoutManager="LinearLayoutManager" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/accessories_list"
+            android:id="@+id/bulk_gas_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/shopping_list"
+            android:layout_marginTop="8dp"
+            app:layoutManager="LinearLayoutManager" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/accessories_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bulk_gas_list"
             android:layout_marginTop="8dp"
             app:layoutManager="LinearLayoutManager" />
 

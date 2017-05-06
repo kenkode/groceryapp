@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
+import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.models.Accessory;
 import com.softark.eddie.gasexpress.models.BulkGas;
 
@@ -63,6 +64,7 @@ public class BulkGasAdapter extends RecyclerView.Adapter<BulkGasAdapter.ViewHold
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Cart.getInstance().addBulkGas(gas);
                 Toast.makeText(context, name.concat(" added to cart"), Toast.LENGTH_LONG).show();
             }
         });

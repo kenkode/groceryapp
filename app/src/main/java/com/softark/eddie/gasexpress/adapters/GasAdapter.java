@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.GEOrderActivity;
@@ -65,6 +66,7 @@ public class GasAdapter extends BaseAdapter {
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(context, gas.getName().concat(" added to cart"), Toast.LENGTH_LONG).show();
                 Cart.getInstance().addGas(gas);
             }
         });

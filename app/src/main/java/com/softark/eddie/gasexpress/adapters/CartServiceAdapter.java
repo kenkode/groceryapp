@@ -48,14 +48,16 @@ public class CartServiceAdapter extends RecyclerView.Adapter<CartServiceAdapter.
     }
 
     @Override
-    public void onBindViewHolder(CartServiceAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(CartServiceAdapter.ViewHolder holder, int position) {
         final Service service = items.get(position);
+        final int refPosition = position;
         holder.name.setText(service.getName());
+        holder.price.setText(service.getName());
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                items.remove(position);
-                notifyItemRemoved(position);
+                Cart.removeService(refPosition);
+                notifyItemRemoved(refPosition);
                 notifyDataSetChanged();
             }
         });

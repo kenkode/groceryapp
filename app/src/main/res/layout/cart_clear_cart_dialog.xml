@@ -25,10 +25,10 @@
                 android:id="@+id/total_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:layout_marginTop="12dp"
-                android:text="Total : 100,000"
+                android:text="Confirm"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18dp"
                 android:textStyle="bold" />
@@ -41,49 +41,46 @@
         android:id="@+id/location_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
         android:layout_below="@+id/checkout_card"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:padding="8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_gravity="bottom"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
-            android:text="Delivery Location" />
-
-        <Spinner
-            android:id="@+id/location_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="8dp"
-            android:theme="@style/EditTextStyle" />
+            android:padding="8dp"
+            android:text="Are you sure you want to clear the cart?"
+            android:theme="@style/CartTextView" />
 
     </RelativeLayout>
 
     <Button
-        android:id="@+id/cancel"
+        android:id="@+id/no"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/location_wrapper"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:backgroundTint="@color/colorRedAccent"
-        android:text="Cancel"
+        android:text="No"
         android:textColor="@android:color/white" />
 
     <Button
-        android:id="@+id/check_out"
+        android:id="@+id/yes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/location_wrapper"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:backgroundTint="@color/colorPrimary"
-        android:text="Checkout"
+        android:text="Yes"
         android:textColor="@android:color/white" />
 
 </RelativeLayout>

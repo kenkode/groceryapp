@@ -12,7 +12,7 @@ public class Constants {
 
     public static final int LOCATION_ID = 1089;
 
-    public static final String MAIN_URL = "http://192.168.0.26:8080/ge/";
+    public static final String MAIN_URL = "http://192.168.0.27:8080/ge/";
 
     public static final String GET_GASES = MAIN_URL + "get_gases";
 

@@ -20,7 +20,12 @@
         <item name="android:textColorSecondary">@color/colorPrimary</item>
     </style>
 
+    <style name="CartTextView">
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+    </style>
+
     <style name="EditTextStyle">
+        <item name="android:textColorSecondary">@color/colorPrimary</item>
         <item name="android:textColorPrimary">@color/colorPrimary</item>
     </style>
 
