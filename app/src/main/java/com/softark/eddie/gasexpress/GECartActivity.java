@@ -15,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.adapters.BulkGasAdapter;
 import com.softark.eddie.gasexpress.adapters.CartAccessoryAdapter;
@@ -25,6 +26,7 @@ import com.softark.eddie.gasexpress.data.CartData;
 import com.softark.eddie.gasexpress.data.MyLocationData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
 import com.softark.eddie.gasexpress.helpers.Cart;
+import com.softark.eddie.gasexpress.helpers.Checkout;
 
 public class GECartActivity extends AppCompatActivity {
 
@@ -123,7 +125,13 @@ public class GECartActivity extends AppCompatActivity {
                 checkout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        if(Checkout.getLocation() == null) {
+                            Toast.makeText(GECartActivity.this, "Please select your location", Toast.LENGTH_LONG).show();
+                        }else {
+                            Checkout cOut = new Checkout(GECartActivity.this);
+                            cOut.checkOut();
+                            dialog.dismiss();
+                        }
                     }
                 });
                 dialog.show();

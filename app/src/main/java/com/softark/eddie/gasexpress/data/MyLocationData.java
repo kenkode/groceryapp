@@ -2,6 +2,8 @@ package com.softark.eddie.gasexpress.data;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -14,6 +16,7 @@ import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.adapters.LocationAdapter;
+import com.softark.eddie.gasexpress.helpers.Checkout;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.models.Location;
 
@@ -72,6 +75,18 @@ public class MyLocationData {
 
                             if(spinner != null) {
                                 spinner.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_custom, list));
+                                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        Location location = locations.get(position);
+                                        Checkout.setLocation(location);
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> parent) {
+
+                                    }
+                                });
                             }
 
                         } catch (JSONException e) {

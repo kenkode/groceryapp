@@ -22,11 +22,21 @@ public class GEPreference {
     public static final String USER_PHONE= "user_phone";
     public static final String USER_LOGGED = "user_logged";
     public static final String USER_NAME = "user_name";
+    public static final String ORDER_KEY = "order_key";
 
     public GEPreference(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+    }
+
+    public String getOrderKey() {
+        return sharedPreferences.getString(ORDER_KEY, "");
+    }
+
+    public void setOrderKey(String orderKey) {
+        editor.putString(ORDER_KEY, orderKey);
+        editor.apply();
     }
 
     public void setSplashShown(boolean splashShown) {

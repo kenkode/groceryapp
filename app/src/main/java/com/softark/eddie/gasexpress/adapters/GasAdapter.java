@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.Constants;
-import com.softark.eddie.gasexpress.GEOrderActivity;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.models.Gas;

@@ -17,10 +17,15 @@ import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.GELocation;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
+import com.softark.eddie.gasexpress.helpers.Cart;
+import com.softark.eddie.gasexpress.helpers.Checkout;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
+import com.softark.eddie.gasexpress.models.Accessory;
+import com.softark.eddie.gasexpress.models.BulkGas;
 import com.softark.eddie.gasexpress.models.Distributor;
 import com.softark.eddie.gasexpress.models.Gas;
 import com.softark.eddie.gasexpress.models.Location;
+import com.softark.eddie.gasexpress.models.Service;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,12 +45,6 @@ public class OrderData {
     private Context context;
     private RequestSingleton singleton;
     private GEPreference preference;
-    final ArrayList<Distributor> distributorArrayList = new ArrayList<>();
-    final ArrayList<Location> locationArrayList = new ArrayList<>();
-
-    private String strDistributor;
-    private String strSize;
-    private String strLocation;
 
     public OrderData(Context context) {
         this.context = context;
@@ -53,77 +52,13 @@ public class OrderData {
         preference = new GEPreference(context);
     }
 
-    public void populateSpinners(final Spinner spnDistributor, final Spinner spnSize, final Spinner spnLocation, final TextView price) {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.POPULATE_ORDER,
+    public void requestOrderKey() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.ORDER_KEY,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-
-                            JSONArray distributors = jsonObject.getJSONArray("distributors");
-                            JSONArray locations = jsonObject.getJSONArray("locations");
-                            final List<String> lstDistributors = new ArrayList<>();
-                            final List<String> lstLocation = new ArrayList<>();
-
-                            for (int i = 0; i < distributors.length(); i++) {
-                                JSONObject object = distributors.getJSONObject(i);
-                                Distributor distributor = new Distributor();
-                                distributor.setId(object.getString("id"));
-                                distributor.setName(object.getString("name"));
-                                distributorArrayList.add(distributor);
-                                lstDistributors.add(object.getString("name"));
-                            }
-
-                            for (int i = 0; i < locations.length(); i++) {
-                                JSONObject object = locations.getJSONObject(i);
-                                Location location = new Location();
-                                Log.i("LCT", object.getString("address"));
-                                location.setAddress(object.getString("address"));
-                                location.setLat(object.getDouble("lat"));
-                                location.setLng(object.getDouble("lng"));
-                                location.setId(object.getString("location_id"));
-                                locationArrayList.add(location);
-                                lstLocation.add(object.getString("address"));
-                            }
-
-                            spnDistributor.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,
-                                    lstDistributors));
-
-                            spnLocation.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,
-                                    lstLocation));
-
-                            spnLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                @Override
-                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                    strLocation = lstLocation.get(position);
-                                }
-
-                                @Override
-                                public void onNothingSelected(AdapterView<?> parent) {
-
-                                }
-                            });
-
-                            spnDistributor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                @Override
-                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                    Distributor distributor = distributorArrayList.get(position);
-                                    price.setText("Kes 0");
-                                    strSize = "";
-                                    populateSizes(spnSize, price, distributor.getId());
-                                    strDistributor = distributor.getId();
-                                }
-
-                                @Override
-                                public void onNothingSelected(AdapterView<?> parent) {
-
-                                }
-                            });
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if(!response.isEmpty()) {
+                            preference.setOrderKey(response);
                         }
                     }
                 },
@@ -144,73 +79,20 @@ public class OrderData {
         singleton.addToRequestQueue(stringRequest);
     }
 
-    public void populateSizes(final Spinner spnSize, final TextView price, final String distributor) {
-
-        final ArrayList<Gas> gases = new ArrayList<>();
-        final List<String> sizes = new ArrayList<>();
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.GET_SIZES,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONArray jsonArray= new JSONArray(response);
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject object = jsonArray.getJSONObject(i);
-                                Gas gas = new Gas();
-                                gas.setId(object.getString("id"));
-                                gas.setPrice(object.getDouble("price"));
-                                gas.setSize(object.getInt("size"));
-                                gas.setName(object.getString("name"));
-                                gases.add(gas);
-                                sizes.add(object.getString("size"));
-                            }
-
-                            spnSize.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,
-                                    sizes));
-
-                            spnSize.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                @Override
-                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                    strSize = String.valueOf(sizes.get(position));
-                                    Gas gas = gases.get(position);
-                                    price.setText("Kes " + gas.getPrice());
-                                }
-
-                                @Override
-                                public void onNothingSelected(AdapterView<?> parent) {
-
-                                }
-                            });
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
-                })
-        {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("distributor", distributor);
-                params.put("user", preference.getUser().get(GEPreference.USER_ID));
-                return params;
-            }
-        };
-        singleton.addToRequestQueue(stringRequest);
-    }
-
-    public void placeOrder() {
+    public void placeGasOrder(final int orderType, final Gas gas) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.PLACE_ORDER,
                 new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String response) {}
+                    public void onResponse(String response) {
+//                        if(response.equals("1")) {
+//                            ArrayList<Gas> gases = (ArrayList<Gas>) Cart.getInstance().getCart().get(Cart.GASES);
+//                            for (Gas gas :  gases){
+//                                if(gas.getId().equals(gas.getId())) {
+//                                    Cart.removeProduct(gases.indexOf(gas));
+//                                }
+//                            }
+//                        }
+                    }
                 },
                 new Response.ErrorListener() {
                     @Override
@@ -222,12 +104,126 @@ public class OrderData {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("distributor", strDistributor);
-                params.put("size", strSize);
-                params.put("lat", "1.2821");
-                params.put("lng", "36.8781");
-                params.put("location", strLocation);
+                Location location = Checkout.getLocation();
+                params.put("id", gas.getId());
+                params.put("qty", String.valueOf(gas.getQuantity()));
+                params.put("location", location.getId());
                 params.put("user", preference.getUser().get(GEPreference.USER_ID));
+                params.put("type", String.valueOf(orderType));
+                params.put("key", preference.getOrderKey());
+                return params;
+            }
+        };
+        singleton.addToRequestQueue(stringRequest);
+    }
+
+    public void placeBulkGasOrder(final int orderType, final BulkGas item) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.PLACE_ORDER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+//                        if(response.equals("1")) {
+//                            ArrayList<Accessory> accessories = (ArrayList<Accessory>) Cart.getInstance().getCart().get(Cart.ACCESSORIES);
+//                            for (Accessory accessory :  accessories){
+//                                if(accessory.getId().equals(item.getId())) {
+//                                    Cart.removeProduct(accessories.indexOf(accessory));
+//                                }
+//                            }
+//                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                Location location = Checkout.getLocation();
+                params.put("id", item.getId());
+                params.put("qty", String.valueOf(item.getQuantity()));
+                params.put("location", location.getId());
+                params.put("user", preference.getUser().get(GEPreference.USER_ID));
+                params.put("type", String.valueOf(orderType));
+                params.put("key", preference.getOrderKey());
+                return params;
+            }
+        };
+        singleton.addToRequestQueue(stringRequest);
+    }
+
+    public void placeServiceOrder(final int orderType, final Service item) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.PLACE_ORDER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+//                        if(response.equals("1")) {
+//                            ArrayList<Service> services = (ArrayList<Service>) Cart.getInstance().getCart().get(Cart.SERVICES);
+//                            for (Service service :  services){
+//                                if(service.getId().equals(item.getId())) {
+//                                    Cart.removeProduct(services.indexOf(service));
+//                                }
+//                            }
+//                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                Location location = Checkout.getLocation();
+                params.put("id", item.getId());
+                params.put("location", location.getId());
+                params.put("user", preference.getUser().get(GEPreference.USER_ID));
+                params.put("type", String.valueOf(orderType));
+                params.put("key", preference.getOrderKey());
+                return params;
+            }
+        };
+        singleton.addToRequestQueue(stringRequest);
+    }
+
+    public void placeOrder(final int orderType, final Accessory item) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.PLACE_ORDER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+//                        if(response.equals("1")) {
+//                            ArrayList<Accessory> accessories = (ArrayList<Accessory>) Cart.getInstance().getCart().get(Cart.ACCESSORIES);
+//                            for (Accessory accessory :  accessories){
+//                                if(accessory.getId().equals(item.getId())) {
+//                                    Cart.removeProduct(accessories.indexOf(accessory));
+//                                }
+//                            }
+//                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                Location location = Checkout.getLocation();
+                params.put("id", item.getId());
+                params.put("qty", String.valueOf(item.getQuantity()));
+                params.put("location", location.getId());
+                params.put("user", preference.getUser().get(GEPreference.USER_ID));
+                params.put("type", String.valueOf(orderType));
+                params.put("key", preference.getOrderKey());
                 return params;
             }
         };

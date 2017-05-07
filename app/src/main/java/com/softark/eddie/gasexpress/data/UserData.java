@@ -16,6 +16,7 @@ import com.softark.eddie.gasexpress.GERegisterActivity;
 import com.softark.eddie.gasexpress.GasExpress;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
+import com.softark.eddie.gasexpress.helpers.Checkout;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.models.Location;
 
@@ -47,8 +48,12 @@ public class UserData {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.i("USER", response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
+                            if(jsonObject.getString("status").equals("E")) {
+                                preference.setOrderKey(jsonObject.getString("order_key"));
+                            }
                             processResults(jsonObject, phone);
                         } catch (JSONException e) {
                             e.printStackTrace();

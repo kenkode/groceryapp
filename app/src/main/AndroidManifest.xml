@@ -44,15 +44,6 @@
                 android:value=".GasExpress" />
         </activity>
         <activity
-            android:name=".GEOrderActivity"
-            android:label="Purchase"
-            android:parentActivityName=".GasExpress"
-            android:theme="@style/PriceTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GasExpress" />
-        </activity>
-        <activity
             android:name=".GERegisterActivity"
             android:label="Register"
             android:parentActivityName=".GasExpress"
