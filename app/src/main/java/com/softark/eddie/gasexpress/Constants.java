@@ -28,6 +28,8 @@ public class Constants {
 
     public static final String PLACE_ORDER = MAIN_URL + "place_order";
 
+    public static final String GET_ORDERS = MAIN_URL + "my_orders";
+
     public static final String HISTORY = MAIN_URL + "history";
 
     public static final String DISTRIBUTOR_POSITION = MAIN_URL + "distributor_position";

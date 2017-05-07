@@ -8,36 +8,57 @@
         android:layout_height="wrap_content"
         android:padding="8sp">
 
-        <TextView
-            android:id="@+id/hist_gas_type"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="K-Gas"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:src="@mipmap/gx_launcher_circle" />
 
-        <TextView
-            android:id="@+id/hist_gas_size"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/hist_gas_type"
-            android:text="K-Gas" />
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/order_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="GE"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/order_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="0" />
+
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/hist_gas_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/hist_gas_size"
-            android:text="K-Gas" />
-
-        <TextView
-            android:id="@+id/hist_gas_purchase_date"
+            android:id="@+id/purchase_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:text="K-Gas"
-            android:textSize="12sp" />
+            android:text="Date"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/purchase_date"
+            android:src="@drawable/keyboard_arrow_right" />
 
 
     </RelativeLayout>

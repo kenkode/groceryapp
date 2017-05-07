@@ -8,10 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.softark.eddie.gasexpress.R;
-import com.softark.eddie.gasexpress.models.History;
+import com.softark.eddie.gasexpress.models.OrderHistory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Eddie on 4/17/2017.
@@ -20,29 +19,27 @@ import java.util.HashMap;
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
     private Context context;
-    private ArrayList<History> history;
+    private ArrayList<OrderHistory> orderHistory;
     private LayoutInflater inflater;
 
-    public HistoryAdapter(Context context, ArrayList<History> history) {
+    public HistoryAdapter(Context context, ArrayList<OrderHistory> orderHistory) {
         this.context = context;
-        this.history = history;
+        this.orderHistory = orderHistory;
         inflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getItemCount() {
-        return history.size();
+        return orderHistory.size();
     }
 
     @Override
     public void onBindViewHolder(HistoryAdapter.ViewHolder holder, int position) {
-        History h = history.get(position);
+        OrderHistory h = orderHistory.get(position);
 
-        holder.gasType.setText(h.getType());
-        holder.gasCost.setText(h.getPrice());
-        holder.size.setText(h.getSize() + " Kg");
-        holder.purDate.setText(h.getDate());
-
+        holder.orderId.setText(h.getId());
+        holder.price.setText(String.valueOf(h.getPrice()));
+        holder.date.setText(h.getDate());
     }
 
     @Override
@@ -53,15 +50,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView gasType, size, gasCost, purDate;
+        public TextView orderId, price, date;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            gasCost = (TextView) itemView.findViewById(R.id.hist_gas_price);
-            gasType = (TextView) itemView.findViewById(R.id.hist_gas_type);
-            size = (TextView) itemView.findViewById(R.id.hist_gas_size);
-            purDate = (TextView) itemView.findViewById(R.id.hist_gas_purchase_date);
+            orderId = (TextView) itemView.findViewById(R.id.order_id);
+            price = (TextView) itemView.findViewById(R.id.order_price);
+            date = (TextView) itemView.findViewById(R.id.purchase_date);
 
         }
     }

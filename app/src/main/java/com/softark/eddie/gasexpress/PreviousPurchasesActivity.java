@@ -6,23 +6,24 @@ import android.support.v7.widget.RecyclerView;
 
 import com.softark.eddie.gasexpress.adapters.HistoryAdapter;
 import com.softark.eddie.gasexpress.data.History;
+import com.softark.eddie.gasexpress.data.OrderData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
 
 public class PreviousPurchasesActivity extends AppCompatActivity {
 
     private RecyclerView historyRecycler;
-    private History history;
+    private OrderData orderData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_previous_purchases);
-        history = new History(this);
+        orderData = new OrderData(this);
 
         historyRecycler = (RecyclerView) findViewById(R.id.history_list);
         RecyclerDecorator decorator = new RecyclerDecorator(this, 1, 4, true);
         historyRecycler.addItemDecoration(decorator);
 
-        history.getHistory(historyRecycler);
+        orderData.getOrders(historyRecycler);
     }
 }

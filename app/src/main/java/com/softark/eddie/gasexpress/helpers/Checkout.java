@@ -81,7 +81,7 @@ public class Checkout {
                 orderData.placeOrder(Cart.ACCESSORIES, accessory);
                 Log.i("ORDER", accessory.getName());
             }
-//            orderData.requestOrderKey();
+            orderData.requestOrderKey();
 
 //            gases.clear();
 //            services.clear();

@@ -13,6 +13,7 @@ import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.adapters.HistoryAdapter;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
+import com.softark.eddie.gasexpress.models.OrderHistory;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,59 +37,59 @@ public class History {
         singleton = new RequestSingleton(context);
     }
 
-    public ArrayList<com.softark.eddie.gasexpress.models.History> getHistory(final RecyclerView recyclerView) {
-        final ArrayList<com.softark.eddie.gasexpress.models.History> histories = new ArrayList<>();
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.HISTORY,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.i("SMT", response);
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                com.softark.eddie.gasexpress.models.History h = new com.softark.eddie.gasexpress.models.History();
-                                h.setDate(jsonObject.getString("created_at"));
-                                h.setType(jsonObject.getString("name"));
-                                h.setPrice(jsonObject.getString("price"));
-                                h.setSize(jsonObject.getInt("size"));
-                                h.setTime(jsonObject.getString("created_at"));
-                                histories.add(h);
-                            }
-
-                            HistoryAdapter adapter = new HistoryAdapter(context, histories);
-                            recyclerView.setAdapter(adapter);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
-
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                })
-        {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                GEPreference preference = new GEPreference(context);
-                params.put("user", preference.getUser().get(GEPreference.USER_ID));
-                return params;
-            }
-        };
-
-        singleton.addToRequestQueue(stringRequest);
-
-        return histories;
-    }
+//    public ArrayList<OrderHistory> getHistory(final RecyclerView recyclerView) {
+//        final ArrayList<OrderHistory> histories = new ArrayList<>();
+//
+//        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.HISTORY,
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        Log.i("SMT", response);
+//                        try {
+//                            JSONArray jsonArray = new JSONArray(response);
+//
+//                            for (int i = 0; i < jsonArray.length(); i++) {
+//                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+//                                OrderHistory h = new OrderHistory();
+//                                h.setDate(jsonObject.getString("created_at"));
+//                                h.setType(jsonObject.getString("name"));
+//                                h.setPrice(jsonObject.getString("price"));
+//                                h.setSize(jsonObject.getInt("size"));
+//                                h.setTime(jsonObject.getString("created_at"));
+//                                histories.add(h);
+//                            }
+//
+//                            HistoryAdapter adapter = new HistoryAdapter(context, histories);
+//                            recyclerView.setAdapter(adapter);
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//
+//
+//
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//
+//                    }
+//                })
+//        {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<>();
+//                GEPreference preference = new GEPreference(context);
+//                params.put("user", preference.getUser().get(GEPreference.USER_ID));
+//                return params;
+//            }
+//        };
+//
+//        singleton.addToRequestQueue(stringRequest);
+//
+//        return histories;
+//    }
 
 }
