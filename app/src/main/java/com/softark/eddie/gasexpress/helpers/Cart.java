@@ -15,7 +15,7 @@ import java.util.List;
 public class Cart {
 
     private static double totalPrice = 0.0;
-
+    private static boolean itemExists = false;
     public static final int GASES = 0;
     public static final int ACCESSORIES = 1;
     public static final int SERVICES = 2;
@@ -30,6 +30,7 @@ public class Cart {
         products = new ArrayList<>();
         services = new ArrayList<>();
         bulkGases = new ArrayList<>();
+        itemExists = false;
     }
 
     private static class Helper {
@@ -44,44 +45,69 @@ public class Cart {
         return totalPrice;
     }
 
-    public static void addGas(Gas gas) {
-        if(!gases.contains(gas)) {
-            gases.add(gas);
-            totalPrice+=gas.getPrice();
+    public static Gas addGas(Gas gas) {
+        totalPrice+=gas.getPrice();
+        for (Gas g : gases) {
+            if(g.getId().equals(gas.getId())) {
+                if(g.getSize() == gas.getSize()) {
+                    return g;
+                }
+            }
         }
+        gases.add(gas);
+        return gas;
     }
 
-    public static void addBulkGas(BulkGas gas) {
-        if(!bulkGases.contains(gas)) {
-            totalPrice+=gas.getPrice();
-            bulkGases.add(gas);
+    public static BulkGas addBulkGas(BulkGas gas) {
+        totalPrice+=gas.getPrice();
+        for (BulkGas g : bulkGases) {
+            if(g.getId().equals(gas.getId())) {
+                return g;
+            }
         }
+        bulkGases.add(gas);
+        return gas;
     }
 
-    public static void addProduct(Accessory accessory) {
-        if(!products.contains(accessory)) {
-            totalPrice+=accessory.getPrice();
-            products.add(accessory);
+    public static Accessory addProduct(Accessory accessory) {
+        totalPrice+=accessory.getPrice();
+        for (Accessory a: products) {
+            if(a.getId().equals(accessory.getId())) {
+                return a;
+            }
         }
+        products.add(accessory);
+        return accessory;
     }
 
     public static void addService(Service service) {
+        for (Service s : services) {
+            if (s.getId().equals(service.getId())) {
+                return;
+            }
+        }
         services.add(service);
     }
 
     public static void removeGas(int position) {
         totalPrice-=(gases.get(position).getPrice());
-        gases.remove(position);
+        if(gases.get(position).getQuantity() <= 0) {
+            gases.remove(position);
+        }
     }
 
     public static void removeBulkGas(int position) {
         totalPrice-=(bulkGases.get(position).getPrice());
-        bulkGases.remove(position);
+        if(bulkGases.get(position).getQuantity() <= 0) {
+            bulkGases.remove(position);
+        }
     }
 
     public static void removeProduct(int position) {
-        totalPrice-=(gases.get(position).getPrice());
-        products.remove(position);
+        totalPrice-=(products.get(position).getPrice());
+        if(products.get(position).getQuantity() <= 0) {
+            products.remove(position);
+        }
     }
 
     public static void removeService(int position) {
@@ -115,6 +141,18 @@ public class Cart {
 
     public boolean isEmpty() {
         return (gases.isEmpty() && products.isEmpty() && services.isEmpty() && bulkGases.isEmpty());
+    }
+
+    public boolean isGasEmpty() {
+        return gases.isEmpty();
+    }
+
+    public boolean isBulkEmpty() {
+        return products.isEmpty();
+    }
+
+    public boolean isAccessoryEmpty() {
+        return products.isEmpty();
     }
 
 }

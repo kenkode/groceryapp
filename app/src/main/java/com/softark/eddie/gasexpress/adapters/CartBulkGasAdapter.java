@@ -49,7 +49,7 @@ public class CartBulkGasAdapter extends RecyclerView.Adapter<CartBulkGasAdapter.
     }
 
     @Override
-    public void onBindViewHolder(CartBulkGasAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final CartBulkGasAdapter.ViewHolder holder, int position) {
         final BulkGas bulkGas = items.get(position);
         final int refPosition = position;
         final String metric;
@@ -59,28 +59,34 @@ public class CartBulkGasAdapter extends RecyclerView.Adapter<CartBulkGasAdapter.
             metric = "Tons";
         }
         holder.name.setText("Bulk Gas".concat(" ").concat(String.valueOf(bulkGas.getSize())).concat(metric));
+        holder.quantity.setText(String.valueOf(bulkGas.getQuantity()));
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Bulk Gas"
-                        .concat(String.valueOf(bulkGas.getSize()))
-                        .concat(metric)
-                        .concat(" removed from cart"), Toast.LENGTH_LONG).show();
+                bulkGas.decQuantity();
                 Cart.removeBulkGas(refPosition);
-                notifyItemRemoved(refPosition);
-                notifyDataSetChanged();
+                holder.quantity.setText(String.valueOf(bulkGas.getQuantity()));
+                if(bulkGas.getQuantity() <= 0) {
+                    Toast.makeText(context, "Bulk Gas"
+                            .concat(String.valueOf(bulkGas.getSize()))
+                            .concat(metric)
+                            .concat(" removed from cart"), Toast.LENGTH_LONG).show();
+                    notifyItemRemoved(refPosition);
+                    notifyDataSetChanged();
+                }
             }
         });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, price;
+        public TextView name, price, quantity;
         public ImageButton remove;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.cart_item_name);
             price = (TextView) itemView.findViewById(R.id.cart_item_price);
+            quantity = (TextView) itemView.findViewById(R.id.item_quantity);
             remove = (ImageButton) itemView.findViewById(R.id.remove_from_cart);
         }
     }

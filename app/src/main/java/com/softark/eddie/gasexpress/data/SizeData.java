@@ -40,7 +40,6 @@ public class SizeData {
         this.context = context;
         requestSingleton = new RequestSingleton(context);
         preference = new GEPreference(context);
-        Log.i("ASDF", preference.getUser().get(GEPreference.USER_ID));
     }
 
     public void getSizes(final RecyclerView recyclerView, final ProgressBar progressBar) {
@@ -80,7 +79,6 @@ public class SizeData {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                Log.i("LETS", preference.getUser().get(GEPreference.USER_ID));
                 params.put("user", preference.getUser().get(GEPreference.USER_ID));
                 return params;
             }

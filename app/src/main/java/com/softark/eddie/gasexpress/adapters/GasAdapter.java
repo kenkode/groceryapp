@@ -67,7 +67,7 @@ public class GasAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, gas.getName().concat(" added to cart"), Toast.LENGTH_LONG).show();
-                Cart.getInstance().addGas(gas);
+                Cart.getInstance().addGas(gas).addQuantity();
             }
         });
 

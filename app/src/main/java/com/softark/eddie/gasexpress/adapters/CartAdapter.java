@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.helpers.Cart;
@@ -49,29 +50,35 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(CartAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final CartAdapter.ViewHolder holder, int position) {
         final Gas item = items.get(position);
         holder.name.setText(item.getName());
         holder.price.setText(String.valueOf(item.getPrice()));
+        holder.quantity.setText(String.valueOf(item.getQuantity()));
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                items.remove(position);
-                Cart.removeGas(position);
-                notifyItemRemoved(position);
-                notifyDataSetChanged();
+                item.decQuantity();
+                Cart.removeGas(holder.getAdapterPosition());
+                holder.quantity.setText(String.valueOf(item.getQuantity()));
+                if(item.getQuantity() <= 0) {
+                    Toast.makeText(context, item.getName().concat(" removed from cart"), Toast.LENGTH_LONG).show();
+                    notifyItemRemoved(holder.getAdapterPosition());
+                    notifyDataSetChanged();
+                }
             }
         });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, price;
+        public TextView name, price, quantity;
         public ImageButton remove;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.cart_item_name);
             price = (TextView) itemView.findViewById(R.id.cart_item_price);
+            quantity = (TextView) itemView.findViewById(R.id.item_quantity);
             remove = (ImageButton) itemView.findViewById(R.id.remove_from_cart);
         }
     }

@@ -8,7 +8,27 @@ public class Accessory {
 
     private String id;
     private String name;
+    private int quantity;
     private double price;
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void addQuantity() {
+        quantity++;
+    }
+
+    public void decQuantity() {
+        quantity--;
+        if(quantity <= 0) {
+            quantity = 0;
+        }
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     public String getId() {
         return id;

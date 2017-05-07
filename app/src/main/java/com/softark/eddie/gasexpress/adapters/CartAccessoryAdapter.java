@@ -48,29 +48,36 @@ public class CartAccessoryAdapter extends RecyclerView.Adapter<CartAccessoryAdap
     }
 
     @Override
-    public void onBindViewHolder(CartAccessoryAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final CartAccessoryAdapter.ViewHolder holder, int position) {
         final Accessory item = items.get(position);
         holder.name.setText(item.getName());
         holder.price.setText(String.valueOf(item.getPrice()));
+        holder.quantity.setText(String.valueOf(String.valueOf(item.getQuantity())));
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, item.getName().concat(" removed"), Toast.LENGTH_LONG).show();
-                Cart.removeProduct(position);
-                notifyItemRemoved(position);
-                notifyDataSetChanged();
+                item.decQuantity();
+                Cart.removeProduct(holder.getAdapterPosition());
+                holder.quantity.setText(String.valueOf(item.getQuantity()));
+                if(item.getQuantity() <= 0) {
+                    notifyItemRemoved(holder.getAdapterPosition());
+                    notifyDataSetChanged();
+                    Toast.makeText(context, item.getName().concat(" removed"), Toast.LENGTH_LONG).show();
+                }
+
             }
         });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, price;
+        public TextView name, price, quantity;
         public ImageButton remove;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.cart_item_name);
             price = (TextView) itemView.findViewById(R.id.cart_item_price);
+            quantity = (TextView) itemView.findViewById(R.id.item_quantity);
             remove = (ImageButton) itemView.findViewById(R.id.remove_from_cart);
         }
     }
