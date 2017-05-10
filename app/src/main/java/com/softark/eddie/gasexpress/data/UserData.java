@@ -1,9 +1,12 @@
 package com.softark.eddie.gasexpress.data;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -42,7 +45,7 @@ public class UserData {
         preference = new GEPreference(context);
     }
 
-    public void authUser(final String phone) {
+    public void authUser(final TextView phoneTextView, final ProgressDialog dialog, final String phone) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.AUTH_USER,
                 new Response.Listener<String>() {
@@ -53,6 +56,7 @@ public class UserData {
                             JSONObject jsonObject = new JSONObject(response);
                             if(jsonObject.getString("status").equals("E")) {
                                 preference.setOrderKey(jsonObject.getString("order_key"));
+                                dialog.dismiss();
                             }
                             processResults(jsonObject, phone);
                         } catch (JSONException e) {
@@ -64,6 +68,11 @@ public class UserData {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
+                        dialog.dismiss();
+                        String message = "";
+                        message = "Something went wrong. Please try again.";
+                        Snackbar snackbar = Snackbar.make(phoneTextView, message, Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
                 })
         {
@@ -138,6 +147,10 @@ public class UserData {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void populateDatabase() {
+
     }
 
 

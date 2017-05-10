@@ -1,30 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="8sp">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/warning_image"
+    <RelativeLayout
+        android:id="@+id/location_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@drawable/warning"
+            android:drawablePadding="8dp"
+            android:layout_marginLeft="16dp"
+            android:textColor="@color/colorPrimary"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:padding="8dp"
+            android:text="Please provide your phone number"
+            android:theme="@style/CartTextView" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="16sp"
-        android:layout_marginStart="16sp"
-        android:src="@drawable/warning" />
-
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="8sp"
-        android:layout_marginRight="8sp"
-        android:layout_toRightOf="@+id/warning_image"
-        android:text="Please provide your details"
-        android:textColor="@color/colorPrimary"
-        android:textSize="24sp" />
+        android:layout_below="@+id/location_wrapper"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Cancel"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>

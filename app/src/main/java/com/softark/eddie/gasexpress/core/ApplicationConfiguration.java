@@ -2,6 +2,7 @@ package com.softark.eddie.gasexpress.core;
 
 import android.app.Application;
 
+import com.softark.eddie.gasexpress.helpers.Internet;
 import com.softark.eddie.gasexpress.helpers.OrderKey;
 import com.softark.eddie.gasexpress.models.CartItem;
 
@@ -13,11 +14,15 @@ import io.realm.Realm;
  * Created by Eddie on 5/9/2017.
  */
 
-public class RealmConfiguration extends Application {
+public class ApplicationConfiguration extends Application {
+
+    private static ApplicationConfiguration applicationConfiguration;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        applicationConfiguration = this;
 
         Realm.init(this);
         io.realm.RealmConfiguration realmConfiguration = new io.realm.RealmConfiguration.Builder()
@@ -38,6 +43,14 @@ public class RealmConfiguration extends Application {
         }else {
             OrderKey.orderKey = UUID.randomUUID().toString();
         }
-
     }
+
+    public static synchronized ApplicationConfiguration getInstance() {
+        return applicationConfiguration;
+    }
+
+    public void setConnectivityListener(Internet.ConnectivityReceiverListener receiverListener) {
+        Internet.connectivityReceiverListener = receiverListener;
+    }
+
 }
