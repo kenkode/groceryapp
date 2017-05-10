@@ -13,10 +13,10 @@
 
     <ImageView
         android:id="@+id/ge_login_logo"
-        android:layout_width="wrap_content"
+        android:layout_width="128dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/logo" />
+        android:src="@drawable/gx_launcher_circle" />
 
     <TextView
         android:id="@+id/login_message"

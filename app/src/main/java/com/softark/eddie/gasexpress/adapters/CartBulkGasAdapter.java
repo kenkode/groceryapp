@@ -26,9 +26,9 @@ public class CartBulkGasAdapter extends RecyclerView.Adapter<CartBulkGasAdapter.
     private ArrayList<BulkGas> items;
     private LayoutInflater inflater;
 
-    public CartBulkGasAdapter(Context context) {
+    public CartBulkGasAdapter(Context context, ArrayList<BulkGas> bulkGases) {
         this.context = context;
-        this.items = (ArrayList<BulkGas>) Cart.getInstance().getCart().get(Cart.BULK_GAS);
+        this.items = bulkGases;
         inflater = LayoutInflater.from(context);
     }
 
@@ -63,8 +63,8 @@ public class CartBulkGasAdapter extends RecyclerView.Adapter<CartBulkGasAdapter.
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bulkGas.decQuantity();
-                Cart.removeBulkGas(refPosition);
+//                bulkGas.decQuantity();
+                Cart.removeBulkGas(bulkGas);
                 holder.quantity.setText(String.valueOf(bulkGas.getQuantity()));
                 if(bulkGas.getQuantity() <= 0) {
                     Toast.makeText(context, "Bulk Gas"

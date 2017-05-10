@@ -25,9 +25,9 @@ public class CartAccessoryAdapter extends RecyclerView.Adapter<CartAccessoryAdap
     private ArrayList<Accessory> items;
     private LayoutInflater inflater;
 
-    public CartAccessoryAdapter(Context context) {
+    public CartAccessoryAdapter(Context context, ArrayList<Accessory> accessories) {
         this.context = context;
-        this.items = (ArrayList<Accessory>) Cart.getInstance().getCart().get(Cart.ACCESSORIES);
+        this.items = accessories;
         inflater = LayoutInflater.from(context);
     }
 
@@ -56,8 +56,8 @@ public class CartAccessoryAdapter extends RecyclerView.Adapter<CartAccessoryAdap
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                item.decQuantity();
-                Cart.removeProduct(holder.getAdapterPosition());
+//                item.decQuantity();
+                Cart.removeProduct(item);
                 holder.quantity.setText(String.valueOf(item.getQuantity()));
                 if(item.getQuantity() <= 0) {
                     notifyItemRemoved(holder.getAdapterPosition());

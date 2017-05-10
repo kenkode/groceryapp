@@ -9,9 +9,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
-import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.models.Accessory;
-import com.softark.eddie.gasexpress.models.CartItem;
 import com.softark.eddie.gasexpress.models.Gas;
 import com.softark.eddie.gasexpress.models.Service;
 
@@ -32,18 +30,6 @@ public class CartData {
     public CartData(Context context) {
         this.context = context;
         singleton = new RequestSingleton(context);
-    }
-
-    public ArrayList<CartItem> getCart() {
-        ArrayList<CartItem> cart = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            CartItem item = new CartItem();
-            item.setName("Cylinder");
-            item.setPrice(456.9);
-            item.setId(UUID.randomUUID().toString());
-            cart.add(item);
-        }
-        return cart;
     }
 
     public void checkOutGases(Gas gas) {

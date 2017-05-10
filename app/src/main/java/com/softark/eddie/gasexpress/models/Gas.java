@@ -3,30 +3,34 @@ package com.softark.eddie.gasexpress.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by Eddie on 4/30/2017.
  */
 
-public class Gas implements Parcelable {
+public class Gas extends RealmObject {
+    @PrimaryKey
     private String id;
     private String name;
     private int size;
     private int quantity;
     private double price;
 
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public int getQuantity() {
         return quantity;
-    }
-
-    public void addQuantity() {
-        quantity++;
-    }
-
-    public void decQuantity() {
-        quantity--;
-        if(quantity <= 0) {
-            quantity = 0;
-        }
     }
 
     public void setQuantity(int quantity) {
@@ -65,39 +69,4 @@ public class Gas implements Parcelable {
         this.price = price;
     }
 
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeDouble(this.price);
-        dest.writeString(this.name);
-        dest.writeInt(this.size);
-        dest.writeString(this.id);
-    }
-
-    public Gas() {
-    }
-
-    protected Gas(Parcel in) {
-        this.price = in.readDouble();
-        this.name = in.readString();
-        this.size = in.readInt();
-        this.id = in.readString();
-    }
-
-    public static final Parcelable.Creator<Gas> CREATOR = new Parcelable.Creator<Gas>() {
-        @Override
-        public Gas createFromParcel(Parcel source) {
-            return new Gas(source);
-        }
-
-        @Override
-        public Gas[] newArray(int size) {
-            return new Gas[size];
-        }
-    };
 }

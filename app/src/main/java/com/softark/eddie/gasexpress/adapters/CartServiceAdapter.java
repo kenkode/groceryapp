@@ -25,9 +25,9 @@ public class CartServiceAdapter extends RecyclerView.Adapter<CartServiceAdapter.
     private ArrayList<Service> items;
     private LayoutInflater inflater;
 
-    public CartServiceAdapter(Context context) {
+    public CartServiceAdapter(Context context, ArrayList<Service> services) {
         this.context = context;
-        this.items = (ArrayList<Service>) Cart.getInstance().getCart().get(Cart.SERVICES);
+        this.items = services;
         inflater = LayoutInflater.from(context);
     }
 
@@ -56,7 +56,7 @@ public class CartServiceAdapter extends RecyclerView.Adapter<CartServiceAdapter.
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Cart.removeService(refPosition);
+                Cart.removeService(service);
                 notifyItemRemoved(refPosition);
                 notifyDataSetChanged();
             }

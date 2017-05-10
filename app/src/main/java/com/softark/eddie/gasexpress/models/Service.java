@@ -1,13 +1,26 @@
 package com.softark.eddie.gasexpress.models;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by Eddie on 5/3/2017.
  */
 
-public class Service {
+public class Service extends RealmObject {
 
+    @PrimaryKey
     private String id;
     private String name;
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public String getId() {
         return id;

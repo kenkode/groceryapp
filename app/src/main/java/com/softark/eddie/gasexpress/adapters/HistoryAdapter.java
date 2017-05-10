@@ -37,7 +37,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public void onBindViewHolder(HistoryAdapter.ViewHolder holder, int position) {
         OrderHistory h = orderHistory.get(position);
 
-        holder.orderId.setText(h.getId());
+        holder.orderId.setText(h.getOrderType());
         holder.price.setText(String.valueOf(h.getPrice()));
         holder.date.setText(h.getDate());
     }

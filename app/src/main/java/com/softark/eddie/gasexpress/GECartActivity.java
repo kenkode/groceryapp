@@ -8,6 +8,7 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,6 +18,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.softark.eddie.gasexpress.RealmData.AccessoryData;
+import com.softark.eddie.gasexpress.RealmData.BulkData;
+import com.softark.eddie.gasexpress.RealmData.GasData;
+import com.softark.eddie.gasexpress.RealmData.ServiceData;
 import com.softark.eddie.gasexpress.adapters.BulkGasAdapter;
 import com.softark.eddie.gasexpress.adapters.CartAccessoryAdapter;
 import com.softark.eddie.gasexpress.adapters.CartAdapter;
@@ -24,9 +29,14 @@ import com.softark.eddie.gasexpress.adapters.CartBulkGasAdapter;
 import com.softark.eddie.gasexpress.adapters.CartServiceAdapter;
 import com.softark.eddie.gasexpress.data.CartData;
 import com.softark.eddie.gasexpress.data.MyLocationData;
+import com.softark.eddie.gasexpress.data.OrderData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
 import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.helpers.Checkout;
+import com.softark.eddie.gasexpress.models.CartItem;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class GECartActivity extends AppCompatActivity {
 
@@ -37,16 +47,27 @@ public class GECartActivity extends AppCompatActivity {
     private CartAccessoryAdapter accessoryAdapter;
     private CartBulkGasAdapter bulkGasAdapter;
     private Button clearCart, checkout;
+    private GasData gasData;
+    private ServiceData serviceData;
+    private AccessoryData accessoryData;
+    private BulkData bulkData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        adapter = new CartAdapter(this);
-        serviceAdapter = new CartServiceAdapter(this);
-        accessoryAdapter = new CartAccessoryAdapter(this);
-        bulkGasAdapter = new CartBulkGasAdapter(this);
+        RealmResults<CartItem> items = Realm.getDefaultInstance().where(CartItem.class).findAll();
+
+        gasData = new GasData(this);
+        serviceData = new ServiceData();
+        accessoryData = new AccessoryData();
+        bulkData = new BulkData();
+
+        adapter = new CartAdapter(this, gasData.getGases());
+        serviceAdapter = new CartServiceAdapter(this, serviceData.getServices());
+        accessoryAdapter = new CartAccessoryAdapter(this, accessoryData.getAccessories());
+        bulkGasAdapter = new CartBulkGasAdapter(this, bulkData.getBulkGases());
 
         RecyclerDecorator decorator = new RecyclerDecorator(this, 1, 4, true);
 
@@ -95,11 +116,6 @@ public class GECartActivity extends AppCompatActivity {
             }
         });
 
-        if(Cart.getInstance().isEmpty()) {
-            clearCart.setEnabled(false);
-            checkout.setEnabled(false);
-        }
-
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,17 +135,14 @@ public class GECartActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
-                if(Cart.getTotalPrice() == 0.0) {
-                    checkout.setEnabled(false);
-                }
                 checkout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(Checkout.getLocation() == null) {
                             Toast.makeText(GECartActivity.this, "Please select your location", Toast.LENGTH_LONG).show();
                         }else {
-                            Checkout cOut = new Checkout(GECartActivity.this);
-                            cOut.checkOut();
+                            Checkout c = new Checkout(GECartActivity.this);
+                            c.processOrder();
                             dialog.dismiss();
                         }
                     }
@@ -137,10 +150,6 @@ public class GECartActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
-
-        if(Cart.getTotalPrice() == 0.0) {
-            checkout.setEnabled(false);
-        }
 
     }
 }

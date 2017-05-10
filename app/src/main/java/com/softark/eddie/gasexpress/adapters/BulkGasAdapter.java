@@ -64,7 +64,7 @@ public class BulkGasAdapter extends RecyclerView.Adapter<BulkGasAdapter.ViewHold
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Cart.getInstance().addBulkGas(gas).addQuantity();
+                Cart.getInstance().addBulkGas(gas);
                 Toast.makeText(context, name.concat(" added to cart"), Toast.LENGTH_LONG).show();
             }
         });

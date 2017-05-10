@@ -16,7 +16,7 @@ public class Constants {
 
     public static final String GET_GASES = MAIN_URL + "get_gases";
 
-    public static final String ORDER_KEY = MAIN_URL + "order_key";
+    public static final String ORDER_KEY = MAIN_URL + "auth_order_key";
 
     public static final String GET_SIZES = MAIN_URL + "get_sizes";
 

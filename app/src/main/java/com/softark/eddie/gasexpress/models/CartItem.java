@@ -1,14 +1,36 @@
 package com.softark.eddie.gasexpress.models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+import io.realm.RealmObject;
+
 /**
- * Created by Eddie on 5/3/2017.
+ * Created by Eddie on 5/9/2017.
  */
 
-public class CartItem {
+//    status
+//    0 - only local
+//    1 - both local and online
+//    2 - failed
+//
 
-    private String id;
+public class CartItem extends RealmObject {
+
+    @Expose
+    private String orderId;
+    @Expose
     private String name;
-    private double price;
+    @Expose
+    private String id;
+    @Expose
+    private int quantity;
+    @Expose
+    private int type;
+    @Expose
+    private int status;
 
     public String getName() {
         return name;
@@ -16,6 +38,22 @@ public class CartItem {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public String getId() {
@@ -26,11 +64,19 @@ public class CartItem {
         this.id = id;
     }
 
-    public double getPrice() {
-        return price;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

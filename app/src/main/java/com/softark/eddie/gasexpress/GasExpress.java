@@ -27,12 +27,19 @@ import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
 import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.models.Accessory;
+import com.softark.eddie.gasexpress.models.CartItem;
 import com.softark.eddie.gasexpress.models.Gas;
 import com.softark.eddie.gasexpress.models.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmList;
+import io.realm.RealmResults;
 
 public class GasExpress extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

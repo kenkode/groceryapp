@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +16,9 @@ import com.softark.eddie.gasexpress.models.Gas;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 /**
  * Created by Eddie on 5/3/2017.
  */
@@ -27,9 +29,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private ArrayList<Gas> items;
     private LayoutInflater inflater;
 
-    public CartAdapter(Context context) {
+    public CartAdapter(Context context, ArrayList<Gas> items) {
         this.context = context;
-        this.items = (ArrayList<Gas>) Cart.getInstance().getCart().get(Cart.GASES);
+        this.items = items;
         inflater = LayoutInflater.from(context);
     }
 
@@ -58,8 +60,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                item.decQuantity();
-                Cart.removeGas(holder.getAdapterPosition());
+//                item.decQuantity();
+                Cart.removeGas(item);
                 holder.quantity.setText(String.valueOf(item.getQuantity()));
                 if(item.getQuantity() <= 0) {
                     Toast.makeText(context, item.getName().concat(" removed from cart"), Toast.LENGTH_LONG).show();

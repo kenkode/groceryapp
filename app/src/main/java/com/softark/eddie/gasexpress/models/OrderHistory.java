@@ -9,6 +9,15 @@ public class OrderHistory {
     private String id;
     private double price;
     private String date;
+    private String orderType;
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
+    }
 
     public String getId() {
         return id;

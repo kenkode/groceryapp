@@ -14,7 +14,6 @@ import com.softark.eddie.gasexpress.adapters.AccessoryAdapter;
 import com.softark.eddie.gasexpress.adapters.ServiceAdapter;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.models.Accessory;
-import com.softark.eddie.gasexpress.models.CartItem;
 import com.softark.eddie.gasexpress.models.Service;
 
 import org.json.JSONArray;
@@ -24,7 +23,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Created by Eddie on 5/3/2017.
