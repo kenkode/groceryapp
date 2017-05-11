@@ -3,6 +3,7 @@ package com.softark.eddie.gasexpress.data;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
@@ -50,11 +51,12 @@ public class UserData {
         preference = new GEPreference(context);
     }
 
-    public void validateUser(final ProgressDialog dialog, final View view) {
+    public void validateUser(final ProgressDialog dialog, final View button) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.VALIDATE_USER,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        button.setVisibility(View.VISIBLE);
                         if(response.equals("E")) {
                             dialog.dismiss();
                             Intent intent = new Intent(context, GasExpress.class);
@@ -63,7 +65,7 @@ public class UserData {
                         }else {
                             dialog.dismiss();
                             preference.unsetUser();
-                            final Snackbar snackbar = Snackbar.make(view, "Account not found in our servers.", Snackbar.LENGTH_INDEFINITE);
+                            final Snackbar snackbar = Snackbar.make(button, "Account not found in our servers.", Snackbar.LENGTH_INDEFINITE);
                             snackbar.setAction("Dismiss", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -78,15 +80,25 @@ public class UserData {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        dialog.dismiss();
                         String message = "";
                         if(error instanceof TimeoutError || error instanceof NetworkError) {
-                            message = "Server took long to respond. Please try again.";
+                            message = "Server took long to respond. Please try again later.";
                         }else if(error instanceof ServerError) {
                             message = "Server experienced internal error. Please try again later.";
                         }else if (error instanceof NetworkError) {
                             message = "Network error. Please try again later.";
                         }
-                        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
+                        button.setVisibility(View.GONE);
+                        final Snackbar snackbar = Snackbar.make(button, message, Snackbar.LENGTH_INDEFINITE);
+                        snackbar.setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                snackbar.dismiss();
+                                dialog.show();
+                                validateUser(dialog, button);
+                            }
+                        });
                         snackbar.show();
                     }
                 })
@@ -148,7 +160,7 @@ public class UserData {
         singleton.addToRequestQueue(stringRequest);
     }
 
-    public void addUser(final String name, final String email, final String phone, final String birthday, final String description, final Location location) {
+    public void addUser(final String name, final String email, final String phone, final String birthday,final View view, final String description, final Location location, final ProgressDialog progressDialog) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.ADD_USER,
                 new Response.Listener<String>() {
@@ -157,6 +169,7 @@ public class UserData {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             processResults(jsonObject, phone);
+                            progressDialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -165,7 +178,17 @@ public class UserData {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        progressDialog.dismiss();
+                        String message = "";
+                        if(error instanceof TimeoutError || error instanceof NetworkError) {
+                            message = "Server took long to respond. Please try again.";
+                        }else if(error instanceof ServerError) {
+                            message = "Server experienced internal error. Please try again later.";
+                        }else if (error instanceof NetworkError) {
+                            message = "Network error. Please try again later.";
+                        }
+                        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
                 })
         {
@@ -186,7 +209,7 @@ public class UserData {
         singleton.addToRequestQueue(stringRequest);
     }
 
-    public void processResults(JSONObject jsonObject, String phone) {
+    private void processResults(JSONObject jsonObject, String phone) {
         try {
             if(jsonObject.getString("status").equals("E")) {
                 JSONObject user = jsonObject.getJSONObject("user");

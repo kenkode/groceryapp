@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,13 +52,12 @@ public class GECartActivity extends AppCompatActivity {
     private ServiceData serviceData;
     private AccessoryData accessoryData;
     private BulkData bulkData;
+    private LinearLayout emptyCartLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-
-        RealmResults<CartItem> items = Realm.getDefaultInstance().where(CartItem.class).findAll();
 
         gasData = new GasData(this);
         serviceData = new ServiceData();
@@ -68,6 +68,20 @@ public class GECartActivity extends AppCompatActivity {
         serviceAdapter = new CartServiceAdapter(this, serviceData.getServices());
         accessoryAdapter = new CartAccessoryAdapter(this, accessoryData.getAccessories());
         bulkGasAdapter = new CartBulkGasAdapter(this, bulkData.getBulkGases());
+
+        emptyCartLayout = (LinearLayout) findViewById(R.id.empty_cart_layout);
+
+        Realm realm = Realm.getDefaultInstance();
+
+        RealmResults<CartItem> cartItems = realm.where(CartItem.class)
+                .equalTo("status", 0)
+                .findAll();
+
+        if(!cartItems.isEmpty()) {
+            emptyCartLayout.setVisibility(View.GONE);
+        }else {
+            emptyCartLayout.setVisibility(View.VISIBLE);
+        }
 
         RecyclerDecorator decorator = new RecyclerDecorator(this, 1, 4, true);
 
@@ -127,7 +141,7 @@ public class GECartActivity extends AppCompatActivity {
                 Button checkout = (Button) dialog.findViewById(R.id.check_out);
                 final Spinner spinner = (Spinner) dialog.findViewById(R.id.location_spinner);
                 MyLocationData myLocationData = new MyLocationData(GECartActivity.this);
-                myLocationData.getLocation(null, spinner);
+                myLocationData.getLocation(null, spinner, null, null);
                 total.setText(String.valueOf(Cart.getTotalPrice()));
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override

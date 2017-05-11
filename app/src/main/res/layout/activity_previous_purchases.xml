@@ -12,5 +12,34 @@
         android:id="@+id/history_list"
         app:layoutManager="LinearLayoutManager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/empty_history_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/history_list"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="108dp"
+            android:layout_height="108dp"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="96dp"
+            android:src="@drawable/no_history"
+            android:tint="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/history_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="You have no previous purchases"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
 </RelativeLayout>

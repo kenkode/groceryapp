@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.android.volley.AuthFailureError;
@@ -42,7 +43,7 @@ public class SizeData {
         preference = new GEPreference(context);
     }
 
-    public void getSizes(final RecyclerView recyclerView, final ProgressBar progressBar) {
+    public void getSizes(final LinearLayout errorLayout, final RecyclerView recyclerView, final ProgressBar progressBar) {
         final ArrayList<Gas> gases = new ArrayList<>();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.GET_SIZES,
@@ -51,7 +52,9 @@ public class SizeData {
                     public void onResponse(String response) {
                         try {
                             progressBar.setVisibility(View.GONE);
-
+                            if(errorLayout.getVisibility() == View.VISIBLE) {
+                                errorLayout.setVisibility(View.GONE);
+                            }
                             JSONArray jsonArray= new JSONArray(response);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.getJSONObject(i);
@@ -72,6 +75,9 @@ public class SizeData {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressBar.setVisibility(View.GONE);
+                        if(errorLayout.getVisibility() == View.GONE) {
+                            errorLayout.setVisibility(View.VISIBLE);
+                        }
                         error.printStackTrace();
                     }
                 })

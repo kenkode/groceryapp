@@ -46,11 +46,7 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         preference = new GEPreference(this);
 
         if(preference.isUserLogged()) {
-            if(Internet.isConnected()) {
-                userData.validateUser(progressDialog, phone);
-            }else {
-                showSnack("No internet connection", Snackbar.LENGTH_INDEFINITE);
-            }
+            validateUser();
         }
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -126,4 +122,24 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         super.onResume();
         ApplicationConfiguration.getInstance().setConnectivityListener(this);
     }
+
+    public void validateUser() {
+        if(Internet.isConnected()) {
+            progressDialog.setMessage("Loading...");
+            progressDialog.show();
+            userData.validateUser(progressDialog, loginButton);
+            loginButton.setVisibility(View.VISIBLE);
+        }else {
+            Snackbar snackbar = Snackbar.make(phone, "No internet connection", Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction("Retry", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    validateUser();
+                }
+            });
+            snackbar.show();
+            loginButton.setVisibility(View.INVISIBLE);
+        }
+    }
+
 }

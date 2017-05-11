@@ -1,6 +1,7 @@
 package com.softark.eddie.gasexpress;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,28 @@ public class GERegisterActivity extends AppCompatActivity {
     private Button registerButton;
     private UserData userData;
     private Location userLocation;
+
+    private final int EMPTY_NAME = 1;
+    private final int INVALID_EMAIL = 3;
+    private final int EMPTY_EMAIL = 2;
+    private final int EMPTY_PHONE = 4;
+    private final int INVALID_PHONE = 5;
+    private final int EMPTY_BD = 6;
+    private final int EMPTY_LOCATION = 7;
+    private final int EMPTY_DESC = 9;
+    private final int SHORT_DESC = 8;
+
+    private final String[] MESSAGES = new String[] {
+            "Please provide your name",
+            "Please provide your email",
+            "Invalid email",
+            "Please provide your phone number",
+            "Invalid phone number",
+            "Please provide your birthday",
+            "Please provide your location",
+            "Short description",
+            "Give a brief description of your location"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,15 +100,18 @@ public class GERegisterActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isValid()) {
+                if(isValid() == 0) {
                     String nm = name.getText().toString().trim();
                     String eml = email.getText().toString().trim();
                     String phn = phone.getText().toString().trim();
                     String birthday = location.getText().toString().trim();
                     String desc = description.getText().toString().trim();
-                    userData.addUser(nm, eml, phn, birthday, desc, userLocation);
+                    ProgressDialog progressDialog = new ProgressDialog(GERegisterActivity.this);
+                    progressDialog.setCancelable(false);
+                    progressDialog.setMessage("Registering...");
+                    userData.addUser(nm, eml, phn, birthday, email, desc, userLocation, progressDialog);
                 }else {
-                    Toast.makeText(GERegisterActivity.this, "Please provide all the details", Toast.LENGTH_LONG).show();
+                    Toast.makeText(GERegisterActivity.this, MESSAGES[isValid()-1], Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -117,23 +143,33 @@ public class GERegisterActivity extends AppCompatActivity {
         }
     }
 
-    public boolean isValid() {
-        final String emailPattern = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$";
-
+    public int isValid() {
         String nm = name.getText().toString().trim();
         String eml = email.getText().toString().trim();
         String phn = phone.getText().toString().trim();
         String bd = birthday.getText().toString().trim();
         String desc= description.getText().toString().trim();
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(eml).matches()) {
-            Toast.makeText(GERegisterActivity.this, "Invalid email address.", Toast.LENGTH_LONG).show();
+        if(nm.isEmpty()) {
+            return EMPTY_NAME;
+        }else if(eml.isEmpty()) {
+            return EMPTY_EMAIL;
+        }else if(!Patterns.EMAIL_ADDRESS.matcher(eml).matches()) {
+            return INVALID_EMAIL;
+        }else if(phn.isEmpty()) {
+            return EMPTY_PHONE;
+        }else if(phn.matches("^[+][0-9]{10}$")) {
+            return INVALID_PHONE;
+        }else if(bd.isEmpty()) {
+            return EMPTY_BD;
+        }else if(userLocation == null) {
+            return EMPTY_LOCATION;
+        }else if(desc.isEmpty()) {
+            return EMPTY_DESC;
+        }else if(desc.length() < 15) {
+            return SHORT_DESC;
         }
 
-        if(desc.length() < 15) {
-            Toast.makeText(GERegisterActivity.this, "Short description.", Toast.LENGTH_LONG).show();
-        }
-
-        return !(nm.isEmpty() || eml.isEmpty() || phn.isEmpty() || desc.isEmpty() || bd.isEmpty() || userLocation == null || eml.matches(emailPattern));
+        return 0;
     }
 }

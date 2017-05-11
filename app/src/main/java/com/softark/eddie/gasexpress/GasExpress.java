@@ -18,6 +18,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -53,8 +55,8 @@ public class GasExpress extends AppCompatActivity
     private Map<String, String> user;
     private ImageButton accessories, bulkGas;
     private ProgressBar sizeProgressBar;
-
-    public static final int LOCATION = 1022;
+    private LinearLayout errorLayout;
+    private ImageView refreshView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +65,28 @@ public class GasExpress extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        errorLayout = (LinearLayout) findViewById(R.id.error_layout);
+        errorLayout.setVisibility(View.GONE);
+
         sizeData = new SizeData(this);
         preference = new GEPreference(this);
 
         accessories = (ImageButton) findViewById(R.id.acc_and_services_more_info);
         bulkGas = (ImageButton) findViewById(R.id.bulk_gas_more_info);
         sizeProgressBar = (ProgressBar) findViewById(R.id.gas_size_progress);
+
+        refreshView = (ImageView) findViewById(R.id.refresh_page);
+
+        refreshView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(errorLayout.getVisibility() == View.VISIBLE) {
+                    errorLayout.setVisibility(View.GONE);
+                }
+                sizeProgressBar.setVisibility(View.VISIBLE);
+                loadData();
+            }
+        });
 
         bulkGas.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +135,7 @@ public class GasExpress extends AppCompatActivity
         sizeRecyclerView.addItemDecoration(recyclerDecorator);
         sizeRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
-        sizeData.getSizes(sizeRecyclerView, sizeProgressBar);
+        loadData();
 
     }
 
@@ -180,6 +198,10 @@ public class GasExpress extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void loadData() {
+        sizeData.getSizes(errorLayout, sizeRecyclerView, sizeProgressBar);
     }
 
 }

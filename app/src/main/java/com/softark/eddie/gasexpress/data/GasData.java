@@ -1,11 +1,20 @@
 package com.softark.eddie.gasexpress.data;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
@@ -36,7 +45,7 @@ public class GasData {
         requestSingleton = new RequestSingleton(context);
     }
 
-    public void getGases(final int size, final ListView listView) {
+    public void getGases(final int size, final ListView listView, final LinearLayout errorLinear, final ProgressBar loadPrice) {
 
         final ArrayList<Gas> gases = new ArrayList<>();
 
@@ -46,7 +55,8 @@ public class GasData {
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonArray = new JSONArray(response);
-
+                            errorLinear.setVisibility(View.GONE);
+                            loadPrice.setVisibility(View.GONE);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 Gas gas = new Gas();
@@ -68,7 +78,27 @@ public class GasData {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
+                        String message = "";
+                        if(error instanceof TimeoutError || error instanceof NetworkError) {
+                            message = "Please check your connection and try again.";
+                        }else if(error instanceof ServerError) {
+                            message = "Server experienced internal error. Please try again later.";
+                        }else if (error instanceof NetworkError) {
+                            message = "Network error. Please try again later.";
+                        }
+                        errorLinear.setVisibility(View.VISIBLE);
+                        loadPrice.setVisibility(View.GONE);
+                        final Snackbar snackbar = Snackbar.make(listView, message, Snackbar.LENGTH_INDEFINITE);
+                        snackbar.setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                snackbar.dismiss();
+                                errorLinear.setVisibility(View.GONE);
+                                loadPrice.setVisibility(View.VISIBLE);
+                                getGases(size, listView, errorLinear, loadPrice);
+                            }
+                        });
+                        snackbar.show();
                     }
                 })
         {

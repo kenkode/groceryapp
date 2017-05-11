@@ -1,15 +1,22 @@
 package com.softark.eddie.gasexpress.data;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
@@ -45,7 +52,7 @@ public class MyLocationData {
         preference = new GEPreference(context);
     }
 
-    public void getLocation(final RecyclerView recyclerView, final Spinner spinner) {
+    public void getLocation(final RecyclerView recyclerView, final Spinner spinner, final LinearLayout errorLocation, final ProgressBar loader) {
         final ArrayList<Location> locations = new ArrayList<>();
         final List<String> list = new ArrayList<>();
 
@@ -55,7 +62,12 @@ public class MyLocationData {
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonArray = new JSONArray(response);
-
+                            if(errorLocation != null) {
+                                errorLocation.setVisibility(View.GONE);
+                            }
+                            if(loader != null) {
+                                loader.setVisibility(View.GONE);
+                            }
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 Location location = new Location();
@@ -96,8 +108,36 @@ public class MyLocationData {
                 },
                 new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
+                    public void onErrorResponse(final VolleyError error) {
+                        String message = "";
+                        if(errorLocation != null) {
+                            errorLocation.setVisibility(View.VISIBLE);
+                        }
+                        if(loader != null) {
+                            loader.setVisibility(View.GONE);
+                        }
+                        if(error instanceof TimeoutError || error instanceof NetworkError) {
+                            message = "No internet connection. Please try again later.";
+                        }else if(error instanceof ServerError) {
+                            message = "Server experienced internal error. Please try again later.";
+                        }else if (error instanceof NetworkError) {
+                            message = "Network error. Please try again later.";
+                        }
+                        final Snackbar snackbar = Snackbar.make(recyclerView, message, Snackbar.LENGTH_INDEFINITE);
+                        snackbar.setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                snackbar.dismiss();
+                                if(errorLocation != null) {
+                                    errorLocation.setVisibility(View.GONE);
+                                }
+                                if(loader != null) {
+                                    loader.setVisibility(View.VISIBLE);
+                                }
+                                getLocation(recyclerView, spinner, errorLocation, loader);
+                            }
+                        });
+                        snackbar.show();
                     }
                 })
         {
@@ -141,18 +181,35 @@ public class MyLocationData {
         singleton.addToRequestQueue(stringRequest);
     }
 
-    public void disableLocation(final String id) {
+    public void disableLocation(final String id, final ImageButton button) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.DISABLE_LOCATION,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        Snackbar snackbar = Snackbar.make(button, response, Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
+                        String message = "";
+                        if(error instanceof TimeoutError || error instanceof NetworkError) {
+                            message = "No internet connection. Please try again later.";
+                        }else if(error instanceof ServerError) {
+                            message = "Server experienced internal error. Please try again later.";
+                        }else if (error instanceof NetworkError) {
+                            message = "Network error. Please try again later.";
+                        }
+                        final Snackbar snackbar = Snackbar.make(button, message, Snackbar.LENGTH_INDEFINITE);
+                        snackbar.setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                snackbar.dismiss();
+                                disableLocation(id, button);
+                            }
+                        });
+                        snackbar.show();
                     }
                 })
         {
@@ -167,6 +224,5 @@ public class MyLocationData {
         };
         singleton.addToRequestQueue(stringRequest);
     }
-
 
 }

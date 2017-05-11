@@ -17,6 +17,40 @@
         android:layout_height="wrap_content"
         app:layoutManager="LinearLayoutManager" />
 
+    <ProgressBar
+        android:id="@+id/location_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="96dp" />
+
+    <LinearLayout
+        android:id="@+id/error_location_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="96dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="108dp"
+            android:layout_height="108dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="fitCenter"
+            android:src="@drawable/no_location"
+            android:tint="@color/colorRedAccent" />
+
+        <TextView
+            android:id="@+id/location_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="No connection to the server."
+            android:textColor="@color/colorRedAccent"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_location"
         android:layout_width="wrap_content"
@@ -24,8 +58,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        app:backgroundTint="@color/colorPrimary"
         android:tint="@android:color/white"
+        app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/add_location" />
 
 </RelativeLayout>

@@ -51,7 +51,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Location location = locationArrayAdapter.get(position);
         holder.locationName.setText(location.getAddress());
         holder.locationDesc.setText(location.getAddress());
@@ -65,9 +65,12 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
                     @Override
                     public void onClick(View v) {
                         locationArrayAdapter.remove(position);
-                        data.disableLocation(location.getId());
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, locationArrayAdapter.size());
+                        data.disableLocation(location.getId(), holder.closeButton);
+                        if(locationArrayAdapter.size() > 1) {
+                            notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, locationArrayAdapter.size());
+                        }
+                        dialog.dismiss();
                     }
                 });
                 dialog.findViewById(R.id.no).setOnClickListener(new View.OnClickListener() {
@@ -76,6 +79,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
                         dialog.dismiss();
                     }
                 });
+                dialog.show();
 
             }
         });

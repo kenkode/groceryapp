@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,10 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.data.MyLocationData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
+import com.softark.eddie.gasexpress.helpers.Internet;
 import com.softark.eddie.gasexpress.models.Location;
 
 import static com.softark.eddie.gasexpress.Constants.LOCATION_ID;
@@ -25,6 +29,8 @@ public class GEMyLocationActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MyLocationData locationData;
     private FloatingActionButton addLocation;
+    private LinearLayout errorLocation;
+    private ProgressBar locationLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +38,27 @@ public class GEMyLocationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gemy_location);
 
         addLocation = (FloatingActionButton) findViewById(R.id.add_location);
+        errorLocation = (LinearLayout) findViewById(R.id.error_location_layout);
+        errorLocation.setVisibility(View.GONE);
+
+        locationLoader = (ProgressBar) findViewById(R.id.location_loader);
 
         addLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GEMyLocationActivity.this, GELocation.class);
-                startActivityForResult(intent, LOCATION_ID);
+                if(Internet.isConnected()) {
+                    Intent intent = new Intent(GEMyLocationActivity.this, GELocation.class);
+                    startActivityForResult(intent, LOCATION_ID);
+                }else {
+                    final Snackbar snackbar = Snackbar.make(addLocation, "Check your internet connection and try again.", Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setAction("Dismis", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            snackbar.dismiss();
+                        }
+                    });
+                    snackbar.show();
+                }
             }
         });
 
@@ -46,7 +67,7 @@ public class GEMyLocationActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(decorator);
 
         locationData = new MyLocationData(this);
-        locationData.getLocation(recyclerView, null);
+        locationData.getLocation(recyclerView, null, errorLocation, locationLoader);
 
     }
 

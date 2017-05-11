@@ -2,17 +2,22 @@ package com.softark.eddie.gasexpress.data;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
@@ -88,16 +93,17 @@ public class OrderData {
         singleton.addToRequestQueue(stringRequest);
     }
 
-    public void getOrders(final RecyclerView recyclerView) {
+    public void getOrders(final RecyclerView recyclerView, final LinearLayout historyState) {
         final ArrayList<OrderHistory> orderHistories = new ArrayList<>();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.GET_ORDERS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-
                             JSONArray jsonArray = new JSONArray(response);
-
+                            if(jsonArray.length() > 1) {
+                                historyState.setVisibility(View.GONE);
+                            }
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject o = jsonArray.getJSONObject(i);
                                 JSONObject orders = o.getJSONObject("orders");
@@ -122,7 +128,23 @@ public class OrderData {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        String message = "";
+                        if(error instanceof TimeoutError || error instanceof NetworkError) {
+                            message = "No internet connection. Please try again later.";
+                        }else if(error instanceof ServerError) {
+                            message = "Server experienced internal error. Please try again later.";
+                        }else if (error instanceof NetworkError) {
+                            message = "Network error. Please try again later.";
+                        }
+                        final Snackbar snackbar = Snackbar.make(recyclerView, message, Snackbar.LENGTH_INDEFINITE);
+                        snackbar.setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                snackbar.dismiss();
+                                getOrders(recyclerView, historyState);
+                            }
+                        });
+                        snackbar.show();
                     }
                 })
         {
