@@ -3,6 +3,7 @@ package com.softark.eddie.gasexpress;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,11 +24,22 @@ public class GEMyLocationActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private MyLocationData locationData;
+    private FloatingActionButton addLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gemy_location);
+
+        addLocation = (FloatingActionButton) findViewById(R.id.add_location);
+
+        addLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GEMyLocationActivity.this, GELocation.class);
+                startActivityForResult(intent, LOCATION_ID);
+            }
+        });
 
         recyclerView = (RecyclerView) findViewById(R.id.my_location_recy);
         RecyclerDecorator decorator = new RecyclerDecorator(this, 1, 8, true);
@@ -36,22 +48,6 @@ public class GEMyLocationActivity extends AppCompatActivity {
         locationData = new MyLocationData(this);
         locationData.getLocation(recyclerView, null);
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.location_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.add_location:
-                Intent intent = new Intent(GEMyLocationActivity.this, GELocation.class);
-                startActivityForResult(intent, LOCATION_ID);
-        }
-        return true;
     }
 
     @Override

@@ -2,7 +2,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorPrimary</item>
@@ -35,8 +34,10 @@
 
     <style name="RegisterTheme" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorGrayAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="GESplashTheme" parent="Theme.AppCompat.Light.NoActionBar">

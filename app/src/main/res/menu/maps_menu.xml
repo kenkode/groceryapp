@@ -4,9 +4,9 @@
 
     <item
         android:id="@+id/done_selecting_location"
-        android:icon="@drawable/check"
+        android:icon="@drawable/check_white"
+        android:orderInCategory="1"
         android:title="Done"
-        app:showAsAction="always"
-        android:orderInCategory="1" />
+        app:showAsAction="always" />
 
 </menu>

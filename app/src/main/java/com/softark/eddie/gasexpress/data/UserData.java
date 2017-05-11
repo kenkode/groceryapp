@@ -5,16 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
+import com.softark.eddie.gasexpress.GELoginActivity;
 import com.softark.eddie.gasexpress.GERegisterActivity;
 import com.softark.eddie.gasexpress.GasExpress;
 import com.softark.eddie.gasexpress.R;
@@ -45,6 +50,57 @@ public class UserData {
         preference = new GEPreference(context);
     }
 
+    public void validateUser(final ProgressDialog dialog, final View view) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.VALIDATE_USER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.equals("E")) {
+                            dialog.dismiss();
+                            Intent intent = new Intent(context, GasExpress.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        }else {
+                            dialog.dismiss();
+                            preference.unsetUser();
+                            final Snackbar snackbar = Snackbar.make(view, "Account not found in our servers.", Snackbar.LENGTH_INDEFINITE);
+                            snackbar.setAction("Dismiss", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    snackbar.dismiss();
+                                }
+                            });
+                            snackbar.setActionTextColor(context.getResources().getColor(R.color.colorRedAccent));
+                            snackbar.show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String message = "";
+                        if(error instanceof TimeoutError || error instanceof NetworkError) {
+                            message = "Server took long to respond. Please try again.";
+                        }else if(error instanceof ServerError) {
+                            message = "Server experienced internal error. Please try again later.";
+                        }else if (error instanceof NetworkError) {
+                            message = "Network error. Please try again later.";
+                        }
+                        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("user", preference.getUser().get(GEPreference.USER_ID));
+                return params;
+            }
+        };
+        singleton.addToRequestQueue(stringRequest);
+    }
+
     public void authUser(final TextView phoneTextView, final ProgressDialog dialog, final String phone) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.AUTH_USER,
@@ -54,13 +110,13 @@ public class UserData {
                         Log.i("USER", response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            if(jsonObject.getString("status").equals("E")) {
-                                preference.setOrderKey(jsonObject.getString("order_key"));
-                                dialog.dismiss();
-                            }
+                            dialog.dismiss();
                             processResults(jsonObject, phone);
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            dialog.dismiss();
+                            Snackbar snackbar = Snackbar.make(phoneTextView, "Error occurred. Try again", Snackbar.LENGTH_LONG);
+                            snackbar.show();
                         }
                     }
                 },
@@ -70,7 +126,13 @@ public class UserData {
                         error.printStackTrace();
                         dialog.dismiss();
                         String message = "";
-                        message = "Something went wrong. Please try again.";
+                        if(error instanceof TimeoutError || error instanceof NetworkError) {
+                            message = "Server took long to respond. Please try again.";
+                        }else if(error instanceof ServerError) {
+                            message = "Server experienced internal error. Please try again later.";
+                        }else if (error instanceof NetworkError) {
+                            message = "Network error. Please try again later.";
+                        }
                         Snackbar snackbar = Snackbar.make(phoneTextView, message, Snackbar.LENGTH_LONG);
                         snackbar.show();
                     }

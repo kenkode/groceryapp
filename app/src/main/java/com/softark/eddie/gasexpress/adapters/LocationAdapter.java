@@ -1,5 +1,6 @@
 package com.softark.eddie.gasexpress.adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -57,10 +58,25 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         holder.closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                locationArrayAdapter.remove(position);
-                data.disableLocation(location.getId());
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, locationArrayAdapter.size());
+                final Dialog dialog = new Dialog(context);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.remove_location_dialog);
+                dialog.findViewById(R.id.yes).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        locationArrayAdapter.remove(position);
+                        data.disableLocation(location.getId());
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, locationArrayAdapter.size());
+                    }
+                });
+                dialog.findViewById(R.id.no).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
             }
         });
     }

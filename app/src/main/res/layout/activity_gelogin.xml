@@ -25,7 +25,8 @@
         android:layout_below="@+id/ge_login_logo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="Delivering for the future" />
+        android:textColor="@color/colorPrimary"
+        android:text="Please provide your phone number" />
 
     <EditText
         android:id="@+id/login_customer_phone"
@@ -35,7 +36,7 @@
         android:layout_marginTop="32sp"
         android:background="@drawable/edittext_wrapper"
         android:gravity="center"
-        android:hint="Enter your phone number"
+        android:hint="Example 0712345678"
         android:inputType="number"
         android:theme="@style/EditTextStyle" />
 
@@ -43,11 +44,26 @@
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:layout_marginRight="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/login_customer_phone"
+        android:layout_marginBottom="4dp"
+        android:tint="@android:color/white"
         app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/arrow_forward" />
+
+    <TextView
+        android:id="@+id/welcome_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="16dp"
+        android:text="Welcome to Gas Express" />
 
 
 </RelativeLayout>

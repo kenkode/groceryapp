@@ -46,4 +46,6 @@ public class Constants {
 
     public static final String ADD_USER = MAIN_URL + "add_user";
 
+    public static final String VALIDATE_USER = MAIN_URL + "validate_user";
+
 }
