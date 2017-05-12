@@ -29,11 +29,10 @@ public class AccessoryData {
             accessory.setId(acc.getId());
             accessory.setQuantity(acc.getQuantity());
             accessory.setName(acc.getName());
-            accessory.setPrice(2000);
+            accessory.setPrice(acc.getPrice());
             accessory.setStatus(0);
             accessories.add(accessory);
         }
-
         return accessories;
     }
 

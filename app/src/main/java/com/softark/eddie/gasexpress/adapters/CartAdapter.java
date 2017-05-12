@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,10 +29,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private Context context;
     private ArrayList<Gas> items;
     private LayoutInflater inflater;
+    private TextView totalPrice;
 
-    public CartAdapter(Context context, ArrayList<Gas> items) {
+    public CartAdapter(Context context, ArrayList<Gas> items, TextView totalPrice) {
         this.context = context;
         this.items = items;
+        this.totalPrice = totalPrice;
         inflater = LayoutInflater.from(context);
     }
 
@@ -52,36 +55,50 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final CartAdapter.ViewHolder holder, int position) {
-        final Gas item = items.get(position);
+    public void onBindViewHolder(CartAdapter.ViewHolder holder, int position) {
+        Gas item = items.get(position);
         holder.name.setText(item.getName());
         holder.price.setText(String.valueOf(item.getPrice()));
-        holder.quantity.setText(String.valueOf(item.getQuantity()));
-        holder.remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                item.decQuantity();
-                Cart.removeGas(item);
-                holder.quantity.setText(String.valueOf(item.getQuantity()));
-                if(item.getQuantity() <= 0) {
-                    Toast.makeText(context, item.getName().concat(" removed from cart"), Toast.LENGTH_LONG).show();
-                    notifyItemRemoved(holder.getAdapterPosition());
-                    notifyDataSetChanged();
-                }
-            }
-        });
+        holder.quantitySelect.setValue(item.getQuantity());
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, price, quantity;
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public TextView name, price;
         public ImageButton remove;
+        public NumberPicker quantitySelect;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.cart_item_name);
             price = (TextView) itemView.findViewById(R.id.cart_item_price);
-            quantity = (TextView) itemView.findViewById(R.id.item_quantity);
             remove = (ImageButton) itemView.findViewById(R.id.remove_from_cart);
+            remove.setOnClickListener(this);
+            quantitySelect = (NumberPicker) itemView.findViewById(R.id.quantity_select);
+            quantitySelect.setMinValue(1);
+            quantitySelect.setMaxValue(100);
+            quantitySelect.setWrapSelectorWheel(false);
+            quantitySelect.setOnScrollListener(new NumberPicker.OnScrollListener() {
+                @Override
+                public void onScrollStateChange(NumberPicker view, int scrollState) {
+                    if(scrollState == SCROLL_STATE_IDLE) {
+                        Gas gas = items.get(getAdapterPosition());
+                        Cart.updateCartItem(gas, Cart.GASES, view.getValue());
+                        gas.setQuantity(view.getValue());
+                        totalPrice.setText(String.valueOf(Cart.totalPrice));
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void onClick(View v) {
+            Gas gas= items.get(getAdapterPosition());
+            Cart.removeGas(gas);
+            totalPrice.setText(String.valueOf(Cart.totalPrice));
+            items.remove(getAdapterPosition());
+            notifyItemRemoved(getAdapterPosition());
+            notifyItemRangeChanged(getAdapterPosition(), items.size());
+            notifyDataSetChanged();
         }
     }
 

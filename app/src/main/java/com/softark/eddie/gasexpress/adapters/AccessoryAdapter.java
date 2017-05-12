@@ -55,7 +55,6 @@ public class AccessoryAdapter extends RecyclerView.Adapter<AccessoryAdapter.View
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, accessory.getName().concat(" added to cart"), Toast.LENGTH_LONG).show();
                 Cart.getInstance().addProduct(accessory);
 
             }

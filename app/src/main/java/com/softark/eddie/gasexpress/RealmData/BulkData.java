@@ -1,5 +1,7 @@
 package com.softark.eddie.gasexpress.RealmData;
 
+import android.util.Log;
+
 import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.helpers.OrderKey;
 import com.softark.eddie.gasexpress.models.Accessory;
@@ -30,7 +32,7 @@ public class BulkData {
             bulkGas.setId(item.getId());
             bulkGas.setQuantity(item.getQuantity());
             bulkGas.setName("Bulk");
-            bulkGas.setPrice(2000);
+            bulkGas.setPrice(item.getPrice());
             bulkGas.setStatus(0);
             bulkGases.add(bulkGas);
         }

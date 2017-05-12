@@ -29,7 +29,7 @@ public class ServiceData {
         for (CartItem item: cartItems) {
             Service service = new Service();
             service.setId(item.getId());
-            service.setName("Bulk");
+            service.setName(item.getName());
             service.setStatus(0);
             services.add(service);
         }

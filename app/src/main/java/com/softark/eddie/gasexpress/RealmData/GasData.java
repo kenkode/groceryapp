@@ -40,7 +40,7 @@ public class GasData {
             gas.setName("Gas");
             gas.setQuantity(item.getQuantity());
             gas.setSize(4);
-            gas.setPrice(4500);
+            gas.setPrice(item.getPrice());
             gases.add(gas);
         }
         return gases;

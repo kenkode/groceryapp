@@ -1,11 +1,18 @@
 package com.softark.eddie.gasexpress.data;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
@@ -40,7 +47,7 @@ public class AccessoryServiceData {
         preference = new GEPreference(context);
     }
 
-    public void getAccService(final RecyclerView accessoriesRv, final RecyclerView servicesRv) {
+    public void getAccService(final RecyclerView accessoriesRv, final RecyclerView servicesRv, final LinearLayout errorLayout, final ProgressBar progressBar) {
 
         final ArrayList<Accessory> accessories = new ArrayList<>();
         final ArrayList<Service> services = new ArrayList<>();
@@ -53,6 +60,13 @@ public class AccessoryServiceData {
                             JSONObject products = new JSONObject(response);
                             JSONArray accessoriesArray = products.getJSONArray("accessories");
                             JSONArray servicesArray = products.getJSONArray("services");
+
+                            if(accessoriesArray.length() > 0 || servicesArray.length() > 0) {
+                                errorLayout.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.GONE);
+                            }else {
+                                errorLayout.setVisibility(View.VISIBLE);
+                            }
 
                             for (int i = 0; i < accessoriesArray.length(); i++) {
                                 JSONObject accessoryObject = accessoriesArray.getJSONObject(i);
@@ -83,8 +97,28 @@ public class AccessoryServiceData {
                 },
                 new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-
+                    public void onErrorResponse(final VolleyError error) {
+                        String message = "";
+                        if(error instanceof TimeoutError || error instanceof NetworkError) {
+                            message = "Server took long to respond. Please try again later.";
+                        }else if(error instanceof ServerError) {
+                            message = "Server experienced internal error. Please try again later.";
+                        }else if (error instanceof NetworkError) {
+                            message = "Network error. Please try again later.";
+                        }
+                        progressBar.setVisibility(View.GONE);
+                        errorLayout.setVisibility(View.VISIBLE);
+                        final Snackbar snackbar = Snackbar.make(errorLayout, message, Snackbar.LENGTH_INDEFINITE);
+                        snackbar.setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                snackbar.dismiss();
+                                errorLayout.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.VISIBLE);
+                                getAccService(accessoriesRv, servicesRv, errorLayout, progressBar);
+                            }
+                        });
+                        snackbar.show();
                     }
                 })
         {

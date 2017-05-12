@@ -64,9 +64,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
                 dialog.findViewById(R.id.yes).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        locationArrayAdapter.remove(position);
                         data.disableLocation(location.getId(), holder.closeButton);
                         if(locationArrayAdapter.size() > 1) {
+                            locationArrayAdapter.remove(position);
                             notifyItemRemoved(position);
                             notifyItemRangeChanged(position, locationArrayAdapter.size());
                         }

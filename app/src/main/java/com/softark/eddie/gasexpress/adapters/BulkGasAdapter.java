@@ -50,8 +50,8 @@ public class BulkGasAdapter extends RecyclerView.Adapter<BulkGasAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(BulkGasAdapter.ViewHolder holder, final int position) {
-        final BulkGas gas = gases.get(position);
+    public void onBindViewHolder(final BulkGasAdapter.ViewHolder holder, int position) {
+        BulkGas gas = gases.get(position);
         String metric;
         if(gas.getMetric() == 1) {
             metric = "Kg";
@@ -64,7 +64,7 @@ public class BulkGasAdapter extends RecyclerView.Adapter<BulkGasAdapter.ViewHold
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Cart.getInstance().addBulkGas(gas);
+                Cart.getInstance().addBulkGas(gases.get(holder.getAdapterPosition()));
                 Toast.makeText(context, name.concat(" added to cart"), Toast.LENGTH_LONG).show();
             }
         });

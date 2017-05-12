@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.GELocation;
+import com.softark.eddie.gasexpress.GasExpress;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.adapters.HistoryAdapter;
 import com.softark.eddie.gasexpress.helpers.Cart;
@@ -73,6 +74,9 @@ public class OrderData {
                     @Override
                     public void onResponse(String response) {
                         Cart.clearCart();
+                        Intent intent = new Intent(context, GasExpress.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
                     }
                 },
                 new Response.ErrorListener() {

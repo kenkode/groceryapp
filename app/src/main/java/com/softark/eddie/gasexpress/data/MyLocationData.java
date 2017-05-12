@@ -3,6 +3,7 @@ package com.softark.eddie.gasexpress.data;
 import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -195,7 +196,7 @@ public class MyLocationData {
                     public void onErrorResponse(VolleyError error) {
                         String message = "";
                         if(error instanceof TimeoutError || error instanceof NetworkError) {
-                            message = "No internet connection. Please try again later.";
+                            message = "Error connecting to the internet. Please try again later.";
                         }else if(error instanceof ServerError) {
                             message = "Server experienced internal error. Please try again later.";
                         }else if (error instanceof NetworkError) {

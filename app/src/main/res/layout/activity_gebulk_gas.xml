@@ -15,4 +15,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:id="@+id/error_layout_bulk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/error_image"
+            android:layout_width="101.8dp"
+            android:layout_height="99.4dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/distributor"
+            android:tint="@color/colorRedAccent" />
+
+        <TextView
+            android:id="@+id/error_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="No data"
+            android:textColor="@color/colorRedAccent" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/load_bulk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true" />
+
 </RelativeLayout>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +25,13 @@ public class CartAccessoryAdapter extends RecyclerView.Adapter<CartAccessoryAdap
     private Context context;
     private ArrayList<Accessory> items;
     private LayoutInflater inflater;
+    private TextView totalPrice;
 
-    public CartAccessoryAdapter(Context context, ArrayList<Accessory> accessories) {
+    public CartAccessoryAdapter(Context context, ArrayList<Accessory> accessories, TextView totalPrice) {
         this.context = context;
         this.items = accessories;
         inflater = LayoutInflater.from(context);
+        this.totalPrice = totalPrice;
     }
 
     @Override
@@ -48,37 +51,50 @@ public class CartAccessoryAdapter extends RecyclerView.Adapter<CartAccessoryAdap
     }
 
     @Override
-    public void onBindViewHolder(final CartAccessoryAdapter.ViewHolder holder, int position) {
-        final Accessory item = items.get(position);
+    public void onBindViewHolder(CartAccessoryAdapter.ViewHolder holder, int position) {
+        Accessory item = items.get(position);
         holder.name.setText(item.getName());
         holder.price.setText(String.valueOf(item.getPrice()));
-        holder.quantity.setText(String.valueOf(String.valueOf(item.getQuantity())));
-        holder.remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                item.decQuantity();
-                Cart.removeProduct(item);
-                holder.quantity.setText(String.valueOf(item.getQuantity()));
-                if(item.getQuantity() <= 0) {
-                    notifyItemRemoved(holder.getAdapterPosition());
-                    notifyDataSetChanged();
-                    Toast.makeText(context, item.getName().concat(" removed"), Toast.LENGTH_LONG).show();
-                }
-
-            }
-        });
+        holder.quantitySelect.setValue(item.getQuantity());
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView name, price, quantity;
         public ImageButton remove;
+        public NumberPicker quantitySelect;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.cart_item_name);
             price = (TextView) itemView.findViewById(R.id.cart_item_price);
-            quantity = (TextView) itemView.findViewById(R.id.item_quantity);
             remove = (ImageButton) itemView.findViewById(R.id.remove_from_cart);
+            remove.setOnClickListener(this);
+            quantitySelect = (NumberPicker) itemView.findViewById(R.id.quantity_select);
+            quantitySelect.setMinValue(1);
+            quantitySelect.setMaxValue(100);
+            quantitySelect.setWrapSelectorWheel(false);
+            quantitySelect.setOnScrollListener(new NumberPicker.OnScrollListener() {
+                @Override
+                public void onScrollStateChange(NumberPicker view, int scrollState) {
+                    if(scrollState == SCROLL_STATE_IDLE) {
+                        Accessory accessory = items.get(getAdapterPosition());
+                        Cart.updateCartItem(accessory, Cart.ACCESSORIES, view.getValue());
+                        accessory.setQuantity(view.getValue());
+                        totalPrice.setText(String.valueOf(Cart.totalPrice));
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void onClick(View v) {
+            Accessory accessory = items.get(getAdapterPosition());
+            Cart.removeProduct(accessory);
+            totalPrice.setText(String.valueOf(Cart.totalPrice));
+            items.remove(getAdapterPosition());
+            notifyItemRemoved(getAdapterPosition());
+            notifyItemRangeChanged(getAdapterPosition(), items.size());
+            notifyDataSetChanged();
         }
     }
 }

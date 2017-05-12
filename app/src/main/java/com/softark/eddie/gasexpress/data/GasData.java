@@ -55,7 +55,11 @@ public class GasData {
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonArray = new JSONArray(response);
-                            errorLinear.setVisibility(View.GONE);
+                            if(jsonArray.length() <= 0) {
+                                errorLinear.setVisibility(View.VISIBLE);
+                            }else {
+                                errorLinear.setVisibility(View.GONE);
+                            }
                             loadPrice.setVisibility(View.GONE);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.getJSONObject(i);

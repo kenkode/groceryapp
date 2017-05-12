@@ -34,7 +34,10 @@ import com.softark.eddie.gasexpress.data.OrderData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
 import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.helpers.Checkout;
+import com.softark.eddie.gasexpress.helpers.OrderKey;
 import com.softark.eddie.gasexpress.models.CartItem;
+import com.softark.eddie.gasexpress.models.Order;
+import com.softark.eddie.gasexpress.models.OrderPrice;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -53,40 +56,55 @@ public class GECartActivity extends AppCompatActivity {
     private AccessoryData accessoryData;
     private BulkData bulkData;
     private LinearLayout emptyCartLayout;
+    private TextView totalPrice;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+        realm = Realm.getDefaultInstance();
+
+        totalPrice = (TextView) findViewById(R.id.total_price);
+        OrderPrice price = realm.where(OrderPrice.class)
+                .equalTo("id", OrderKey.orderKey).findFirst();
+        if(price != null) {
+            totalPrice.setText(String.valueOf(price.getPrice()));
+            Cart.totalPrice = price.getPrice();
+        }else {
+            totalPrice.setText(String.valueOf(Cart.totalPrice));
+        }
 
         gasData = new GasData(this);
         serviceData = new ServiceData();
         accessoryData = new AccessoryData();
         bulkData = new BulkData();
 
-        adapter = new CartAdapter(this, gasData.getGases());
+        adapter = new CartAdapter(this, gasData.getGases(), totalPrice);
         serviceAdapter = new CartServiceAdapter(this, serviceData.getServices());
-        accessoryAdapter = new CartAccessoryAdapter(this, accessoryData.getAccessories());
-        bulkGasAdapter = new CartBulkGasAdapter(this, bulkData.getBulkGases());
+        accessoryAdapter = new CartAccessoryAdapter(this, accessoryData.getAccessories(), totalPrice);
+        bulkGasAdapter = new CartBulkGasAdapter(this, bulkData.getBulkGases(), totalPrice);
 
         emptyCartLayout = (LinearLayout) findViewById(R.id.empty_cart_layout);
-
-        Realm realm = Realm.getDefaultInstance();
+        clearCart = (Button) findViewById(R.id.clear_cart);
+        checkout = (Button) findViewById(R.id.check_out);
 
         RealmResults<CartItem> cartItems = realm.where(CartItem.class)
                 .equalTo("status", 0)
                 .findAll();
 
         if(!cartItems.isEmpty()) {
+            checkout.setEnabled(true);
+            clearCart.setEnabled(true);
             emptyCartLayout.setVisibility(View.GONE);
         }else {
             emptyCartLayout.setVisibility(View.VISIBLE);
+            checkout.setEnabled(false);
+            clearCart.setEnabled(false);
         }
 
         RecyclerDecorator decorator = new RecyclerDecorator(this, 1, 4, true);
 
-        clearCart = (Button) findViewById(R.id.clear_cart);
-        checkout = (Button) findViewById(R.id.check_out);
         shoppingList = (RecyclerView) findViewById(R.id.shopping_list);
         shoppingList.addItemDecoration(decorator);
         shoppingList.setAdapter(adapter);
@@ -142,7 +160,7 @@ public class GECartActivity extends AppCompatActivity {
                 final Spinner spinner = (Spinner) dialog.findViewById(R.id.location_spinner);
                 MyLocationData myLocationData = new MyLocationData(GECartActivity.this);
                 myLocationData.getLocation(null, spinner, null, null);
-                total.setText(String.valueOf(Cart.getTotalPrice()));
+                total.setText(String.valueOf(realm.where(OrderPrice.class).equalTo("id", OrderKey.orderKey).findFirst().getPrice()));
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

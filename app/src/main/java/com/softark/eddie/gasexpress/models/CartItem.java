@@ -31,6 +31,16 @@ public class CartItem extends RealmObject {
     private int type;
     @Expose
     private int status;
+    @Expose
+    private double price;
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     public String getName() {
         return name;

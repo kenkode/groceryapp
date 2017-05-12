@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.softark.eddie.gasexpress.R;
@@ -53,25 +54,30 @@ public class CartServiceAdapter extends RecyclerView.Adapter<CartServiceAdapter.
         final int refPosition = position;
         holder.name.setText(service.getName());
         holder.price.setText(service.getName());
-        holder.remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Cart.removeService(service);
-                notifyItemRemoved(refPosition);
-                notifyDataSetChanged();
-            }
-        });
+
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView name, price;
         public ImageButton remove;
+        public NumberPicker numberPicker;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.cart_item_name);
             price = (TextView) itemView.findViewById(R.id.cart_item_price);
             remove = (ImageButton) itemView.findViewById(R.id.remove_from_cart);
+            remove.setOnClickListener(this);
+            numberPicker = (NumberPicker) itemView.findViewById(R.id.quantity_select);
+            numberPicker.setEnabled(false);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Cart.removeService(items.get(getAdapterPosition()));
+            items.remove(getAdapterPosition());
+            notifyItemRemoved(getAdapterPosition());
+            notifyDataSetChanged();
         }
     }
 
