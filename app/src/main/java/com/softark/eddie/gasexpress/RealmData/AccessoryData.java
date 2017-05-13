@@ -1,7 +1,6 @@
 package com.softark.eddie.gasexpress.RealmData;
 
 import com.softark.eddie.gasexpress.helpers.Cart;
-import com.softark.eddie.gasexpress.helpers.OrderKey;
 import com.softark.eddie.gasexpress.models.Accessory;
 import com.softark.eddie.gasexpress.models.CartItem;
 
@@ -16,7 +15,7 @@ import io.realm.RealmResults;
 
 public class AccessoryData {
 
-    private ArrayList<Accessory> accessories = new ArrayList<>();
+    private final ArrayList<Accessory> accessories = new ArrayList<>();
 
     public ArrayList<Accessory> getAccessories() {
         Realm realm = Realm.getDefaultInstance();

@@ -16,25 +16,16 @@ import com.softark.eddie.gasexpress.models.Gas;
 
 import java.util.ArrayList;
 
-/**
- * Created by Eddie on 4/16/2017.
- */
-
 public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.ViewHolder> {
 
-    private ArrayList<Gas> sizes;
-    private Context context;
-    private LayoutInflater inflater;
+    private final ArrayList<Gas> sizes;
+    private final Context context;
+    private final LayoutInflater inflater;
 
     public DistributorAdapter(ArrayList<Gas> sizes, Context context) {
         this.sizes = sizes;
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return super.getItemId(position);
     }
 
     @Override
@@ -67,9 +58,9 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView distributorName;
-        public View view;
-        public ImageButton moreInfo;
+        public final TextView distributorName;
+        public final View view;
+        public final ImageButton moreInfo;
 
         public ViewHolder(View itemView) {
             super(itemView);

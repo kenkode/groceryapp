@@ -12,15 +12,11 @@ import com.softark.eddie.gasexpress.models.OrderHistory;
 
 import java.util.ArrayList;
 
-/**
- * Created by Eddie on 4/17/2017.
- */
-
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
-    private Context context;
-    private ArrayList<OrderHistory> orderHistory;
-    private LayoutInflater inflater;
+    private final Context context;
+    private final ArrayList<OrderHistory> orderHistory;
+    private final LayoutInflater inflater;
 
     public HistoryAdapter(Context context, ArrayList<OrderHistory> orderHistory) {
         this.context = context;
@@ -50,7 +46,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView orderId, price, date;
+        public final TextView orderId;
+        public final TextView price;
+        public final TextView date;
 
         public ViewHolder(View itemView) {
             super(itemView);

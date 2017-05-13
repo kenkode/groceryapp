@@ -19,9 +19,11 @@
             android:id="@+id/clear_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/white"
             android:drawableLeft="@drawable/remove_shopping_cart"
+            android:drawableTint="@color/colorRedAccent"
             android:text="Clear Cart"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorRedAccent" />
 
         <Button
             android:id="@+id/check_out"
@@ -29,9 +31,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:drawableLeft="@drawable/check"
+            android:backgroundTint="@color/colorPrimary"
+            android:drawableEnd="@drawable/arrow_forward"
+            android:drawablePadding="4dp"
+            android:drawableRight="@drawable/arrow_forward"
+            android:drawableTint="@android:color/white"
             android:text="Check Out"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/total_price"

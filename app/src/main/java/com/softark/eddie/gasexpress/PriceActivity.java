@@ -4,12 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.softark.eddie.gasexpress.data.GasData;
 
@@ -32,7 +29,9 @@ public class PriceActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int size = intent.getIntExtra(Constants.SIZE, 0);
 
-        getSupportActionBar().setTitle(size + " Kg");
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(size + " Kg");
+        }
 
         listView = (ListView) findViewById(R.id.price_list);
         gas = new GasData(this);

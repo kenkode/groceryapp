@@ -2,10 +2,6 @@ package com.softark.eddie.gasexpress.models;
 
 import io.realm.RealmObject;
 
-/**
- * Created by Eddie on 5/12/2017.
- */
-
 public class OrderPrice extends RealmObject {
 
     private String id;

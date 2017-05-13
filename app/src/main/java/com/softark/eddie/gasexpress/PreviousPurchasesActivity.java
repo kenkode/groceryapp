@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.widget.LinearLayout;
 
-import com.softark.eddie.gasexpress.adapters.HistoryAdapter;
-import com.softark.eddie.gasexpress.data.History;
 import com.softark.eddie.gasexpress.data.OrderData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
 

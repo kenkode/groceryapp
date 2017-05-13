@@ -3,10 +3,6 @@ package com.softark.eddie.gasexpress.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by Eddie on 4/30/2017.
- */
-
 public class Location implements Parcelable {
 
     private String id;
@@ -83,7 +79,7 @@ public class Location implements Parcelable {
     public Location() {
     }
 
-    protected Location(Parcel in) {
+    private Location(Parcel in) {
         this.id = in.readString();
         this.lng = in.readDouble();
         this.lat = in.readDouble();

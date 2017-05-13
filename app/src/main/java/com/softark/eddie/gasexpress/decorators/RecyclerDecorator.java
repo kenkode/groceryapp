@@ -7,16 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 
-/**
- * Created by Eddie on 4/16/2017.
- */
-
 public class RecyclerDecorator extends RecyclerView.ItemDecoration {
 
-    private int spanCount;
-    private int spacing;
-    private boolean includeEdge;
-    private Context context;
+    private final int spanCount;
+    private final int spacing;
+    private final boolean includeEdge;
+    private final Context context;
 
     public RecyclerDecorator(Context context, int spanCount, int spacing, boolean includeEdge) {
         this.context = context;
@@ -47,7 +43,7 @@ public class RecyclerDecorator extends RecyclerView.ItemDecoration {
         }
     }
 
-    public int dpToPx(int dp) {
+    private int dpToPx(int dp) {
         Resources r = context.getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }

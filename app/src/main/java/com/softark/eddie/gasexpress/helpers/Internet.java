@@ -8,10 +8,6 @@ import android.net.NetworkInfo;
 
 import com.softark.eddie.gasexpress.core.ApplicationConfiguration;
 
-/**
- * Created by Eddie on 5/10/2017.
- */
-
 public class Internet extends BroadcastReceiver {
 
     public static ConnectivityReceiverListener connectivityReceiverListener;

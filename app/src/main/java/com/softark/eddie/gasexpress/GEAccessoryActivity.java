@@ -8,10 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.softark.eddie.gasexpress.adapters.AccessoryAdapter;
-import com.softark.eddie.gasexpress.adapters.ServiceAdapter;
 import com.softark.eddie.gasexpress.data.AccessoryServiceData;
-import com.softark.eddie.gasexpress.data.ServiceData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
 
 public class GEAccessoryActivity extends AppCompatActivity {

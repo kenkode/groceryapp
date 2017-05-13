@@ -1,15 +1,7 @@
 package com.softark.eddie.gasexpress.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
-
-/**
- * Created by Eddie on 4/30/2017.
- */
 
 public class Gas extends RealmObject {
     @PrimaryKey

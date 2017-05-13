@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.helpers.Cart;
@@ -16,16 +15,12 @@ import com.softark.eddie.gasexpress.models.Accessory;
 
 import java.util.ArrayList;
 
-/**
- * Created by Eddie on 5/5/2017.
- */
-
 public class CartAccessoryAdapter extends RecyclerView.Adapter<CartAccessoryAdapter.ViewHolder> {
 
-    private Context context;
-    private ArrayList<Accessory> items;
-    private LayoutInflater inflater;
-    private TextView totalPrice;
+    private final Context context;
+    private final ArrayList<Accessory> items;
+    private final LayoutInflater inflater;
+    private final TextView totalPrice;
 
     public CartAccessoryAdapter(Context context, ArrayList<Accessory> accessories, TextView totalPrice) {
         this.context = context;
@@ -37,11 +32,6 @@ public class CartAccessoryAdapter extends RecyclerView.Adapter<CartAccessoryAdap
     @Override
     public int getItemCount() {
         return items.size();
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return super.getItemId(position);
     }
 
     @Override
@@ -59,9 +49,10 @@ public class CartAccessoryAdapter extends RecyclerView.Adapter<CartAccessoryAdap
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView name, price, quantity;
-        public ImageButton remove;
-        public NumberPicker quantitySelect;
+        public final TextView name;
+        public final TextView price;
+        public final ImageButton remove;
+        public final NumberPicker quantitySelect;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -37,9 +37,9 @@ import java.util.Map;
 
 public class AccessoryServiceData {
 
-    private Context context;
-    private RequestSingleton singleton;
-    private GEPreference preference;
+    private final Context context;
+    private final RequestSingleton singleton;
+    private final GEPreference preference;
 
     public AccessoryServiceData(Context context) {
         this.context = context;
@@ -103,8 +103,6 @@ public class AccessoryServiceData {
                             message = "Server took long to respond. Please try again later.";
                         }else if(error instanceof ServerError) {
                             message = "Server experienced internal error. Please try again later.";
-                        }else if (error instanceof NetworkError) {
-                            message = "Network error. Please try again later.";
                         }
                         progressBar.setVisibility(View.GONE);
                         errorLayout.setVisibility(View.VISIBLE);

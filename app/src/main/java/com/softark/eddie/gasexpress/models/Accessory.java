@@ -3,10 +3,6 @@ package com.softark.eddie.gasexpress.models;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-/**
- * Created by Eddie on 5/3/2017.
- */
-
 public class Accessory extends RealmObject {
 
     @PrimaryKey

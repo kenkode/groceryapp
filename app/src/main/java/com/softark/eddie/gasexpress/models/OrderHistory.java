@@ -1,9 +1,5 @@
 package com.softark.eddie.gasexpress.models;
 
-/**
- * Created by Eddie on 4/30/2017.
- */
-
 public class OrderHistory {
 
     private String id;

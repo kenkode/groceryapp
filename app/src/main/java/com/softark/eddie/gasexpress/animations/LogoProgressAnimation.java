@@ -4,19 +4,16 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.ProgressBar;
 
-/**
- * Created by Eddie on 4/16/2017.
- */
-
 public class LogoProgressAnimation extends Animation {
 
-    private ProgressBar progressBar;
-    float from, to;
+    private final ProgressBar progressBar;
+    private final float from;
+    private final float to;
 
-    public LogoProgressAnimation(ProgressBar progressBar, float from, float to) {
+    public LogoProgressAnimation(ProgressBar progressBar) {
         this.progressBar = progressBar;
-        this.from = from;
-        this.to = to;
+        this.from = (float) 0;
+        this.to = (float) 100;
     }
 
     @Override

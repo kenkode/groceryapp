@@ -1,18 +1,11 @@
 package com.softark.eddie.gasexpress;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -23,20 +16,16 @@ import com.softark.eddie.gasexpress.RealmData.AccessoryData;
 import com.softark.eddie.gasexpress.RealmData.BulkData;
 import com.softark.eddie.gasexpress.RealmData.GasData;
 import com.softark.eddie.gasexpress.RealmData.ServiceData;
-import com.softark.eddie.gasexpress.adapters.BulkGasAdapter;
 import com.softark.eddie.gasexpress.adapters.CartAccessoryAdapter;
 import com.softark.eddie.gasexpress.adapters.CartAdapter;
 import com.softark.eddie.gasexpress.adapters.CartBulkGasAdapter;
 import com.softark.eddie.gasexpress.adapters.CartServiceAdapter;
-import com.softark.eddie.gasexpress.data.CartData;
 import com.softark.eddie.gasexpress.data.MyLocationData;
-import com.softark.eddie.gasexpress.data.OrderData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
 import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.helpers.Checkout;
 import com.softark.eddie.gasexpress.helpers.OrderKey;
 import com.softark.eddie.gasexpress.models.CartItem;
-import com.softark.eddie.gasexpress.models.Order;
 import com.softark.eddie.gasexpress.models.OrderPrice;
 
 import io.realm.Realm;
@@ -45,7 +34,6 @@ import io.realm.RealmResults;
 public class GECartActivity extends AppCompatActivity {
 
     private RecyclerView shoppingList, accessoryList, serviceList, bulkGasList;
-    private CartData cartData;
     private CartAdapter adapter;
     private CartServiceAdapter serviceAdapter;
     private CartAccessoryAdapter accessoryAdapter;

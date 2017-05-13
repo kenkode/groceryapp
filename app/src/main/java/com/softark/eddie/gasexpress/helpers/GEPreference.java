@@ -6,23 +6,19 @@ import android.content.SharedPreferences;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Eddie on 4/16/2017.
- */
-
 public class GEPreference {
 
-    public static final String USER_EMAIL = "user_email";
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
-    private Context context;
-    public static final String PREFERENCES = "ge_prefs";
-    public static final String SPLASH_SHOWN = "splash_shown";
+    private static final String USER_EMAIL = "user_email";
+    private final SharedPreferences sharedPreferences;
+    private final SharedPreferences.Editor editor;
+    private final Context context;
+    private static final String PREFERENCES = "ge_prefs";
+    private static final String SPLASH_SHOWN = "splash_shown";
     public static final String USER_ID = "user_id";
     public static final String USER_PHONE= "user_phone";
-    public static final String USER_LOGGED = "user_logged";
+    private static final String USER_LOGGED = "user_logged";
     public static final String USER_NAME = "user_name";
-    public static final String ORDER_KEY = "order_key";
+    private static final String ORDER_KEY = "order_key";
 
     public GEPreference(Context context) {
         this.context = context;

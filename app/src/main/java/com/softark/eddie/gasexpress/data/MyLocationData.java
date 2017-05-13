@@ -3,7 +3,6 @@ package com.softark.eddie.gasexpress.data;
 import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,15 +36,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Eddie on 4/30/2017.
- */
-
 public class MyLocationData {
 
-    private Context context;
-    private RequestSingleton singleton;
-    private GEPreference preference;
+    private final Context context;
+    private final RequestSingleton singleton;
+    private final GEPreference preference;
 
     public MyLocationData(Context context) {
         this.context = context;
@@ -121,8 +116,6 @@ public class MyLocationData {
                             message = "No internet connection. Please try again later.";
                         }else if(error instanceof ServerError) {
                             message = "Server experienced internal error. Please try again later.";
-                        }else if (error instanceof NetworkError) {
-                            message = "Network error. Please try again later.";
                         }
                         final Snackbar snackbar = Snackbar.make(recyclerView, message, Snackbar.LENGTH_INDEFINITE);
                         snackbar.setAction("Retry", new View.OnClickListener() {
@@ -199,8 +192,6 @@ public class MyLocationData {
                             message = "Error connecting to the internet. Please try again later.";
                         }else if(error instanceof ServerError) {
                             message = "Server experienced internal error. Please try again later.";
-                        }else if (error instanceof NetworkError) {
-                            message = "Network error. Please try again later.";
                         }
                         final Snackbar snackbar = Snackbar.make(button, message, Snackbar.LENGTH_INDEFINITE);
                         snackbar.setAction("Retry", new View.OnClickListener() {

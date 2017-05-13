@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -16,16 +15,12 @@ import com.softark.eddie.gasexpress.models.Location;
 
 import java.util.ArrayList;
 
-/**
- * Created by Eddie on 4/30/2017.
- */
-
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
 
-    private ArrayList<Location> locationArrayAdapter;
-    private Context context;
-    private LayoutInflater inflater;
-    private MyLocationData data;
+    private final ArrayList<Location> locationArrayAdapter;
+    private final Context context;
+    private final LayoutInflater inflater;
+    private final MyLocationData data;
 
     public LocationAdapter(Context context, ArrayList<Location> locationArrayAdapter) {
         this.context = context;
@@ -37,11 +32,6 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     @Override
     public int getItemCount() {
         return locationArrayAdapter.size();
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return super.getItemId(position);
     }
 
     @Override
@@ -87,8 +77,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView locationName, locationDesc;
-        public ImageButton closeButton;
+        public final TextView locationName;
+        public final TextView locationDesc;
+        public final ImageButton closeButton;
 
         public ViewHolder(View itemView) {
             super(itemView);

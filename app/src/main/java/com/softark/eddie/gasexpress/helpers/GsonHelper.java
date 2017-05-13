@@ -2,16 +2,10 @@ package com.softark.eddie.gasexpress.helpers;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
-import com.softark.eddie.gasexpress.models.CartItem;
 
 import io.realm.RealmObject;
-import io.realm.RealmResults;
 
-/**
- * Created by Eddie on 5/10/2017.
- */
-
-public class GsonHelper {
+class GsonHelper {
 
     public static final class HELPER {
         private static final GsonBuilder GSON = new GsonBuilder();

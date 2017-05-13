@@ -1,9 +1,7 @@
 package com.softark.eddie.gasexpress.helpers;
 
-import android.util.Log;
-import android.widget.Toast;
-
 import com.softark.eddie.gasexpress.models.Accessory;
+import com.softark.eddie.gasexpress.models.BulkCart;
 import com.softark.eddie.gasexpress.models.BulkGas;
 import com.softark.eddie.gasexpress.models.CartItem;
 import com.softark.eddie.gasexpress.models.Gas;
@@ -12,10 +10,8 @@ import com.softark.eddie.gasexpress.models.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import io.realm.Realm;
-import io.realm.RealmObject;
 import io.realm.RealmResults;
 
 /**
@@ -47,10 +43,6 @@ public class Cart {
 
     public static Cart getInstance() {
         return Helper.CART;
-    }
-
-    public static double getTotalPrice() {
-        return totalPrice;
     }
 
     public static void addGas(Gas gas) {
@@ -101,20 +93,13 @@ public class Cart {
         removeCartItem(service, Cart.SERVICES);
     }
 
-    public List<?> getCart() {
-        List<ArrayList<?>> cart = new ArrayList<>();
-        cart.add(GASES, gases);
-        cart.add(ACCESSORIES, products);
-        cart.add(SERVICES, services);
-        cart.add(BULK_GAS, bulkGases);
-        return cart;
-    }
-
     public static void clearCart() {
         Realm realm = Realm.getDefaultInstance();
         RealmResults<CartItem> items = realm.where(CartItem.class).findAll();
+        RealmResults<BulkCart> bulkCarts = realm.where(BulkCart.class).findAll();
         realm.beginTransaction();
         items.deleteAllFromRealm();
+        bulkCarts.deleteAllFromRealm();
         realm.commitTransaction();
         totalPrice = 0.0;
         updatePrice();
@@ -197,6 +182,16 @@ public class Cart {
                     realm.copyToRealm(cartItem);
                     realm.commitTransaction();
                 }
+                if(realm.where(BulkCart.class).equalTo("id", bulkGas.getId())
+                        .findFirst() == null) {
+                    BulkCart bulkCart = new BulkCart();
+                    bulkCart.setId(bulkGas.getId());
+                    bulkCart.setMetric(bulkGas.getMetric());
+                    bulkCart.setSize(bulkGas.getSize());
+                    realm.beginTransaction();
+                    realm.copyToRealm(bulkCart);
+                    realm.commitTransaction();
+                }
                 break;
         }
         updatePrice();
@@ -261,6 +256,14 @@ public class Cart {
                     realm.commitTransaction();
                     double itemPrice = bulkGas.getPrice() * bulkGas.getQuantity();
                     totalPrice-=itemPrice;
+                }
+                if(realm.where(BulkCart.class).equalTo("id", bulkGas.getId())
+                        .findFirst() != null) {
+                    BulkCart bulkCart = realm.where(BulkCart.class)
+                            .equalTo("id", bulkGas.getId()).findFirst();
+                    realm.beginTransaction();
+                    bulkCart.deleteFromRealm();
+                    realm.commitTransaction();
                 }
                 break;
         }

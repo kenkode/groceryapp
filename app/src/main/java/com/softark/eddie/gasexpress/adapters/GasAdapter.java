@@ -1,33 +1,25 @@
 package com.softark.eddie.gasexpress.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.models.Gas;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
-/**
- * Created by Eddie on 4/16/2017.
- */
 
 public class GasAdapter extends BaseAdapter {
 
-    private ArrayList<Gas> gases;
-    private LayoutInflater inflater;
-    private Context context;
+    private final ArrayList<Gas> gases;
+    private final LayoutInflater inflater;
+    private final Context context;
 
     public GasAdapter(Context context, ArrayList<Gas> gases) {
         this.gases = gases;

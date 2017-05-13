@@ -9,25 +9,19 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.models.BulkGas;
-import com.softark.eddie.gasexpress.models.Service;
 
 import java.util.ArrayList;
 
-/**
- * Created by Eddie on 5/7/2017.
- */
-
 public class CartBulkGasAdapter extends RecyclerView.Adapter<CartBulkGasAdapter.ViewHolder> {
 
-    private Context context;
-    private ArrayList<BulkGas> items;
-    private LayoutInflater inflater;
-    private TextView totalPrice;
+    private final Context context;
+    private final ArrayList<BulkGas> items;
+    private final LayoutInflater inflater;
+    private final TextView totalPrice;
 
     public CartBulkGasAdapter(Context context, ArrayList<BulkGas> bulkGases, TextView totalPrice) {
         this.context = context;
@@ -42,11 +36,6 @@ public class CartBulkGasAdapter extends RecyclerView.Adapter<CartBulkGasAdapter.
     }
 
     @Override
-    public long getItemId(int position) {
-        return super.getItemId(position);
-    }
-
-    @Override
     public CartBulkGasAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.cart_list, null);
         return new CartBulkGasAdapter.ViewHolder(view);
@@ -56,20 +45,23 @@ public class CartBulkGasAdapter extends RecyclerView.Adapter<CartBulkGasAdapter.
     public void onBindViewHolder(CartBulkGasAdapter.ViewHolder holder, int position) {
         BulkGas bulkGas = items.get(position);
         String metric;
+        Log.i("BULK-AD", String.valueOf(bulkGas.getPrice()));
 
         if(bulkGas.getMetric() == 1) {
             metric = "Kg";
         }else {
             metric = "Tons";
         }
+        holder.price.setText(String.valueOf(bulkGas.getPrice()));
         holder.name.setText(bulkGas.getName().concat(" ").concat(String.valueOf(bulkGas.getSize())).concat(" ").concat(metric));
         holder.quantitySelect.setValue(bulkGas.getQuantity());
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView name, price;
-        public ImageButton remove;
-        public NumberPicker quantitySelect;
+        public final TextView name;
+        public final TextView price;
+        public final ImageButton remove;
+        public final NumberPicker quantitySelect;
 
         public ViewHolder(View itemView) {
             super(itemView);

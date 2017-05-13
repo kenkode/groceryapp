@@ -8,28 +8,19 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.helpers.Cart;
-import com.softark.eddie.gasexpress.models.CartItem;
 import com.softark.eddie.gasexpress.models.Gas;
 
 import java.util.ArrayList;
 
-import io.realm.Realm;
-import io.realm.RealmResults;
-
-/**
- * Created by Eddie on 5/3/2017.
- */
-
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
-    private Context context;
-    private ArrayList<Gas> items;
-    private LayoutInflater inflater;
-    private TextView totalPrice;
+    private final Context context;
+    private final ArrayList<Gas> items;
+    private final LayoutInflater inflater;
+    private final TextView totalPrice;
 
     public CartAdapter(Context context, ArrayList<Gas> items, TextView totalPrice) {
         this.context = context;
@@ -41,11 +32,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return items.size();
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return super.getItemId(position);
     }
 
     @Override
@@ -63,9 +49,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView name, price;
-        public ImageButton remove;
-        public NumberPicker quantitySelect;
+        public final TextView name;
+        public final TextView price;
+        public final ImageButton remove;
+        public final NumberPicker quantitySelect;
 
         public ViewHolder(View itemView) {
             super(itemView);

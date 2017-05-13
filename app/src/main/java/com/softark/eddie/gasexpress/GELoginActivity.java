@@ -3,16 +3,12 @@ package com.softark.eddie.gasexpress;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.PopupMenu;
-import android.telephony.PhoneNumberUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -86,13 +82,13 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         finish();
     }
 
-    public void submitDetails(String phone) {
+    private void submitDetails(String phone) {
         if(Internet.isConnected()) {
             progressDialog.setMessage("Validating...");
             progressDialog.show();
             userData.authUser(this.phone, progressDialog, phone);
         }else {
-            showSnack("No internet.Please check your connection", Snackbar.LENGTH_LONG);
+            showSnack();
         }
     }
 
@@ -101,19 +97,18 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         checkConnection(isConnected);
     }
 
-    public void checkConnection(boolean isConnected) {
+    private void checkConnection(boolean isConnected) {
         if(!isConnected) {
-            if(progressDialog.isShowing()) {
+            if (progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
-            showSnack("No internet.Please check your connection", Snackbar.LENGTH_LONG);
-        }else {
-
+            showSnack();
         }
     }
 
-    public void showSnack(String message, int length) {
-        Snackbar snackbar = Snackbar.make(phone, message, length);
+    private void showSnack() {
+        String message = "No internet.Please check your connection";
+        Snackbar snackbar = Snackbar.make(phone, message, Snackbar.LENGTH_LONG);
         snackbar.show();
     }
 
@@ -123,7 +118,7 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         ApplicationConfiguration.getInstance().setConnectivityListener(this);
     }
 
-    public void validateUser() {
+    private void validateUser() {
         if(Internet.isConnected()) {
             progressDialog.setMessage("Loading...");
             progressDialog.show();

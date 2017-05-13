@@ -3,12 +3,11 @@ package com.softark.eddie.gasexpress;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteAccessPermException;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,29 +25,16 @@ import android.widget.TextView;
 import com.softark.eddie.gasexpress.adapters.DistributorAdapter;
 import com.softark.eddie.gasexpress.data.SizeData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
-import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
-import com.softark.eddie.gasexpress.models.Accessory;
-import com.softark.eddie.gasexpress.models.CartItem;
-import com.softark.eddie.gasexpress.models.Gas;
-import com.softark.eddie.gasexpress.models.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import io.realm.RealmList;
-import io.realm.RealmResults;
-
+@SuppressWarnings("deprecation")
 public class GasExpress extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView sizeRecyclerView;
     private RecyclerDecorator recyclerDecorator;
-    private DistributorAdapter adapter;
     private SizeData sizeData;
     private GEPreference preference;
     private TextView userName, userPhone;
@@ -58,6 +44,7 @@ public class GasExpress extends AppCompatActivity
     private LinearLayout errorLayout;
     private ImageView refreshView;
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +102,7 @@ public class GasExpress extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        //noinspection deprecation
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -161,8 +149,7 @@ public class GasExpress extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.history) {
@@ -200,7 +187,7 @@ public class GasExpress extends AppCompatActivity
         return true;
     }
 
-    public void loadData() {
+    private void loadData() {
         sizeData.getSizes(errorLayout, sizeRecyclerView, sizeProgressBar);
     }
 

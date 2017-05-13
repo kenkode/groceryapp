@@ -3,11 +3,9 @@ package com.softark.eddie.gasexpress.data;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,12 +18,10 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
-import com.softark.eddie.gasexpress.GELoginActivity;
 import com.softark.eddie.gasexpress.GERegisterActivity;
 import com.softark.eddie.gasexpress.GasExpress;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
-import com.softark.eddie.gasexpress.helpers.Checkout;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.models.Location;
 
@@ -35,15 +31,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Eddie on 5/1/2017.
- */
-
 public class UserData {
 
-    private RequestSingleton singleton;
-    private Context context;
-    private GEPreference preference;
+    private final RequestSingleton singleton;
+    private final Context context;
+    private final GEPreference preference;
 
     public UserData(Context context) {
         this.context = context;
@@ -72,6 +64,7 @@ public class UserData {
                                     snackbar.dismiss();
                                 }
                             });
+                            //noinspection deprecation
                             snackbar.setActionTextColor(context.getResources().getColor(R.color.colorRedAccent));
                             snackbar.show();
                         }
@@ -86,8 +79,6 @@ public class UserData {
                             message = "Server took long to respond. Please try again later.";
                         }else if(error instanceof ServerError) {
                             message = "Server experienced internal error. Please try again later.";
-                        }else if (error instanceof NetworkError) {
-                            message = "Network error. Please try again later.";
                         }
                         button.setVisibility(View.GONE);
                         final Snackbar snackbar = Snackbar.make(button, message, Snackbar.LENGTH_INDEFINITE);
@@ -142,8 +133,6 @@ public class UserData {
                             message = "Server took long to respond. Please try again.";
                         }else if(error instanceof ServerError) {
                             message = "Server experienced internal error. Please try again later.";
-                        }else if (error instanceof NetworkError) {
-                            message = "Network error. Please try again later.";
                         }
                         Snackbar snackbar = Snackbar.make(phoneTextView, message, Snackbar.LENGTH_LONG);
                         snackbar.show();
@@ -184,8 +173,6 @@ public class UserData {
                             message = "Server took long to respond. Please try again.";
                         }else if(error instanceof ServerError) {
                             message = "Server experienced internal error. Please try again later.";
-                        }else if (error instanceof NetworkError) {
-                            message = "Network error. Please try again later.";
                         }
                         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
                         snackbar.show();
@@ -232,10 +219,6 @@ public class UserData {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public void populateDatabase() {
-
     }
 
 

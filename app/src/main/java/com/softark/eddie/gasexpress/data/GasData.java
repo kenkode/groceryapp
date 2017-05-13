@@ -3,11 +3,9 @@ package com.softark.eddie.gasexpress.data;
 import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -31,14 +29,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Eddie on 4/16/2017.
- */
-
 public class GasData {
 
-    private RequestSingleton requestSingleton;
-    private Context context;
+    private final RequestSingleton requestSingleton;
+    private final Context context;
 
     public GasData(Context context) {
         this.context = context;
@@ -87,8 +81,6 @@ public class GasData {
                             message = "Please check your connection and try again.";
                         }else if(error instanceof ServerError) {
                             message = "Server experienced internal error. Please try again later.";
-                        }else if (error instanceof NetworkError) {
-                            message = "Network error. Please try again later.";
                         }
                         errorLinear.setVisibility(View.VISIBLE);
                         loadPrice.setVisibility(View.GONE);

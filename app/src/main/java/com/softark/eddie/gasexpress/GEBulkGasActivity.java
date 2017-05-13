@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.softark.eddie.gasexpress.adapters.BulkGasAdapter;
 import com.softark.eddie.gasexpress.data.BulkGasData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
 

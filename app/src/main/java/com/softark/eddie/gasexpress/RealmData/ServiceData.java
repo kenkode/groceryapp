@@ -1,8 +1,6 @@
 package com.softark.eddie.gasexpress.RealmData;
 
 import com.softark.eddie.gasexpress.helpers.Cart;
-import com.softark.eddie.gasexpress.helpers.OrderKey;
-import com.softark.eddie.gasexpress.models.BulkGas;
 import com.softark.eddie.gasexpress.models.CartItem;
 import com.softark.eddie.gasexpress.models.Service;
 
@@ -11,14 +9,10 @@ import java.util.ArrayList;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-/**
- * Created by Eddie on 5/9/2017.
- */
-
 
 public class ServiceData {
 
-    private ArrayList<Service> services = new ArrayList<>();
+    private final ArrayList<Service> services = new ArrayList<>();
 
     public ArrayList<Service> getServices() {
         Realm realm = Realm.getDefaultInstance();

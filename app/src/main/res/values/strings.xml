@@ -1,19 +1,9 @@
 <resources>
     <string name="app_name">Gas Express</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string-array name="sizes">
-        <item>K-Gas</item>
-        <item>Hashi</item>
-        <item>National Oil</item>
-        <item>K-Gas</item>
-    </string-array>
     <string name="title_activity_georder_location">Map</string>
     <string name="title_activity_gas_express">Gas Express</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
 </resources>

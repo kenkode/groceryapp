@@ -17,13 +17,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
-import com.softark.eddie.gasexpress.adapters.AccessoryAdapter;
 import com.softark.eddie.gasexpress.adapters.BulkGasAdapter;
-import com.softark.eddie.gasexpress.adapters.ServiceAdapter;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
-import com.softark.eddie.gasexpress.models.Accessory;
 import com.softark.eddie.gasexpress.models.BulkGas;
-import com.softark.eddie.gasexpress.models.Service;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,15 +29,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Eddie on 5/3/2017.
- */
-
 public class BulkGasData {
 
-    private Context context;
-    private GEPreference preference;
-    private RequestSingleton singleton;
+    private final Context context;
+    private final GEPreference preference;
+    private final RequestSingleton singleton;
 
     public BulkGasData(Context context) {
         this.context = context;
@@ -91,8 +83,6 @@ public class BulkGasData {
                             message = "Server took long to respond. Please try again later.";
                         }else if(error instanceof ServerError) {
                             message = "Server experienced internal error. Please try again later.";
-                        }else if (error instanceof NetworkError) {
-                            message = "Network error. Please try again later.";
                         }
                         loader.setVisibility(View.GONE);
                         errorLayout.setVisibility(View.VISIBLE);

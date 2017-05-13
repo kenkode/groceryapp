@@ -2,7 +2,6 @@ package com.softark.eddie.gasexpress.data;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -26,16 +25,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Eddie on 4/30/2017.
- */
-
 public class SizeData {
 
-    private RequestSingleton requestSingleton;
-    private Context context;
+    private final RequestSingleton requestSingleton;
+    private final Context context;
     private DistributorAdapter adapter;
-    private GEPreference preference;
+    private final GEPreference preference;
 
     public SizeData(Context context) {
         this.context = context;

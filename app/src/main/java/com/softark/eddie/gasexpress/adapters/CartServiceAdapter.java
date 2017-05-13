@@ -11,20 +11,15 @@ import android.widget.TextView;
 
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.helpers.Cart;
-import com.softark.eddie.gasexpress.models.Accessory;
 import com.softark.eddie.gasexpress.models.Service;
 
 import java.util.ArrayList;
 
-/**
- * Created by Eddie on 5/5/2017.
- */
-
 public class CartServiceAdapter extends RecyclerView.Adapter<CartServiceAdapter.ViewHolder>{
 
-    private Context context;
-    private ArrayList<Service> items;
-    private LayoutInflater inflater;
+    private final Context context;
+    private final ArrayList<Service> items;
+    private final LayoutInflater inflater;
 
     public CartServiceAdapter(Context context, ArrayList<Service> services) {
         this.context = context;
@@ -38,11 +33,6 @@ public class CartServiceAdapter extends RecyclerView.Adapter<CartServiceAdapter.
     }
 
     @Override
-    public long getItemId(int position) {
-        return super.getItemId(position);
-    }
-
-    @Override
     public CartServiceAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.cart_list, null);
         return new CartServiceAdapter.ViewHolder(view);
@@ -51,16 +41,16 @@ public class CartServiceAdapter extends RecyclerView.Adapter<CartServiceAdapter.
     @Override
     public void onBindViewHolder(CartServiceAdapter.ViewHolder holder, int position) {
         final Service service = items.get(position);
-        final int refPosition = position;
         holder.name.setText(service.getName());
         holder.price.setText(service.getName());
 
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView name, price;
-        public ImageButton remove;
-        public NumberPicker numberPicker;
+        public final TextView name;
+        public final TextView price;
+        public final ImageButton remove;
+        public final NumberPicker numberPicker;
 
         public ViewHolder(View itemView) {
             super(itemView);

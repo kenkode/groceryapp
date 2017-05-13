@@ -1,15 +1,8 @@
 package com.softark.eddie.gasexpress.models;
 
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
 
 import io.realm.RealmObject;
-
-/**
- * Created by Eddie on 5/9/2017.
- */
 
 //    status
 //    0 - only local

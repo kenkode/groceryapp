@@ -2,7 +2,6 @@ package com.softark.eddie.gasexpress;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -22,27 +21,21 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Places;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
-import java.security.Permission;
 import java.util.List;
 import java.util.Locale;
 
@@ -101,7 +94,7 @@ public class GELocation extends AppCompatActivity implements
         googleApiClient.connect();
     }
 
-    public void setCurrLocation() {
+    private void setCurrLocation() {
         Geocoder geocoder = new Geocoder(GELocation.this, Locale.getDefault());
         List<Address> addresses = null;
         if(mLastKnownLocation != null) {
@@ -135,8 +128,6 @@ public class GELocation extends AppCompatActivity implements
             Geocoder geocoder = new Geocoder(this, Locale.getDefault());
             List<Address> addresses = geocoder.getFromLocation(position.latitude, position.longitude, 1);
             String cityName = addresses.get(0).getAddressLine(0);
-            String stateName = addresses.get(0).getAddressLine(1);
-            String countryName = addresses.get(0).getAddressLine(2);
             com.softark.eddie.gasexpress.models.Location location = new com.softark.eddie.gasexpress.models.Location();
             location.setAddress(cityName);
             location.setType(1);
@@ -171,7 +162,7 @@ public class GELocation extends AppCompatActivity implements
 //                MarkerOptions options = new MarkerOptions();
 //                options.position(latLng);
 //                googleMap.addMarker(options);
-                goTo(latLng);
+//                goTo(latLng);
 
             }
         };
@@ -218,10 +209,10 @@ public class GELocation extends AppCompatActivity implements
 
     }
 
-    private void goTo(LatLng latLng) {
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
-
-    }
+//    private void goTo(LatLng latLng) {
+////        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
+//
+//    }
 
     private void getDeviceLocation() {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
