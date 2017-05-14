@@ -4,7 +4,7 @@
     android:id="@+id/activity_georder_location"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.softark.eddie.gasexpress.GELocation">
+    tools:context="com.softark.eddie.gasexpress.activities.GELocation">
 
     <fragment
         android:id="@+id/my_location_map"
@@ -33,7 +33,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimary"
-            android:onClick="setResult"
             android:text="Choose my Location" />
 
 

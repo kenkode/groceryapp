@@ -60,7 +60,6 @@ public class Checkout {
         }
 
         String processedItems = gson.toJson(cartItemList);
-        Log.i("Order", processedItems);
         orderData.placeOrder(processedItems);
     }
 

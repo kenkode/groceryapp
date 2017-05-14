@@ -1,14 +1,15 @@
-package com.softark.eddie.gasexpress;
+package com.softark.eddie.gasexpress.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.widget.LinearLayout;
 
+import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.data.OrderData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
 
-public class PreviousPurchasesActivity extends AppCompatActivity {
+public class GEHistory extends AppCompatActivity {
 
     private RecyclerView historyRecycler;
     private OrderData orderData;

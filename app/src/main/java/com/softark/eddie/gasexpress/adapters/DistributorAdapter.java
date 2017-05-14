@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.softark.eddie.gasexpress.Constants;
-import com.softark.eddie.gasexpress.PriceActivity;
+import com.softark.eddie.gasexpress.activities.PriceActivity;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.models.Gas;
 

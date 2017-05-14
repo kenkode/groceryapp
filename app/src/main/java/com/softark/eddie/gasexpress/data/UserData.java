@@ -18,8 +18,8 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
-import com.softark.eddie.gasexpress.GERegisterActivity;
-import com.softark.eddie.gasexpress.GasExpress;
+import com.softark.eddie.gasexpress.activities.GERegisterActivity;
+import com.softark.eddie.gasexpress.activities.GasExpress;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
@@ -155,6 +155,7 @@ public class UserData {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.i("ADD_USER", response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             processResults(jsonObject, phone);
@@ -167,6 +168,7 @@ public class UserData {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
                         progressDialog.dismiss();
                         String message = "";
                         if(error instanceof TimeoutError || error instanceof NetworkError) {
@@ -190,6 +192,7 @@ public class UserData {
                 params.put("address", location.getAddress());
                 params.put("lat", String.valueOf(location.getLat()));
                 params.put("lng", String.valueOf(location.getLng()));
+                Log.i("PARAMS", params.toString());
                 return params;
             }
         };

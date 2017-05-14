@@ -1,4 +1,4 @@
-package com.softark.eddie.gasexpress;
+package com.softark.eddie.gasexpress.activities;
 
 import android.Manifest;
 import android.app.Activity;
@@ -34,6 +34,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.softark.eddie.gasexpress.R;
 
 import java.io.IOException;
 import java.util.List;

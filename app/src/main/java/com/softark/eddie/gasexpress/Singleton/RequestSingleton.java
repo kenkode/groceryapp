@@ -9,13 +9,19 @@ import com.android.volley.toolbox.Volley;
 public class RequestSingleton {
 
     private Context context;
-    private final RequestSingleton requestSingleton;
+    private RequestSingleton requestSingleton;
     private RequestQueue requestQueue;
 
     public RequestSingleton(Context context) {
         this.context = context;
         requestQueue = getRequestQueue();
-        requestSingleton = new RequestSingleton(context);
+    }
+
+    public RequestSingleton getInstance() {
+        if(requestSingleton == null) {
+            requestSingleton = new RequestSingleton(context);
+        }
+        return requestSingleton;
     }
 
     private RequestQueue getRequestQueue() {

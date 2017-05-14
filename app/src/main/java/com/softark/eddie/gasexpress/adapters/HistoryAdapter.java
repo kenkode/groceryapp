@@ -5,9 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
+import com.softark.eddie.gasexpress.data.OrderData;
 import com.softark.eddie.gasexpress.models.OrderHistory;
 
 import java.util.ArrayList;
@@ -33,9 +36,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public void onBindViewHolder(HistoryAdapter.ViewHolder holder, int position) {
         OrderHistory h = orderHistory.get(position);
 
-        holder.orderId.setText(h.getOrderType());
+        holder.orderType.setText(h.getOrderType());
         holder.price.setText(String.valueOf(h.getPrice()));
         holder.date.setText(h.getDate());
+        OrderHistory history = orderHistory.get(holder.getAdapterPosition());
+        OrderData orderData = new OrderData(context);
+        orderData.getOrderItems(history.getId(), holder.itemList);
+        holder.itemList.setVisibility(View.GONE);
     }
 
     @Override
@@ -44,19 +51,32 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         return new ViewHolder(view);
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public final TextView orderId;
+        public final TextView orderType;
         public final TextView price;
         public final TextView date;
+        public final RecyclerView itemList;
+        public final View view;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            orderId = (TextView) itemView.findViewById(R.id.order_id);
+            view = itemView;
+            itemList = (RecyclerView) itemView.findViewById(R.id.item_list);
+            orderType = (TextView) itemView.findViewById(R.id.order_type);
             price = (TextView) itemView.findViewById(R.id.order_price);
             date = (TextView) itemView.findViewById(R.id.purchase_date);
+            view.setOnClickListener(this);
+        }
 
+        @Override
+        public void onClick(View v) {
+            if(itemList.getVisibility() == View.VISIBLE) {
+                itemList.setVisibility(View.GONE);
+            }else {
+                itemList.setVisibility(View.VISIBLE);
+            }
         }
     }
 

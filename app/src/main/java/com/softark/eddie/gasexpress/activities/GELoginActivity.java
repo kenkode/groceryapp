@@ -1,4 +1,4 @@
-package com.softark.eddie.gasexpress;
+package com.softark.eddie.gasexpress.activities;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.core.ApplicationConfiguration;
 import com.softark.eddie.gasexpress.data.UserData;
 import com.softark.eddie.gasexpress.helpers.GEPreference;

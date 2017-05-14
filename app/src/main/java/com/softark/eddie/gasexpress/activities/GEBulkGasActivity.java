@@ -1,4 +1,4 @@
-package com.softark.eddie.gasexpress;
+package com.softark.eddie.gasexpress.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.data.BulkGasData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
 

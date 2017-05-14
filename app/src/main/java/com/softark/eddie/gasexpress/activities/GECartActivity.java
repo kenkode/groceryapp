@@ -1,4 +1,4 @@
-package com.softark.eddie.gasexpress;
+package com.softark.eddie.gasexpress.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.RealmData.AccessoryData;
 import com.softark.eddie.gasexpress.RealmData.BulkData;
 import com.softark.eddie.gasexpress.RealmData.GasData;

@@ -11,7 +11,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:scrollbars="none"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.softark.eddie.gasexpress.GasExpress"
+    tools:context="com.softark.eddie.gasexpress.activities.GasExpress"
     tools:showIn="@layout/app_bar_gas_express">
 
     <RelativeLayout

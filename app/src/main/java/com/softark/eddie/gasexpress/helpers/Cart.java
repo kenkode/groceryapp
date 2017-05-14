@@ -10,6 +10,7 @@ import com.softark.eddie.gasexpress.models.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -94,6 +95,7 @@ public class Cart {
     }
 
     public static void clearCart() {
+        OrderKey.orderKey = UUID.randomUUID().toString();
         Realm realm = Realm.getDefaultInstance();
         RealmResults<CartItem> items = realm.where(CartItem.class).findAll();
         RealmResults<BulkCart> bulkCarts = realm.where(BulkCart.class).findAll();

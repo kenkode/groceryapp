@@ -1,4 +1,4 @@
-package com.softark.eddie.gasexpress;
+package com.softark.eddie.gasexpress.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -22,7 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.softark.eddie.gasexpress.adapters.DistributorAdapter;
+import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.data.SizeData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
@@ -153,7 +153,7 @@ public class GasExpress extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.history) {
-            Intent intent = new Intent(GasExpress.this, PreviousPurchasesActivity.class);
+            Intent intent = new Intent(GasExpress.this, GEHistory.class);
             startActivity(intent);
         } else if (id == R.id.my_locations) {
             Intent intent = new Intent(GasExpress.this, GEMyLocationActivity.class);

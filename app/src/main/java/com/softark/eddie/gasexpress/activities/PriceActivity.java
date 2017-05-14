@@ -1,4 +1,4 @@
-package com.softark.eddie.gasexpress;
+package com.softark.eddie.gasexpress.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.softark.eddie.gasexpress.Constants;
+import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.data.GasData;
 
 public class PriceActivity extends AppCompatActivity {

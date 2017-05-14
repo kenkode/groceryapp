@@ -4,8 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -16,12 +21,16 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
-import com.softark.eddie.gasexpress.GasExpress;
+import com.softark.eddie.gasexpress.activities.GasExpress;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.adapters.HistoryAdapter;
+import com.softark.eddie.gasexpress.adapters.ItemAdapter;
 import com.softark.eddie.gasexpress.helpers.Cart;
+import com.softark.eddie.gasexpress.helpers.Checkout;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
+import com.softark.eddie.gasexpress.helpers.OrderKey;
 import com.softark.eddie.gasexpress.models.OrderHistory;
+import com.softark.eddie.gasexpress.models.OrderItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +39,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class OrderData {
 
@@ -59,6 +69,13 @@ public class OrderData {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
+                        String message = "";
+                        if(error instanceof TimeoutError || error instanceof NetworkError) {
+                            message = "Error connecting to the server. Please try again later.";
+                        }else if(error instanceof ServerError) {
+                            message = "Server experienced internal error. Please try again later.";
+                        }
+                        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
                     }
                 })
         {
@@ -66,6 +83,7 @@ public class OrderData {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("user", preference.getUser().get(GEPreference.USER_ID));
+                params.put("location", Checkout.getLocation().getId());
                 params.put("json", cartItems);
                 return params;
             }
@@ -92,7 +110,6 @@ public class OrderData {
                                 orderHistory.setId(orders.getString("order_id"));
                                 orderHistory.setPrice(orders.getDouble("price"));
                                 orderHistory.setOrderType(o.getString("type"));
-
                                 orderHistories.add(orderHistory);
                             }
 
@@ -130,6 +147,57 @@ public class OrderData {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("user", preference.getUser().get(GEPreference.USER_ID));
+                return params;
+            }
+
+        };
+        singleton.addToRequestQueue(stringRequest);
+    }
+
+    public void getOrderItems(final String id, final RecyclerView listView) {
+        final ArrayList<OrderItem> orderItems = new ArrayList<>();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.GET_ORDER_ITEMS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                OrderItem orderItem = new OrderItem();
+                                orderItem.setName(object.getString("name"));
+                                orderItem.setId(object.getString("id"));
+                                orderItem.setPrice(object.getDouble("price"));
+                                orderItem.setQuantity(object.getInt("qty"));
+                                orderItems.add(orderItem);
+                            }
+                            ItemAdapter itemAdapter = new ItemAdapter(context, orderItems);
+                            listView.setAdapter(itemAdapter);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String message = "";
+                        if(error instanceof TimeoutError || error instanceof NetworkError) {
+                            message = "No internet connection. Please try again later.";
+                        }else if(error instanceof ServerError) {
+                            message = "Server experienced internal error. Please try again later.";
+                        }
+                        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("user", preference.getUser().get(GEPreference.USER_ID));
+                params.put("id", id);
                 return params;
             }
 

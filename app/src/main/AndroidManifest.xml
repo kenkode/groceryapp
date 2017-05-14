@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".GESplashActivity"
+            android:name=".activities.GESplashActivity"
             android:label="Gas Express"
             android:theme="@style/GESplashTheme">
             <intent-filter>
@@ -26,39 +26,39 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PriceActivity"
+            android:name=".activities.PriceActivity"
             android:label="Gas Prices"
-            android:parentActivityName=".GasExpress"
+            android:parentActivityName=".activities.GasExpress"
             android:theme="@style/PriceTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GasExpress" />
+                android:value=".activities.GasExpress" />
         </activity>
         <activity
-            android:name=".PreviousPurchasesActivity"
+            android:name=".activities.GEHistory"
             android:label="History"
-            android:parentActivityName=".GasExpress"
+            android:parentActivityName=".activities.GasExpress"
             android:theme="@style/PriceTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GasExpress" />
+                android:value=".activities.GasExpress" />
         </activity>
         <activity
-            android:name=".GERegisterActivity"
+            android:name=".activities.GERegisterActivity"
             android:label="Register"
-            android:parentActivityName=".GasExpress"
+            android:parentActivityName=".activities.GasExpress"
             android:theme="@style/RegisterTheme"
             android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GasExpress" />
+                android:value=".activities.GasExpress" />
         </activity>
         <activity
-            android:name=".GELoginActivity"
+            android:name=".activities.GELoginActivity"
             android:label="Login"
             android:theme="@style/CartTheme" />
         <activity
-            android:name=".GELocation"
+            android:name=".activities.GELocation"
             android:theme="@style/PriceTheme" />
 
         <meta-data
@@ -69,44 +69,44 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".GasExpress"
+            android:name=".activities.GasExpress"
             android:label="@string/title_activity_gas_express"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".GEMyLocationActivity"
+            android:name=".activities.GEMyLocationActivity"
             android:label="My Locations"
-            android:parentActivityName=".GasExpress"
+            android:parentActivityName=".activities.GasExpress"
             android:theme="@style/PriceTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GasExpress" />
+                android:value=".activities.GasExpress" />
         </activity>
         <activity
-            android:name=".GECartActivity"
+            android:name=".activities.GECartActivity"
             android:label="Cart"
-            android:parentActivityName=".GasExpress"
+            android:parentActivityName=".activities.GasExpress"
             android:theme="@style/CartTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GasExpress" />
+                android:value=".activities.GasExpress" />
         </activity>
         <activity
-            android:name=".GEAccessoryActivity"
+            android:name=".activities.GEAccessoryActivity"
             android:label="Accessories"
-            android:parentActivityName=".GasExpress"
+            android:parentActivityName=".activities.GasExpress"
             android:theme="@style/PriceTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GasExpress" />
+                android:value=".activities.GasExpress" />
         </activity>
         <activity
-            android:name=".GEBulkGasActivity"
+            android:name=".activities.GEBulkGasActivity"
             android:label="Bulk Gas"
-            android:parentActivityName=".GasExpress"
+            android:parentActivityName=".activities.GasExpress"
             android:theme="@style/PriceTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GasExpress" />
+                android:value=".activities.GasExpress" />
         </activity>
     </application>
 

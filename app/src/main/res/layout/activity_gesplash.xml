@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/GESplashTheme"
-    tools:context="com.softark.eddie.gasexpress.GESplashActivity">
+    tools:context="com.softark.eddie.gasexpress.activities.GESplashActivity">
 
     <ImageView
         android:id="@+id/logo"

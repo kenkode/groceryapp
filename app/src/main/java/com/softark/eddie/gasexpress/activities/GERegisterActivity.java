@@ -1,4 +1,4 @@
-package com.softark.eddie.gasexpress;
+package com.softark.eddie.gasexpress.activities;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.data.UserData;
 import com.softark.eddie.gasexpress.models.Location;
 
@@ -103,12 +104,12 @@ public class GERegisterActivity extends AppCompatActivity {
                     String nm = name.getText().toString().trim();
                     String eml = email.getText().toString().trim();
                     String phn = phone.getText().toString().trim();
-                    String birthday = location.getText().toString().trim();
+                    String bd = birthday.getText().toString().trim();
                     String desc = description.getText().toString().trim();
                     ProgressDialog progressDialog = new ProgressDialog(GERegisterActivity.this);
                     progressDialog.setCancelable(false);
                     progressDialog.setMessage("Registering...");
-                    userData.addUser(nm, eml, phn, birthday, email, desc, userLocation, progressDialog);
+                    userData.addUser(nm, eml, phn, bd, email, desc, userLocation, progressDialog);
                 }else {
                     Toast.makeText(GERegisterActivity.this, MESSAGES[isValid()-1], Toast.LENGTH_LONG).show();
                 }

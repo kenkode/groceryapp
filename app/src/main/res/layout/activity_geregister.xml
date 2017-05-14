@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.softark.eddie.gasexpress.GERegisterActivity">
+    tools:context="com.softark.eddie.gasexpress.activities.GERegisterActivity">
 
     <EditText
         android:id="@+id/register_customer_name"

@@ -31,10 +31,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Eddie on 5/3/2017.
- */
-
 public class AccessoryServiceData {
 
     private final Context context;
@@ -61,9 +57,9 @@ public class AccessoryServiceData {
                             JSONArray accessoriesArray = products.getJSONArray("accessories");
                             JSONArray servicesArray = products.getJSONArray("services");
 
+                            progressBar.setVisibility(View.GONE);
                             if(accessoriesArray.length() > 0 || servicesArray.length() > 0) {
                                 errorLayout.setVisibility(View.GONE);
-                                progressBar.setVisibility(View.GONE);
                             }else {
                                 errorLayout.setVisibility(View.VISIBLE);
                             }
