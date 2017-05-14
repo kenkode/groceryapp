@@ -10,10 +10,6 @@ import java.util.UUID;
 
 import io.realm.Realm;
 
-/**
- * Created by Eddie on 5/9/2017.
- */
-
 public class ApplicationConfiguration extends Application {
 
     private static ApplicationConfiguration applicationConfiguration;

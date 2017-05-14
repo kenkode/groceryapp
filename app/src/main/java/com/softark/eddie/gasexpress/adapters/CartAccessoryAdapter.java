@@ -3,11 +3,13 @@ package com.softark.eddie.gasexpress.adapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.helpers.Cart;
@@ -48,11 +50,12 @@ public class CartAccessoryAdapter extends RecyclerView.Adapter<CartAccessoryAdap
         holder.quantitySelect.setValue(item.getQuantity());
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, NumberPicker.OnScrollListener, NumberPicker.OnValueChangeListener {
         public final TextView name;
         public final TextView price;
         public final ImageButton remove;
         public final NumberPicker quantitySelect;
+        private int scrollState = 0;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -64,17 +67,8 @@ public class CartAccessoryAdapter extends RecyclerView.Adapter<CartAccessoryAdap
             quantitySelect.setMinValue(1);
             quantitySelect.setMaxValue(100);
             quantitySelect.setWrapSelectorWheel(false);
-            quantitySelect.setOnScrollListener(new NumberPicker.OnScrollListener() {
-                @Override
-                public void onScrollStateChange(NumberPicker view, int scrollState) {
-                    if(scrollState == SCROLL_STATE_IDLE) {
-                        Accessory accessory = items.get(getAdapterPosition());
-                        Cart.updateCartItem(accessory, Cart.ACCESSORIES, view.getValue());
-                        accessory.setQuantity(view.getValue());
-                        totalPrice.setText(String.valueOf(Cart.totalPrice));
-                    }
-                }
-            });
+            quantitySelect.setOnValueChangedListener(this);
+            quantitySelect.setOnScrollListener(this);
         }
 
         @Override
@@ -86,6 +80,27 @@ public class CartAccessoryAdapter extends RecyclerView.Adapter<CartAccessoryAdap
             notifyItemRemoved(getAdapterPosition());
             notifyItemRangeChanged(getAdapterPosition(), items.size());
             notifyDataSetChanged();
+        }
+
+        @Override
+        public void onScrollStateChange(NumberPicker view, int scrollState) {
+            this.scrollState = scrollState;
+            if(scrollState == SCROLL_STATE_IDLE) {
+                Accessory accessory = items.get(getAdapterPosition());
+                Cart.updateCartItem(accessory, Cart.ACCESSORIES, view.getValue());
+                accessory.setQuantity(view.getValue());
+                totalPrice.setText(String.valueOf(Cart.totalPrice));
+            }
+        }
+
+        @Override
+        public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+            if(scrollState == SCROLL_STATE_IDLE) {
+                Accessory accessory = items.get(getAdapterPosition());
+                Cart.updateCartItem(accessory, Cart.ACCESSORIES, picker.getValue());
+                accessory.setQuantity(picker.getValue());
+                totalPrice.setText(String.valueOf(Cart.totalPrice));
+            }
         }
     }
 }

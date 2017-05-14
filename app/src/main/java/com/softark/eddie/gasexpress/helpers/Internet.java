@@ -20,7 +20,7 @@ public class Internet extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        boolean isConnected = networkInfo != null && networkInfo.isConnectedOrConnecting();
+        boolean isConnected = networkInfo != null && networkInfo.isConnected();
 
         if(connectivityReceiverListener != null) {
             connectivityReceiverListener.onNetworkConnectionChange(isConnected);
@@ -30,7 +30,7 @@ public class Internet extends BroadcastReceiver {
     public static boolean isConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager) ApplicationConfiguration.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
 

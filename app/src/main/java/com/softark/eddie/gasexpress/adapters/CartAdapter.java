@@ -48,11 +48,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.quantitySelect.setValue(item.getQuantity());
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, NumberPicker.OnScrollListener, NumberPicker.OnValueChangeListener {
         public final TextView name;
         public final TextView price;
         public final ImageButton remove;
         public final NumberPicker quantitySelect;
+        private int scrollState = 0;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -64,17 +65,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             quantitySelect.setMinValue(1);
             quantitySelect.setMaxValue(100);
             quantitySelect.setWrapSelectorWheel(false);
-            quantitySelect.setOnScrollListener(new NumberPicker.OnScrollListener() {
-                @Override
-                public void onScrollStateChange(NumberPicker view, int scrollState) {
-                    if(scrollState == SCROLL_STATE_IDLE) {
-                        Gas gas = items.get(getAdapterPosition());
-                        Cart.updateCartItem(gas, Cart.GASES, view.getValue());
-                        gas.setQuantity(view.getValue());
-                        totalPrice.setText(String.valueOf(Cart.totalPrice));
-                    }
-                }
-            });
+            quantitySelect.setOnValueChangedListener(this);
+            quantitySelect.setOnScrollListener(this);
         }
 
         @Override
@@ -86,6 +78,27 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             notifyItemRemoved(getAdapterPosition());
             notifyItemRangeChanged(getAdapterPosition(), items.size());
             notifyDataSetChanged();
+        }
+
+        @Override
+        public void onScrollStateChange(NumberPicker view, int scrollState) {
+            this.scrollState = scrollState;
+            if(scrollState == SCROLL_STATE_IDLE) {
+                Gas gas = items.get(getAdapterPosition());
+                Cart.updateCartItem(gas, Cart.GASES, view.getValue());
+                gas.setQuantity(view.getValue());
+                totalPrice.setText(String.valueOf(Cart.totalPrice));
+            }
+        }
+
+        @Override
+        public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+            if(scrollState == SCROLL_STATE_IDLE) {
+                Gas gas = items.get(getAdapterPosition());
+                Cart.updateCartItem(gas, Cart.GASES, picker.getValue());
+                gas.setQuantity(picker.getValue());
+                totalPrice.setText(String.valueOf(Cart.totalPrice));
+            }
         }
     }
 
