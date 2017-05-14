@@ -1,6 +1,8 @@
 package com.softark.eddie.gasexpress.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
+import com.softark.eddie.gasexpress.activities.GECartActivity;
 import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.models.Service;
 
@@ -59,7 +62,16 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         public void onClick(View v) {
             Service service = services.get(getAdapterPosition());
             Cart.getInstance().addService(service);
-            Toast.makeText(context, service.getName().concat(" requested."), Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar.make(add, service.getName().concat(" requested."), Snackbar.LENGTH_LONG);
+            snackbar.setAction("View Cart", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, GECartActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            });
+            snackbar.show();
         }
     }
 

@@ -28,16 +28,16 @@
         <item name="android:textColorPrimary">@color/colorPrimary</item>
     </style>
 
-    <style name="FABOrderTheme" parent="Theme.AppCompat.Light">
-
-    </style>
-
-    <style name="RegisterTheme" parent="Theme.AppCompat.Light">
+    <style name="RegisterTheme" parent="Theme.AppCompat.DayNight">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <style name="GEButton">
+
     </style>
 
     <style name="GESplashTheme" parent="Theme.AppCompat.Light.NoActionBar">

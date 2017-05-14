@@ -172,4 +172,10 @@ public class GERegisterActivity extends AppCompatActivity {
 
         return 0;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
 }

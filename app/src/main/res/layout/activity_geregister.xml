@@ -121,8 +121,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/location_description"
         android:layout_marginTop="16dp"
-        android:background="@drawable/edittext_wrapper"
         android:backgroundTint="@color/colorPrimary"
+        android:background="@drawable/ge_button"
         android:text="Register"
         android:textColor="@android:color/white" />
 

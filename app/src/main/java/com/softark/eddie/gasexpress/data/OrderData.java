@@ -100,7 +100,7 @@ public class OrderData {
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             progressBar.setVisibility(View.GONE);
-                            if(jsonArray.length() > 1) {
+                            if(jsonArray.length() > 0) {
                                 historyState.setVisibility(View.GONE);
                             }else {
                                 historyState.setVisibility(View.VISIBLE);

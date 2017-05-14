@@ -1,6 +1,8 @@
 package com.softark.eddie.gasexpress.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
+import com.softark.eddie.gasexpress.activities.GECartActivity;
 import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.models.Gas;
 
@@ -50,15 +53,24 @@ public class GasAdapter extends BaseAdapter {
 
         final Gas gas = gases.get(position);
 
-        TextView gasName= (TextView) convertView.findViewById(R.id.gas_name);
+        final TextView gasName= (TextView) convertView.findViewById(R.id.gas_name);
         TextView gasPrice = (TextView) convertView.findViewById(R.id.gas_price);
         ImageButton addToCart = (ImageButton) convertView.findViewById(R.id.purchase_button);
 
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, gas.getName().concat(" added to cart"), Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar.make(gasName, gas.getName().concat(" added to cart"), Snackbar.LENGTH_LONG);
+                snackbar.setAction("View Cart", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, GECartActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                });
                 Cart.getInstance().addGas(gas);
+                snackbar.show();
             }
         });
 
