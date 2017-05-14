@@ -57,7 +57,9 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
 
         @Override
         public void onClick(View v) {
-            Cart.getInstance().addService(services.get(getAdapterPosition()));
+            Service service = services.get(getAdapterPosition());
+            Cart.getInstance().addService(service);
+            Toast.makeText(context, service.getName().concat(" requested."), Toast.LENGTH_SHORT).show();
         }
     }
 

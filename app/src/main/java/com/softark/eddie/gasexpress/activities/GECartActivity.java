@@ -110,30 +110,37 @@ public class GECartActivity extends AppCompatActivity {
         bulkGasList.addItemDecoration(decorator);
         bulkGasList.setAdapter(bulkGasAdapter);
 
+        final RealmResults<CartItem> items = realm.where(CartItem.class)
+                .findAll();
+
         clearCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog = new Dialog(GECartActivity.this);
-                dialog.setCancelable(false);
-                dialog.setContentView(R.layout.cart_clear_cart_dialog);
-                Button negative = (Button) dialog.findViewById(R.id.no);
-                Button positive = (Button) dialog.findViewById(R.id.yes);
-                negative.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                positive.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Cart.clearCart();
-                        clearCart.setEnabled(false);
-                        checkout.setEnabled(false);
-                        startActivity(new Intent(GECartActivity.this, GasExpress.class));
-                    }
-                });
-                dialog.show();
+                if(items.isEmpty()) {
+                    Toast.makeText(GECartActivity.this, "Cart is empty", Toast.LENGTH_SHORT).show();
+                }else {
+                    final Dialog dialog = new Dialog(GECartActivity.this);
+                    dialog.setCancelable(false);
+                    dialog.setContentView(R.layout.cart_clear_cart_dialog);
+                    Button negative = (Button) dialog.findViewById(R.id.no);
+                    Button positive = (Button) dialog.findViewById(R.id.yes);
+                    negative.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    positive.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Cart.clearCart();
+                            clearCart.setEnabled(false);
+                            checkout.setEnabled(false);
+                            startActivity(new Intent(GECartActivity.this, GasExpress.class));
+                        }
+                    });
+                    dialog.show();
+                }
             }
         });
 
@@ -162,9 +169,13 @@ public class GECartActivity extends AppCompatActivity {
                         if(Checkout.getLocation() == null) {
                             Toast.makeText(GECartActivity.this, "Please select your location", Toast.LENGTH_LONG).show();
                         }else {
-                            Checkout c = new Checkout(GECartActivity.this);
-                            c.processOrder();
-                            dialog.dismiss();
+                            if(items.isEmpty()) {
+                                Toast.makeText(GECartActivity.this, "Cart is empty", Toast.LENGTH_SHORT).show();
+                            }else {
+                                Checkout c = new Checkout(GECartActivity.this);
+                                c.processOrder();
+                                dialog.dismiss();
+                            }
                         }
                     }
                 });

@@ -30,7 +30,7 @@ public class GasData {
                 items) {
             Gas gas = new Gas();
             gas.setId(item.getId());
-            gas.setName("Gas");
+            gas.setName(item.getName());
             gas.setQuantity(item.getQuantity());
             gas.setSize(4);
             gas.setPrice(item.getPrice());

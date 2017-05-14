@@ -49,7 +49,7 @@ public class BulkGasAdapter extends RecyclerView.Adapter<BulkGasAdapter.ViewHold
         }
         final String name = String.valueOf(gas.getSize()).concat(" ").concat(metric);
         holder.name.setText(name);
-        holder.price.setText("Ksh ".concat(String.valueOf(gas.getPrice())));
+        holder.price.setText("Kes ".concat(String.valueOf(gas.getPrice())));
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -62,11 +62,21 @@ public class BulkGasAdapter extends RecyclerView.Adapter<BulkGasAdapter.ViewHold
             name = (TextView) itemView.findViewById(R.id.bulk_text);
             price = (TextView) itemView.findViewById(R.id.bulk_price);
             add = (ImageButton) itemView.findViewById(R.id.bulk_gas_more_info);
+            add.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            Cart.getInstance().addBulkGas(gases.get(getAdapterPosition()));
+            BulkGas bulkGas = gases.get(getAdapterPosition());
+            Cart.getInstance().addBulkGas(bulkGas);
+            String metric;
+            if(bulkGas.getMetric() == 1) {
+                metric = "Kg";
+            }else {
+                metric = "Tons";
+            }
+            String name = String.valueOf(bulkGas.getSize()).concat(" ").concat(metric);
+            Toast.makeText(context, name.concat(" added to cart"), Toast.LENGTH_SHORT).show();
         }
     }
 

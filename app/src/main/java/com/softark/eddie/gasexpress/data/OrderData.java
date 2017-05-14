@@ -91,7 +91,7 @@ public class OrderData {
         singleton.addToRequestQueue(stringRequest);
     }
 
-    public void getOrders(final RecyclerView recyclerView, final LinearLayout historyState) {
+    public void getOrders(final RecyclerView recyclerView, final LinearLayout historyState, final ProgressBar progressBar) {
         final ArrayList<OrderHistory> orderHistories = new ArrayList<>();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.GET_ORDERS,
                 new Response.Listener<String>() {
@@ -99,8 +99,11 @@ public class OrderData {
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonArray = new JSONArray(response);
+                            progressBar.setVisibility(View.GONE);
                             if(jsonArray.length() > 1) {
                                 historyState.setVisibility(View.GONE);
+                            }else {
+                                historyState.setVisibility(View.VISIBLE);
                             }
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject o = jsonArray.getJSONObject(i);
@@ -125,6 +128,7 @@ public class OrderData {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        progressBar.setVisibility(View.GONE);
                         String message = "";
                         if(error instanceof TimeoutError || error instanceof NetworkError) {
                             message = "No internet connection. Please try again later.";
@@ -136,7 +140,8 @@ public class OrderData {
                             @Override
                             public void onClick(View v) {
                                 snackbar.dismiss();
-                                getOrders(recyclerView, historyState);
+                                progressBar.setVisibility(View.VISIBLE);
+                                getOrders(recyclerView, historyState, progressBar);
                             }
                         });
                         snackbar.show();
