@@ -194,7 +194,7 @@ public class OrderData {
                         }else if(error instanceof ServerError) {
                             message = "Server experienced internal error. Please try again later.";
                         }
-                        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                     }
                 })
         {

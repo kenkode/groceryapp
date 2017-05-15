@@ -1,5 +1,6 @@
 package com.softark.eddie.gasexpress.data;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -73,6 +74,7 @@ public class UserData {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
                         dialog.dismiss();
                         String message = "";
                         if(error instanceof TimeoutError || error instanceof NetworkError) {
@@ -210,11 +212,13 @@ public class UserData {
                 preference.setUser(id, name, phn, email);
                 Intent intent = new Intent(context, GasExpress.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
             }else if(jsonObject.getString("status").equals("DNE")) {
                 Intent intent = new Intent(context, GERegisterActivity.class);
                 intent.putExtra("phone", phone);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
             }else if(jsonObject.getString("status").equals("EE")) {
                 Toast.makeText(context, "Email exists", Toast.LENGTH_LONG).show();

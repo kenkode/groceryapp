@@ -51,12 +51,12 @@ public class GasExpress extends AppCompatActivity
         setContentView(R.layout.activity_gas_express);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        preference = new GEPreference(this);
 
         errorLayout = (LinearLayout) findViewById(R.id.error_layout);
         errorLayout.setVisibility(View.GONE);
 
         sizeData = new SizeData(this);
-        preference = new GEPreference(this);
 
         accessories = (ImageButton) findViewById(R.id.acc_and_services_more_info);
         bulkGas = (ImageButton) findViewById(R.id.bulk_gas_more_info);
@@ -133,7 +133,6 @@ public class GasExpress extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-//            super.onBackPressed();
             if(preference.isUserLogged()) {
                 finish();
             }
