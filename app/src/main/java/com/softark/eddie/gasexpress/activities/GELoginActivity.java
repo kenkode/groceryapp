@@ -3,6 +3,7 @@ package com.softark.eddie.gasexpress.activities;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,13 +14,30 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
+import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.core.ApplicationConfiguration;
 import com.softark.eddie.gasexpress.data.UserData;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.helpers.Internet;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class GELoginActivity extends AppCompatActivity implements Internet.ConnectivityReceiverListener {
 
@@ -28,6 +46,7 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
     private GEPreference preference;
     private ProgressDialog progressDialog;
     private FloatingActionButton loginButton;
+    private RequestSingleton singleton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +57,14 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         loginButton = (FloatingActionButton) findViewById(R.id.login);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+        singleton = new RequestSingleton(this);
 
         userData = new UserData(this);
 
         preference = new GEPreference(this);
 
         if(preference.isUserLogged()) {
-            validateUser();
+            validateUser(progressDialog, loginButton);
         }
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +108,7 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         if(Internet.isConnected()) {
             progressDialog.setMessage("Validating...");
             progressDialog.show();
-            userData.authUser(this.phone, progressDialog, phone);
+            authUser(this.phone, progressDialog, phone);
         }else {
             showSnack();
         }
@@ -120,22 +140,153 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         ApplicationConfiguration.getInstance().setConnectivityListener(this);
     }
 
-    private void validateUser() {
+    private void validateUser(final ProgressDialog dialog, final View button) {
         if(Internet.isConnected()) {
             progressDialog.setMessage("Loading...");
             progressDialog.show();
-            userData.validateUser(progressDialog, loginButton);
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.VALIDATE_USER,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            button.setVisibility(View.VISIBLE);
+                            if(response.equals("E")) {
+                                dialog.dismiss();
+                                Intent intent = new Intent(GELoginActivity.this, GasExpress.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
+                            }else {
+                                dialog.dismiss();
+                                preference.unsetUser();
+                                final Snackbar snackbar = Snackbar.make(button, "Account not found in our servers.", Snackbar.LENGTH_INDEFINITE);
+                                snackbar.setAction("Dismiss", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        snackbar.dismiss();
+                                    }
+                                });
+                                //noinspection deprecation
+                                snackbar.setActionTextColor(getResources().getColor(R.color.colorRedAccent));
+                                snackbar.show();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                            dialog.dismiss();
+                            String message = "";
+                            if(error instanceof TimeoutError || error instanceof NetworkError) {
+                                message = "Server took long to respond. Please try again later.";
+                            }else if(error instanceof ServerError) {
+                                message = "Server experienced internal error. Please try again later.";
+                            }
+                            button.setVisibility(View.GONE);
+                            final Snackbar snackbar = Snackbar.make(button, message, Snackbar.LENGTH_INDEFINITE);
+                            snackbar.setAction("Retry", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    snackbar.dismiss();
+                                    dialog.show();
+                                    validateUser(dialog, button);
+                                }
+                            });
+                            snackbar.show();
+                        }
+                    })
+            {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("user", preference.getUser().get(GEPreference.USER_ID));
+                    return params;
+                }
+            };
+            singleton.addToRequestQueue(stringRequest);
             loginButton.setVisibility(View.VISIBLE);
         }else {
             Snackbar snackbar = Snackbar.make(phone, "No internet connection", Snackbar.LENGTH_INDEFINITE);
             snackbar.setAction("Retry", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    validateUser();
+                    validateUser(dialog, button);
                 }
             });
             snackbar.show();
             loginButton.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void authUser(final TextView phoneTextView, final ProgressDialog dialog, final String phone) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.AUTH_USER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i("USER", response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            dialog.dismiss();
+                            processResults(jsonObject, phone);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dialog.dismiss();
+                            Snackbar snackbar = Snackbar.make(phoneTextView, "Error occurred. Try again", Snackbar.LENGTH_LONG);
+                            snackbar.show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        dialog.dismiss();
+                        String message = "";
+                        if(error instanceof TimeoutError || error instanceof NetworkError) {
+                            message = "Server took long to respond. Please try again.";
+                        }else if(error instanceof ServerError) {
+                            message = "Server experienced internal error. Please try again later.";
+                        }
+                        Snackbar snackbar = Snackbar.make(phoneTextView, message, Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("phone", phone);
+                return params;
+            }
+        };
+        singleton.addToRequestQueue(stringRequest);
+    }
+
+    private void processResults(JSONObject jsonObject, String phone) {
+        try {
+            if(jsonObject.getString("status").equals("E")) {
+                JSONObject user = jsonObject.getJSONObject("user");
+                String id = user.getString("id");
+                String name = user.getString("name");
+                String phn = user.getString("phone");
+                String email = user.getString("email");
+                preference.setUser(id, name, phn, email);
+                Intent intent = new Intent(GELoginActivity.this, GasExpress.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }else if(jsonObject.getString("status").equals("DNE")) {
+                Intent intent = new Intent(GELoginActivity.this, GERegisterActivity.class);
+                intent.putExtra("phone", phone);
+                startActivity(intent);
+                finish();
+            }else if(jsonObject.getString("status").equals("EE")) {
+                Toast.makeText(GELoginActivity.this, "Email exists", Toast.LENGTH_LONG).show();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 

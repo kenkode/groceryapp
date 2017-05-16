@@ -3,8 +3,10 @@ package com.softark.eddie.gasexpress.activities;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -13,11 +15,27 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
+import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.data.UserData;
+import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.models.Location;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.softark.eddie.gasexpress.Constants.LOCATION_ID;
 
@@ -28,6 +46,8 @@ public class GERegisterActivity extends AppCompatActivity {
     private Button registerButton;
     private UserData userData;
     private Location userLocation;
+    private GEPreference preference;
+    private RequestSingleton singleton;
 
     private final int EMPTY_NAME = 1;
     private final int INVALID_EMAIL = 3;
@@ -55,6 +75,8 @@ public class GERegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_geregister);
+        preference = new GEPreference(this);
+        singleton = new RequestSingleton(this);;
 
         userData = new UserData(this);
         userLocation = null;
@@ -103,13 +125,13 @@ public class GERegisterActivity extends AppCompatActivity {
                 if(isValid() == 0) {
                     String nm = name.getText().toString().trim();
                     String eml = email.getText().toString().trim();
-                    String phn = phone.getText().toString().trim();
+                    final String phn = phone.getText().toString().trim();
                     String bd = birthday.getText().toString().trim();
                     String desc = description.getText().toString().trim();
-                    ProgressDialog progressDialog = new ProgressDialog(GERegisterActivity.this);
+                    final ProgressDialog progressDialog = new ProgressDialog(GERegisterActivity.this);
                     progressDialog.setCancelable(false);
                     progressDialog.setMessage("Registering...");
-                    userData.addUser(nm, eml, phn, bd, email, desc, userLocation, progressDialog);
+                    addUser(nm, eml, phn, bd, email, desc, userLocation, progressDialog);
                 }else {
                     Toast.makeText(GERegisterActivity.this, MESSAGES[isValid()-1], Toast.LENGTH_LONG).show();
                 }
@@ -178,4 +200,85 @@ public class GERegisterActivity extends AppCompatActivity {
         super.onDestroy();
         finish();
     }
+
+    public void addUser(final String name, final String email, final String phone, final String birthday,final View view, final String description, final Location location, final ProgressDialog progressDialog) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.ADD_USER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i("ADD_USER", response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            processResults(jsonObject, phone);
+                            progressDialog.dismiss();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        progressDialog.dismiss();
+                        String message = "";
+                        if(error instanceof TimeoutError || error instanceof NetworkError) {
+                            message = "Server took long to respond. Please try again.";
+                        }else if(error instanceof ServerError) {
+                            message = "Server experienced internal error. Please try again later.";
+                        }
+                        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
+                        snackbar.setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                progressDialog.show();
+                                addUser(name, email, phone, birthday, view, description, location, progressDialog);
+                            }
+                        });
+                        snackbar.show();
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("name", name);
+                params.put("email", email);
+                params.put("birthday", birthday);
+                params.put("description", description);
+                params.put("phone", phone);
+                params.put("address", location.getAddress());
+                params.put("lat", String.valueOf(location.getLat()));
+                params.put("lng", String.valueOf(location.getLng()));
+                Log.i("PARAMS", params.toString());
+                return params;
+            }
+        };
+        singleton.addToRequestQueue(stringRequest);
+    }
+
+    private void processResults(JSONObject jsonObject, String phone) {
+        try {
+            if(jsonObject.getString("status").equals("E")) {
+                JSONObject user = jsonObject.getJSONObject("user");
+                String id = user.getString("id");
+                String name = user.getString("name");
+                String phn = user.getString("phone");
+                String email = user.getString("email");
+                preference.setUser(id, name, phn, email);
+                Intent intent = new Intent(GERegisterActivity.this, GasExpress.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }else if(jsonObject.getString("status").equals("EE")) {
+                Toast.makeText(GERegisterActivity.this, "Email exists", Toast.LENGTH_LONG).show();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
