@@ -91,6 +91,34 @@ public class GERegisterActivity extends AppCompatActivity {
         selectBirthday = (ImageButton) findViewById(R.id.select_birthday);
         registerButton = (Button) findViewById(R.id.register);
 
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GERegisterActivity.this, GELocation.class);
+                startActivityForResult(intent, LOCATION_ID);
+                getIntent().putExtra("name", name.getText().toString().trim());
+                getIntent().putExtra("email", email.getText().toString().trim());
+                getIntent().putExtra("phone", phone.getText().toString().trim());
+                getIntent().putExtra("birthday", birthday.getText().toString().trim());
+                getIntent().putExtra("description", description.getText().toString().trim());
+            }
+        });
+
+        birthday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
+                DatePickerDialog dialog = new DatePickerDialog(GERegisterActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        String date = year + "-" + month + "-" + dayOfMonth;
+                        birthday.setText(date);
+                    }
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                dialog.show();
+            }
+        });
+
         selectBirthday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -47,8 +47,7 @@
             android:name=".activities.GERegisterActivity"
             android:label="Register"
             android:parentActivityName=".activities.GasExpress"
-            android:theme="@style/RegisterTheme"
-            android:windowSoftInputMode="adjustPan">
+            android:theme="@style/CartTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.GasExpress" />
@@ -67,7 +66,6 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <activity
             android:name=".activities.GasExpress"
             android:label="@string/title_activity_gas_express"

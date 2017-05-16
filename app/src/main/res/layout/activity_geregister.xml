@@ -67,7 +67,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@drawable/register_edittext_wrapper"
-            android:enabled="false"
             android:focusable="false"
             android:gravity="center_vertical"
             android:hint="Birthday"
@@ -97,11 +96,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@drawable/register_edittext_wrapper"
-            android:enabled="false"
             android:focusable="false"
             android:gravity="center_vertical"
             android:hint="Location"
-            android:paddingLeft="8dp"
+            android:padding="8dp"
             android:theme="@style/EditTextStyle" />
 
     </LinearLayout>
@@ -112,7 +110,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/location_details"
         android:layout_marginTop="32sp"
+        android:background="@drawable/edittext_wrapper"
         android:hint="Location description. Be descriptive"
+        android:padding="4dp"
         android:theme="@style/EditTextStyle" />
 
     <Button
@@ -121,8 +121,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/location_description"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@color/colorPrimary"
         android:background="@drawable/ge_button"
+        android:backgroundTint="@color/colorPrimary"
         android:text="Register"
         android:textColor="@android:color/white" />
 

@@ -51,17 +51,17 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
 
         public final TextView distributorName;
         public final View view;
-        public final ImageButton moreInfo;
+//        public final ImageButton moreInfo;
         public final View mainView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             view = itemView;
             distributorName = (TextView) itemView.findViewById(R.id.gas_size);
-            moreInfo = (ImageButton) itemView.findViewById(R.id.size_more_info);
+//            moreInfo = (ImageButton) itemView.findViewById(R.id.size_more_info);
             mainView = itemView;
             mainView.setOnClickListener(this);
-            moreInfo.setOnClickListener(this);
+//            moreInfo.setOnClickListener(this);
         }
 
         @Override
