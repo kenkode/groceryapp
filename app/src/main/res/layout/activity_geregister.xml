@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_geregister"
     android:layout_width="match_parent"
@@ -8,133 +8,140 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:scrollbarThumbVertical="@android:color/transparent"
     tools:context="com.softark.eddie.gasexpress.activities.GERegisterActivity">
 
-    <EditText
-        android:id="@+id/register_customer_name"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/register_edittext_wrapper"
-        android:gravity="center_vertical"
-        android:hint="e.g John Smith"
-        android:paddingLeft="8dp"
-        android:theme="@style/EditTextStyle" />
-
-    <EditText
-        android:id="@+id/register_customer_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/register_customer_name"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/register_edittext_wrapper"
-        android:gravity="center_vertical"
-        android:hint="john@example.com"
-        android:inputType="textEmailAddress"
-        android:paddingLeft="8dp"
-        android:theme="@style/EditTextStyle" />
-
-    <EditText
-        android:id="@+id/register_customer_phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/register_customer_email"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/register_edittext_wrapper"
-        android:gravity="center_vertical"
-        android:hint="+254123456789"
-        android:inputType="phone"
-        android:paddingLeft="8dp"
-        android:theme="@style/EditTextStyle" />
-
-    <LinearLayout
-        android:id="@+id/birthday_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/register_customer_phone"
-        android:layout_marginTop="16dp">
-
-        <ImageButton
-            android:id="@+id/select_birthday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/date_icon"
-            android:tint="@color/colorPrimary" />
+        android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/register_customer_birthday"
+            android:id="@+id/register_customer_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:background="@drawable/register_edittext_wrapper"
-            android:focusable="false"
             android:gravity="center_vertical"
-            android:hint="Birthday"
+            android:hint="e.g John Smith"
             android:paddingLeft="8dp"
             android:theme="@style/EditTextStyle" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/location_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/birthday_details"
-        android:layout_marginTop="16dp">
-
-        <ImageButton
-            android:id="@+id/select_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/location"
-            android:tint="@color/colorPrimary" />
-
         <EditText
-            android:id="@+id/register_customer_location"
+            android:id="@+id/register_customer_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_below="@+id/register_customer_name"
+            android:layout_marginTop="16dp"
             android:background="@drawable/register_edittext_wrapper"
-            android:focusable="false"
             android:gravity="center_vertical"
-            android:hint="Location"
-            android:padding="8dp"
+            android:hint="john@example.com"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="8dp"
             android:theme="@style/EditTextStyle" />
 
-    </LinearLayout>
+        <EditText
+            android:id="@+id/register_customer_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/register_customer_email"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/register_edittext_wrapper"
+            android:gravity="center_vertical"
+            android:hint="+254123456789"
+            android:inputType="phone"
+            android:paddingLeft="8dp"
+            android:theme="@style/EditTextStyle" />
 
-    <EditText
-        android:id="@+id/location_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/location_details"
-        android:layout_marginTop="32sp"
-        android:background="@drawable/edittext_wrapper"
-        android:hint="Location description. Be descriptive"
-        android:padding="4dp"
-        android:theme="@style/EditTextStyle" />
+        <LinearLayout
+            android:id="@+id/birthday_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/register_customer_phone"
+            android:layout_marginTop="16dp">
 
-    <Button
-        android:id="@+id/register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/location_description"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/ge_button"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="Register"
-        android:textColor="@android:color/white" />
+            <ImageButton
+                android:id="@+id/select_birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/date_icon"
+                android:tint="@color/colorPrimary" />
 
-    <TextView
-        android:id="@+id/register_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="Welcome to Gas Express"
-        android:textColor="@android:color/black" />
+            <EditText
+                android:id="@+id/register_customer_birthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/register_edittext_wrapper"
+                android:focusable="false"
+                android:gravity="center_vertical"
+                android:hint="Birthday"
+                android:paddingLeft="8dp"
+                android:theme="@style/EditTextStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/location_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/birthday_details"
+            android:layout_marginTop="16dp">
+
+            <ImageButton
+                android:id="@+id/select_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/location"
+                android:tint="@color/colorPrimary" />
+
+            <EditText
+                android:id="@+id/register_customer_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/register_edittext_wrapper"
+                android:focusable="false"
+                android:gravity="center_vertical"
+                android:hint="Location"
+                android:padding="8dp"
+                android:theme="@style/EditTextStyle" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/location_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/location_details"
+            android:layout_marginTop="32sp"
+            android:background="@drawable/edittext_wrapper"
+            android:hint="Location description. Be descriptive"
+            android:padding="4dp"
+            android:theme="@style/EditTextStyle" />
+
+        <Button
+            android:id="@+id/register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/location_description"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ge_button"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Register"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/register_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="Welcome to Gas Express"
+            android:textColor="@android:color/black" />
+
+    </RelativeLayout>
 
 
-</RelativeLayout>
+</ScrollView>
