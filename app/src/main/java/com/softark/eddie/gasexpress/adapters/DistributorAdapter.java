@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softark.eddie.gasexpress.Constants;
@@ -36,18 +37,8 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
     @Override
     public void onBindViewHolder(DistributorAdapter.ViewHolder holder, int position) {
         final Gas size = sizes.get(position);
-
         holder.distributorName.setText(String.valueOf(size.getSize()));
 
-        holder.moreInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, PriceActivity.class);
-                intent.putExtra(Constants.SIZE, size.getSize());
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -56,18 +47,32 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
         return new ViewHolder(view);
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public final TextView distributorName;
         public final View view;
         public final ImageButton moreInfo;
+        public final View mainView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             view = itemView;
             distributorName = (TextView) itemView.findViewById(R.id.gas_size);
             moreInfo = (ImageButton) itemView.findViewById(R.id.size_more_info);
+            mainView = itemView;
+            mainView.setOnClickListener(this);
+            moreInfo.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            Gas size = sizes.get(getAdapterPosition());
+            Intent intent = new Intent(context, PriceActivity.class);
+            intent.putExtra(Constants.SIZE, size.getSize());
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
+
     }
 
 }

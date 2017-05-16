@@ -273,15 +273,12 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
                 String email = user.getString("email");
                 preference.setUser(id, name, phn, email);
                 Intent intent = new Intent(GELoginActivity.this, GasExpress.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
             }else if(jsonObject.getString("status").equals("DNE")) {
                 Intent intent = new Intent(GELoginActivity.this, GERegisterActivity.class);
                 intent.putExtra("phone", phone);
                 startActivity(intent);
-                finish();
             }else if(jsonObject.getString("status").equals("EE")) {
                 Toast.makeText(GELoginActivity.this, "Email exists", Toast.LENGTH_LONG).show();
             }

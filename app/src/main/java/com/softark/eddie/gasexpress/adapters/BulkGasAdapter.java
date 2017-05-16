@@ -79,7 +79,7 @@ public class BulkGasAdapter extends RecyclerView.Adapter<BulkGasAdapter.ViewHold
                 metric = "Tons";
             }
             String name = String.valueOf(bulkGas.getSize()).concat(" ").concat(metric).concat(" added to cart");
-            Snackbar snackbar = Snackbar.make(add, name, Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(add, name, Snackbar.LENGTH_INDEFINITE);
             snackbar.setAction("View Cart", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

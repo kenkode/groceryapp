@@ -77,73 +77,134 @@
                 android:id="@+id/a_s"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginTop="8sp">
+                android:layout_marginTop="8sp"
+                android:layout_weight="1">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/accessories_text"
+                    <ImageView
+                        android:id="@+id/acc_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="8sp"
-                        android:layout_marginStart="8sp"
-                        android:text="Accessories and Services"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold" />
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="8dp"
+                        android:tint="@color/colorPrimary"
+                        android:src="@drawable/accessories" />
 
-                    <ImageButton
-                        android:id="@+id/acc_and_services_more_info"
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="4dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_toEndOf="@+id/accessories_text"
-                        android:layout_toRightOf="@+id/accessories_text"
-                        android:src="@drawable/arrow_forward" />
+                        android:layout_below="@+id/acc_image">
+
+                        <TextView
+                            android:id="@+id/accessories_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="8sp"
+                            android:layout_marginStart="8sp"
+                            android:padding="16dp"
+                            android:text="Accessories"
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
 
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
+                android:id="@+id/service_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginLeft="4sp"
                 android:layout_marginStart="4sp"
-                android:layout_marginTop="8sp">
+                android:layout_marginTop="8sp"
+                android:layout_weight="1">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/bulk_text"
+                    <ImageView
+                        android:id="@+id/service_image"
                         android:layout_width="wrap_content"
+                        android:tint="@color/colorPrimary"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="8sp"
-                        android:layout_marginStart="8sp"
-                        android:text="Bulk Gas"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold" />
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/services" />
 
-                    <ImageButton
-                        android:id="@+id/bulk_gas_more_info"
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/bulk_text"
-                        android:layout_toRightOf="@+id/bulk_text"
-                        android:src="@drawable/arrow_forward" />
+                        android:layout_below="@+id/service_image">
+
+                        <TextView
+                            android:id="@+id/service_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="8sp"
+                            android:layout_marginStart="8sp"
+                            android:padding="16dp"
+                            android:text="Services"
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
 
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/bulk_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4sp"
+                android:layout_marginStart="4sp"
+                android:layout_marginTop="8sp"
+                android:layout_weight="1">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/bulk_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tint="@color/colorPrimary"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/bulk" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/bulk_image">
+
+                        <TextView
+                            android:id="@+id/bulk_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="8sp"
+                            android:layout_marginStart="8sp"
+                            android:padding="16dp"
+                            android:text="Bulk Gas"
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>

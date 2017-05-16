@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -39,7 +40,7 @@ public class GasExpress extends AppCompatActivity
     private GEPreference preference;
     private TextView userName, userPhone;
     private Map<String, String> user;
-    private ImageButton accessories, bulkGas;
+    private CardView accessoriesView, bulkGasView, serviceView;
     private ProgressBar sizeProgressBar;
     private LinearLayout errorLayout;
     private ImageView refreshView;
@@ -58,8 +59,9 @@ public class GasExpress extends AppCompatActivity
 
         sizeData = new SizeData(this);
 
-        accessories = (ImageButton) findViewById(R.id.acc_and_services_more_info);
-        bulkGas = (ImageButton) findViewById(R.id.bulk_gas_more_info);
+        accessoriesView = (CardView) findViewById(R.id.a_s);
+        bulkGasView = (CardView) findViewById(R.id.bulk_card);
+        serviceView = (CardView) findViewById(R.id.service_card);
         sizeProgressBar = (ProgressBar) findViewById(R.id.gas_size_progress);
 
         refreshView = (ImageView) findViewById(R.id.refresh_page);
@@ -75,14 +77,21 @@ public class GasExpress extends AppCompatActivity
             }
         });
 
-        bulkGas.setOnClickListener(new View.OnClickListener() {
+        bulkGasView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(GasExpress.this, GEBulkGasActivity.class));
             }
         });
 
-        accessories.setOnClickListener(new View.OnClickListener() {
+        accessoriesView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(GasExpress.this, GEAccessoryActivity.class));
+            }
+        });
+
+        serviceView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(GasExpress.this, GEAccessoryActivity.class));
@@ -169,6 +178,8 @@ public class GasExpress extends AppCompatActivity
                 public void onClick(DialogInterface dialog, int which) {
                     preference.unsetUser();
                     dialog.dismiss();
+                    Intent intent = new Intent(GasExpress.this, GELoginActivity.class);
+                    startActivity(intent);
                     finish();
                 }
             })

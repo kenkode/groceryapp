@@ -1,12 +1,17 @@
 package com.softark.eddie.gasexpress.data;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -21,6 +26,8 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
+import com.softark.eddie.gasexpress.R;
+import com.softark.eddie.gasexpress.activities.GEHistory;
 import com.softark.eddie.gasexpress.activities.GasExpress;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.adapters.HistoryAdapter;
@@ -60,9 +67,20 @@ public class OrderData {
                     @Override
                     public void onResponse(String response) {
                         Cart.clearCart();
-                        Intent intent = new Intent(context, GasExpress.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        final Dialog dialog = new Dialog(context);
+                        dialog.setContentView(R.layout.checkout_success);
+                        dialog.setCancelable(false);
+                        Button button = (Button) dialog.findViewById(R.id.yes);
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                                Intent intent = new Intent(context, GEHistory.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            }
+                        });
+                        dialog.show();
                     }
                 },
                 new Response.ErrorListener() {

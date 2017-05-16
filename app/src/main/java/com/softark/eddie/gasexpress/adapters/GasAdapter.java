@@ -60,7 +60,7 @@ public class GasAdapter extends BaseAdapter {
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar snackbar = Snackbar.make(gasName, gas.getName().concat(" added to cart"), Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(gasName, gas.getName().concat(" added to cart"), Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction("View Cart", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

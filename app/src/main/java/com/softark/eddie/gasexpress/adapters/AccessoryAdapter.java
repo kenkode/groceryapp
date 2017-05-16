@@ -65,7 +65,7 @@ public class AccessoryAdapter extends RecyclerView.Adapter<AccessoryAdapter.View
         public void onClick(View v) {
             Accessory accessory = items.get(getAdapterPosition());
             Cart.getInstance().addProduct(accessory);
-            Snackbar snackbar = Snackbar.make(name, accessory.getName().concat(" added to cart"), Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(name, accessory.getName().concat(" added to cart"), Snackbar.LENGTH_INDEFINITE);
             snackbar.setAction("View Cart", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
