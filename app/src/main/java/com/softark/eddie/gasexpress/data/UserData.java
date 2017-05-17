@@ -1,14 +1,10 @@
 package com.softark.eddie.gasexpress.data;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -19,15 +15,10 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
-import com.softark.eddie.gasexpress.activities.GERegisterActivity;
 import com.softark.eddie.gasexpress.activities.GasExpress;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
-import com.softark.eddie.gasexpress.models.Location;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +35,7 @@ public class UserData {
         preference = new GEPreference(context);
     }
 
-    public void validateUser(final ProgressDialog dialog, final View button) {
+    private void validateUser(final ProgressDialog dialog, final View button) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.VALIDATE_USER,
                 new Response.Listener<String>() {
                     @Override

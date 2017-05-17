@@ -17,7 +17,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -35,15 +34,12 @@ public class GasExpress extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView sizeRecyclerView;
-    private RecyclerDecorator recyclerDecorator;
     private SizeData sizeData;
     private GEPreference preference;
     private TextView userName, userPhone;
     private Map<String, String> user;
-    private CardView accessoriesView, bulkGasView, serviceView;
     private ProgressBar sizeProgressBar;
     private LinearLayout errorLayout;
-    private ImageView refreshView;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -59,12 +55,12 @@ public class GasExpress extends AppCompatActivity
 
         sizeData = new SizeData(this);
 
-        accessoriesView = (CardView) findViewById(R.id.a_s);
-        bulkGasView = (CardView) findViewById(R.id.bulk_card);
-        serviceView = (CardView) findViewById(R.id.service_card);
+        CardView accessoriesView = (CardView) findViewById(R.id.a_s);
+        CardView bulkGasView = (CardView) findViewById(R.id.bulk_card);
+        CardView serviceView = (CardView) findViewById(R.id.service_card);
         sizeProgressBar = (ProgressBar) findViewById(R.id.gas_size_progress);
 
-        refreshView = (ImageView) findViewById(R.id.refresh_page);
+        ImageView refreshView = (ImageView) findViewById(R.id.refresh_page);
 
         refreshView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +122,7 @@ public class GasExpress extends AppCompatActivity
         userName.setText(user.get(GEPreference.USER_NAME));
         userPhone.setText(user.get(GEPreference.USER_PHONE));
 
-        recyclerDecorator = new RecyclerDecorator(this, 2, 10, true);
+        RecyclerDecorator recyclerDecorator = new RecyclerDecorator(this, 2, 10, true);
 
         sizeRecyclerView = (RecyclerView) findViewById(R.id.distr_list);
         sizeRecyclerView.addItemDecoration(recyclerDecorator);

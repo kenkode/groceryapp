@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.activities.GECartActivity;
@@ -64,7 +63,7 @@ public class AccessoryAdapter extends RecyclerView.Adapter<AccessoryAdapter.View
         @Override
         public void onClick(View v) {
             Accessory accessory = items.get(getAdapterPosition());
-            Cart.getInstance().addProduct(accessory);
+            Cart.addProduct(accessory);
             Snackbar snackbar = Snackbar.make(name, accessory.getName().concat(" added to cart"), Snackbar.LENGTH_INDEFINITE);
             snackbar.setAction("View Cart", new View.OnClickListener() {
                 @Override

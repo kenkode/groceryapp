@@ -41,41 +41,13 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final Location location = locationArrayAdapter.get(position);
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        Location location = locationArrayAdapter.get(position);
         holder.locationName.setText(location.getAddress());
         holder.locationDesc.setText(location.getAddress());
-        holder.closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Dialog dialog = new Dialog(context);
-                dialog.setCancelable(false);
-                dialog.setContentView(R.layout.remove_location_dialog);
-                dialog.findViewById(R.id.yes).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        data.disableLocation(location.getId(), holder.closeButton);
-                        if(locationArrayAdapter.size() > 1) {
-                            locationArrayAdapter.remove(position);
-                            notifyItemRemoved(position);
-                            notifyItemRangeChanged(position, locationArrayAdapter.size());
-                        }
-                        dialog.dismiss();
-                    }
-                });
-                dialog.findViewById(R.id.no).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
-
-            }
-        });
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public final TextView locationName;
         public final TextView locationDesc;
@@ -87,6 +59,34 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             locationName = (TextView) itemView.findViewById(R.id.location_name);
             locationDesc = (TextView) itemView.findViewById(R.id.location_description);
             closeButton = (ImageButton) itemView.findViewById(R.id.cancel_button);
+            closeButton.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            final Location location = locationArrayAdapter.get(getAdapterPosition());
+            final Dialog dialog = new Dialog(context);
+            dialog.setCancelable(false);
+            dialog.setContentView(R.layout.remove_location_dialog);
+            dialog.findViewById(R.id.yes).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    data.disableLocation(location.getId(), closeButton);
+                    if(locationArrayAdapter.size() > 1) {
+                        locationArrayAdapter.remove(getAdapterPosition());
+                        notifyItemRemoved(getAdapterPosition());
+                        notifyItemRangeChanged(getAdapterPosition(), locationArrayAdapter.size());
+                    }
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.no).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
         }
     }
 

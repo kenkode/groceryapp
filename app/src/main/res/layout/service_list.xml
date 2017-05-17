@@ -26,7 +26,8 @@
             android:text="Add to cart"
             android:layout_below="@+id/service_name"
             android:layout_centerHorizontal="true"
-            android:drawableLeft="@drawable/add_shopping_cart" />
+            android:drawableLeft="@drawable/add_shopping_cart"
+            android:drawableStart="@drawable/add_shopping_cart" />
 
     </RelativeLayout>
 

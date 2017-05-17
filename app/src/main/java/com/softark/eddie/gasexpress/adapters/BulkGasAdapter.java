@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.activities.GECartActivity;
@@ -71,7 +70,7 @@ public class BulkGasAdapter extends RecyclerView.Adapter<BulkGasAdapter.ViewHold
         @Override
         public void onClick(View v) {
             BulkGas bulkGas = gases.get(getAdapterPosition());
-            Cart.getInstance().addBulkGas(bulkGas);
+            Cart.addBulkGas(bulkGas);
             String metric;
             if(bulkGas.getMetric() == 1) {
                 metric = "Kg";

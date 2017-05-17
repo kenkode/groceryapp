@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -18,21 +19,22 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:padding="4dp"
-                android:src="@mipmap/gx_launcher_circle" />
+                android:src="@mipmap/gx_launcher_circle"
+                tools:ignore="ContentDescription" />
 
             <TextView
-                android:id="@+id/info_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="4dp"
                 android:layout_marginStart="4dp"
+                android:layout_toEndOf="@+id/dialog_icon"
                 android:layout_toRightOf="@+id/dialog_icon"
                 android:padding="8dp"
                 android:text="Location description"
                 android:textColor="@color/colorPrimary"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
         </RelativeLayout>
 
@@ -42,11 +44,12 @@
         android:id="@+id/location_description"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:theme="@style/EditTextStyle"
         android:layout_below="@+id/location_card"
         android:background="@drawable/register_edittext_wrapper"
         android:gravity="top|start"
-        android:padding="8dp" />
+        android:inputType="text"
+        android:padding="8dp"
+        android:theme="@style/EditTextStyle" />
 
     <Button
         android:id="@+id/discard_location"

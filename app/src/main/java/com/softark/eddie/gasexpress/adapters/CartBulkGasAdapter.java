@@ -18,13 +18,12 @@ import java.util.ArrayList;
 
 public class CartBulkGasAdapter extends RecyclerView.Adapter<CartBulkGasAdapter.ViewHolder> {
 
-    private final Context context;
     private final ArrayList<BulkGas> items;
     private final LayoutInflater inflater;
     private final TextView totalPrice;
 
     public CartBulkGasAdapter(Context context, ArrayList<BulkGas> bulkGases, TextView totalPrice) {
-        this.context = context;
+        Context context1 = context;
         this.items = bulkGases;
         inflater = LayoutInflater.from(context);
         this.totalPrice = totalPrice;

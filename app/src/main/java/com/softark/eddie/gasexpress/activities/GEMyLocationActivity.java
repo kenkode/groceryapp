@@ -23,11 +23,7 @@ import com.softark.eddie.gasexpress.models.Location;
 import static com.softark.eddie.gasexpress.Constants.LOCATION_ID;
 public class GEMyLocationActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private MyLocationData locationData;
     private FloatingActionButton addLocation;
-    private LinearLayout errorLocation;
-    private ProgressBar locationLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +31,10 @@ public class GEMyLocationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gemy_location);
 
         addLocation = (FloatingActionButton) findViewById(R.id.add_location);
-        errorLocation = (LinearLayout) findViewById(R.id.error_location_layout);
+        LinearLayout errorLocation = (LinearLayout) findViewById(R.id.error_location_layout);
         errorLocation.setVisibility(View.GONE);
 
-        locationLoader = (ProgressBar) findViewById(R.id.location_loader);
+        ProgressBar locationLoader = (ProgressBar) findViewById(R.id.location_loader);
 
         addLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,11 +55,11 @@ public class GEMyLocationActivity extends AppCompatActivity {
             }
         });
 
-        recyclerView = (RecyclerView) findViewById(R.id.my_location_recy);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_location_recy);
         RecyclerDecorator decorator = new RecyclerDecorator(this, 1, 8, true);
         recyclerView.addItemDecoration(decorator);
 
-        locationData = new MyLocationData(this);
+        MyLocationData locationData = new MyLocationData(this);
         locationData.getLocation(recyclerView, null, errorLocation, locationLoader);
 
     }

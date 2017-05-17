@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_gemy_location"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -38,10 +37,10 @@
             android:layout_gravity="center_horizontal"
             android:scaleType="fitCenter"
             android:src="@drawable/no_location"
-            android:tint="@color/colorRedAccent" />
+            android:tint="@color/colorRedAccent"
+            tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/location_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

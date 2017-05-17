@@ -42,7 +42,6 @@ import java.util.Map;
 public class GELoginActivity extends AppCompatActivity implements Internet.ConnectivityReceiverListener {
 
     private EditText phone;
-    private UserData userData;
     private GEPreference preference;
     private ProgressDialog progressDialog;
     private FloatingActionButton loginButton;
@@ -59,7 +58,7 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         progressDialog.setCancelable(false);
         singleton = new RequestSingleton(this);
 
-        userData = new UserData(this);
+        UserData userData = new UserData(this);
 
         preference = new GEPreference(this);
 
@@ -218,7 +217,7 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         }
     }
 
-    public void authUser(final TextView phoneTextView, final ProgressDialog dialog, final String phone) {
+    private void authUser(final TextView phoneTextView, final ProgressDialog dialog, final String phone) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.AUTH_USER,
                 new Response.Listener<String>() {

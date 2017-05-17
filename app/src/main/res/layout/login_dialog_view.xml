@@ -16,6 +16,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:drawableLeft="@drawable/warning"
+            android:drawableStart="@drawable/warning"
             android:drawablePadding="8dp"
             android:layout_marginLeft="16dp"
             android:textColor="@color/colorPrimary"

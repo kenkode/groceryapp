@@ -42,22 +42,9 @@ import static com.softark.eddie.gasexpress.Constants.LOCATION_ID;
 public class GERegisterActivity extends AppCompatActivity {
 
     private EditText name, email, phone, location, birthday, description;
-    private ImageButton selectLocation, selectBirthday;
-    private Button registerButton;
-    private UserData userData;
     private Location userLocation;
     private GEPreference preference;
     private RequestSingleton singleton;
-
-    private final int EMPTY_NAME = 1;
-    private final int INVALID_EMAIL = 3;
-    private final int EMPTY_EMAIL = 2;
-    private final int EMPTY_PHONE = 4;
-    private final int INVALID_PHONE = 5;
-    private final int EMPTY_BD = 6;
-    private final int EMPTY_LOCATION = 7;
-    private final int EMPTY_DESC = 9;
-    private final int SHORT_DESC = 8;
 
     private final String[] MESSAGES = new String[] {
             "Please provide your name",
@@ -76,9 +63,9 @@ public class GERegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_geregister);
         preference = new GEPreference(this);
-        singleton = new RequestSingleton(this);;
+        singleton = new RequestSingleton(this);
 
-        userData = new UserData(this);
+        UserData userData = new UserData(this);
         userLocation = null;
 
         name = (EditText) findViewById(R.id.register_customer_name);
@@ -86,10 +73,10 @@ public class GERegisterActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.register_customer_email);
         location = (EditText) findViewById(R.id.register_customer_location);
         birthday = (EditText) findViewById(R.id.register_customer_birthday);
-        selectLocation = (ImageButton) findViewById(R.id.select_location);
+        ImageButton selectLocation = (ImageButton) findViewById(R.id.select_location);
         description = (EditText) findViewById(R.id.location_description);
-        selectBirthday = (ImageButton) findViewById(R.id.select_birthday);
-        registerButton = (Button) findViewById(R.id.register);
+        ImageButton selectBirthday = (ImageButton) findViewById(R.id.select_birthday);
+        Button registerButton = (Button) findViewById(R.id.register);
 
         location.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +146,7 @@ public class GERegisterActivity extends AppCompatActivity {
                     final ProgressDialog progressDialog = new ProgressDialog(GERegisterActivity.this);
                     progressDialog.setCancelable(false);
                     progressDialog.setMessage("Registering...");
+                    progressDialog.show();
                     addUser(nm, eml, phn, bd, email, desc, userLocation, progressDialog);
                 }else {
                     Toast.makeText(GERegisterActivity.this, MESSAGES[isValid()-1], Toast.LENGTH_LONG).show();
@@ -201,22 +189,31 @@ public class GERegisterActivity extends AppCompatActivity {
         String desc= description.getText().toString().trim();
 
         if(nm.isEmpty()) {
+            int EMPTY_NAME = 1;
             return EMPTY_NAME;
         }else if(eml.isEmpty()) {
+            int EMPTY_EMAIL = 2;
             return EMPTY_EMAIL;
         }else if(!Patterns.EMAIL_ADDRESS.matcher(eml).matches()) {
+            int INVALID_EMAIL = 3;
             return INVALID_EMAIL;
         }else if(phn.isEmpty()) {
+            int EMPTY_PHONE = 4;
             return EMPTY_PHONE;
         }else if(phn.matches("^[+][0-9]{10}$")) {
+            int INVALID_PHONE = 5;
             return INVALID_PHONE;
         }else if(bd.isEmpty()) {
+            int EMPTY_BD = 6;
             return EMPTY_BD;
         }else if(userLocation == null) {
+            int EMPTY_LOCATION = 7;
             return EMPTY_LOCATION;
         }else if(desc.isEmpty()) {
+            int EMPTY_DESC = 9;
             return EMPTY_DESC;
         }else if(desc.length() < 15) {
+            int SHORT_DESC = 8;
             return SHORT_DESC;
         }
 
@@ -229,7 +226,7 @@ public class GERegisterActivity extends AppCompatActivity {
         finish();
     }
 
-    public void addUser(final String name, final String email, final String phone, final String birthday,final View view, final String description, final Location location, final ProgressDialog progressDialog) {
+    private void addUser(final String name, final String email, final String phone, final String birthday, final View view, final String description, final Location location, final ProgressDialog progressDialog) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.ADD_USER,
                 new Response.Listener<String>() {
@@ -238,7 +235,7 @@ public class GERegisterActivity extends AppCompatActivity {
                         Log.i("ADD_USER", response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            processResults(jsonObject, phone);
+                            processResults(jsonObject);
                             progressDialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -286,7 +283,7 @@ public class GERegisterActivity extends AppCompatActivity {
         singleton.addToRequestQueue(stringRequest);
     }
 
-    private void processResults(JSONObject jsonObject, String phone) {
+    private void processResults(JSONObject jsonObject) {
         try {
             if(jsonObject.getString("status").equals("E")) {
                 JSONObject user = jsonObject.getJSONObject("user");

@@ -13,10 +13,8 @@ import io.realm.RealmResults;
 
 public class GasData {
 
-    private final Context context;
-
     public GasData(Context context) {
-        this.context = context;
+        Context context1 = context;
     }
 
     public ArrayList<Gas> getGases() {

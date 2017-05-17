@@ -1,7 +1,7 @@
 package com.softark.eddie.gasexpress.helpers;
 
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.softark.eddie.gasexpress.data.OrderData;
@@ -17,15 +17,13 @@ import io.realm.RealmResults;
 
 public class Checkout {
 
-    private final Context context;
     private static Location location;
     private static Map<String, String> user;
     private final OrderData orderData;
-    private final GEPreference preference;
 
     public Checkout (Context context) {
-        this.context = context;
-        preference = new GEPreference(context);
+        Context context1 = context;
+        GEPreference preference = new GEPreference(context);
         orderData = new OrderData(context);
     }
 
@@ -41,7 +39,7 @@ public class Checkout {
         return user;
     }
 
-    public void processOrder() {
+    public void processOrder(ProgressDialog progressDialog) {
         Gson gson = GsonHelper.getBuilder().create();
         Realm realm = Realm.getDefaultInstance();
         RealmResults<CartItem> cartItems = realm.where(CartItem.class).equalTo("status", 0).findAll();
@@ -60,7 +58,7 @@ public class Checkout {
         }
 
         String processedItems = gson.toJson(cartItemList);
-        orderData.placeOrder(processedItems);
+        orderData.placeOrder(processedItems, progressDialog);
     }
 
 }

@@ -11,7 +11,6 @@ public class GEPreference {
     private static final String USER_EMAIL = "user_email";
     private final SharedPreferences sharedPreferences;
     private final SharedPreferences.Editor editor;
-    private final Context context;
     private static final String PREFERENCES = "ge_prefs";
     private static final String SPLASH_SHOWN = "splash_shown";
     public static final String USER_ID = "user_id";
@@ -21,7 +20,7 @@ public class GEPreference {
     private static final String ORDER_KEY = "order_key";
 
     public GEPreference(Context context) {
-        this.context = context;
+        Context context1 = context;
         sharedPreferences = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }

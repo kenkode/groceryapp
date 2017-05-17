@@ -3,13 +3,11 @@ package com.softark.eddie.gasexpress.adapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.helpers.Cart;
@@ -19,13 +17,12 @@ import java.util.ArrayList;
 
 public class CartAccessoryAdapter extends RecyclerView.Adapter<CartAccessoryAdapter.ViewHolder> {
 
-    private final Context context;
     private final ArrayList<Accessory> items;
     private final LayoutInflater inflater;
     private final TextView totalPrice;
 
     public CartAccessoryAdapter(Context context, ArrayList<Accessory> accessories, TextView totalPrice) {
-        this.context = context;
+        Context context1 = context;
         this.items = accessories;
         inflater = LayoutInflater.from(context);
         this.totalPrice = totalPrice;

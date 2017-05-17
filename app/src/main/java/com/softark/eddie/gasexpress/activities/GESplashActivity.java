@@ -13,7 +13,6 @@ public class GESplashActivity extends AppCompatActivity {
     private static final int SPLASH_TIME = 5000;
 
     private ProgressBar logoProgress;
-    private LogoProgressAnimation logoProgressAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +34,7 @@ public class GESplashActivity extends AppCompatActivity {
 
     private void updateProgress() {
         try {
-        logoProgressAnimation = new LogoProgressAnimation(logoProgress);
+            LogoProgressAnimation logoProgressAnimation = new LogoProgressAnimation(logoProgress);
         logoProgressAnimation.setDuration(SPLASH_TIME);
         logoProgress.startAnimation(logoProgressAnimation);
         Thread.sleep(SPLASH_TIME);

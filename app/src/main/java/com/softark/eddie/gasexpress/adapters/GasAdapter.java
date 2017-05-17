@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.activities.GECartActivity;
@@ -69,7 +68,7 @@ public class GasAdapter extends BaseAdapter {
                         context.startActivity(intent);
                     }
                 });
-                Cart.getInstance().addGas(gas);
+                Cart.addGas(gas);
                 snackbar.show();
             }
         });

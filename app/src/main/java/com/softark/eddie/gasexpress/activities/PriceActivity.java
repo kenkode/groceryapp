@@ -14,19 +14,14 @@ import com.softark.eddie.gasexpress.data.GasData;
 
 public class PriceActivity extends AppCompatActivity {
 
-    private ListView listView;
-    private GasData gas;
-    private LinearLayout errorLayout;
-    private ProgressBar progressBar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_price);
 
-        errorLayout = (LinearLayout) findViewById(R.id.error_layout_price);
+        LinearLayout errorLayout = (LinearLayout) findViewById(R.id.error_layout_price);
         errorLayout.setVisibility(View.GONE);
-        progressBar = (ProgressBar) findViewById(R.id.load_prices);
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.load_prices);
 
         Intent intent = getIntent();
         int size = intent.getIntExtra(Constants.SIZE, 0);
@@ -35,8 +30,8 @@ public class PriceActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(size + " Kg");
         }
 
-        listView = (ListView) findViewById(R.id.price_list);
-        gas = new GasData(this);
+        ListView listView = (ListView) findViewById(R.id.price_list);
+        GasData gas = new GasData(this);
         gas.getGases(size, listView, errorLayout, progressBar);
     }
 }

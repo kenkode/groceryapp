@@ -3,10 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/search_location"
+        android:icon="@drawable/search_location"
+        android:orderInCategory="1"
+        android:title="Done"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/done_selecting_location"
         android:icon="@drawable/check_white"
         android:orderInCategory="1"
-        android:title="Done"
-        app:showAsAction="always" />
+        android:title="Search"
+        app:showAsAction="ifRoom" />
 
 </menu>

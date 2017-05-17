@@ -17,12 +17,11 @@ import java.util.ArrayList;
 
 public class CartServiceAdapter extends RecyclerView.Adapter<CartServiceAdapter.ViewHolder>{
 
-    private final Context context;
     private final ArrayList<Service> items;
     private final LayoutInflater inflater;
 
     public CartServiceAdapter(Context context, ArrayList<Service> services) {
-        this.context = context;
+        Context context1 = context;
         this.items = services;
         inflater = LayoutInflater.from(context);
     }

@@ -14,12 +14,11 @@ import java.util.ArrayList;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
-    private Context context;
-    private ArrayList<OrderItem> orderItems;
-    private LayoutInflater layoutInflater;
+    private final ArrayList<OrderItem> orderItems;
+    private final LayoutInflater layoutInflater;
 
     public ItemAdapter(Context context, ArrayList<OrderItem> orderItems) {
-        this.context = context;
+        Context context1 = context;
         this.orderItems = orderItems;
         layoutInflater = LayoutInflater.from(context);
     }
@@ -50,7 +49,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView name, qty, price;
+        public final TextView name;
+        public final TextView qty;
+        public final TextView price;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -1,6 +1,7 @@
 package com.softark.eddie.gasexpress.activities;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,18 +35,7 @@ import io.realm.RealmResults;
 
 public class GECartActivity extends AppCompatActivity {
 
-    private RecyclerView shoppingList, accessoryList, serviceList, bulkGasList;
-    private CartAdapter adapter;
-    private CartServiceAdapter serviceAdapter;
-    private CartAccessoryAdapter accessoryAdapter;
-    private CartBulkGasAdapter bulkGasAdapter;
     private Button clearCart, checkout;
-    private GasData gasData;
-    private ServiceData serviceData;
-    private AccessoryData accessoryData;
-    private BulkData bulkData;
-    private LinearLayout emptyCartLayout;
-    private TextView totalPrice;
     private Realm realm;
 
     @Override
@@ -54,7 +44,7 @@ public class GECartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
         realm = Realm.getDefaultInstance();
 
-        totalPrice = (TextView) findViewById(R.id.total_price);
+        TextView totalPrice = (TextView) findViewById(R.id.total_price);
         OrderPrice price = realm.where(OrderPrice.class)
                 .equalTo("id", OrderKey.orderKey).findFirst();
         if(price != null) {
@@ -64,17 +54,17 @@ public class GECartActivity extends AppCompatActivity {
             totalPrice.setText(String.valueOf(Cart.totalPrice));
         }
 
-        gasData = new GasData(this);
-        serviceData = new ServiceData();
-        accessoryData = new AccessoryData();
-        bulkData = new BulkData();
+        GasData gasData = new GasData(this);
+        ServiceData serviceData = new ServiceData();
+        AccessoryData accessoryData = new AccessoryData();
+        BulkData bulkData = new BulkData();
 
-        adapter = new CartAdapter(this, gasData.getGases(), totalPrice);
-        serviceAdapter = new CartServiceAdapter(this, serviceData.getServices());
-        accessoryAdapter = new CartAccessoryAdapter(this, accessoryData.getAccessories(), totalPrice);
-        bulkGasAdapter = new CartBulkGasAdapter(this, bulkData.getBulkGases(), totalPrice);
+        CartAdapter adapter = new CartAdapter(this, gasData.getGases(), totalPrice);
+        CartServiceAdapter serviceAdapter = new CartServiceAdapter(this, serviceData.getServices());
+        CartAccessoryAdapter accessoryAdapter = new CartAccessoryAdapter(this, accessoryData.getAccessories(), totalPrice);
+        CartBulkGasAdapter bulkGasAdapter = new CartBulkGasAdapter(this, bulkData.getBulkGases(), totalPrice);
 
-        emptyCartLayout = (LinearLayout) findViewById(R.id.empty_cart_layout);
+        LinearLayout emptyCartLayout = (LinearLayout) findViewById(R.id.empty_cart_layout);
         clearCart = (Button) findViewById(R.id.clear_cart);
         checkout = (Button) findViewById(R.id.check_out);
 
@@ -94,19 +84,19 @@ public class GECartActivity extends AppCompatActivity {
 
         RecyclerDecorator decorator = new RecyclerDecorator(this, 1, 4, true);
 
-        shoppingList = (RecyclerView) findViewById(R.id.shopping_list);
+        RecyclerView shoppingList = (RecyclerView) findViewById(R.id.shopping_list);
         shoppingList.addItemDecoration(decorator);
         shoppingList.setAdapter(adapter);
 
-        serviceList = (RecyclerView) findViewById(R.id.service_list);
+        RecyclerView serviceList = (RecyclerView) findViewById(R.id.service_list);
         serviceList.addItemDecoration(decorator);
         serviceList.setAdapter(serviceAdapter);
 
-        accessoryList = (RecyclerView) findViewById(R.id.accessories_list);
+        RecyclerView accessoryList = (RecyclerView) findViewById(R.id.accessories_list);
         accessoryList.addItemDecoration(decorator);
         accessoryList.setAdapter(accessoryAdapter);
 
-        bulkGasList = (RecyclerView) findViewById(R.id.bulk_gas_list);
+        RecyclerView bulkGasList = (RecyclerView) findViewById(R.id.bulk_gas_list);
         bulkGasList.addItemDecoration(decorator);
         bulkGasList.setAdapter(bulkGasAdapter);
 
@@ -173,8 +163,11 @@ public class GECartActivity extends AppCompatActivity {
                                 Toast.makeText(GECartActivity.this, "Cart is empty", Toast.LENGTH_SHORT).show();
                             }else {
                                 Checkout c = new Checkout(GECartActivity.this);
-                                c.processOrder();
+                                ProgressDialog progressDialog = new ProgressDialog(GECartActivity.this);
+                                progressDialog.setMessage("Processing order...");
+                                c.processOrder(progressDialog);
                                 dialog.dismiss();
+                                progressDialog.show();
                             }
                         }
                     }

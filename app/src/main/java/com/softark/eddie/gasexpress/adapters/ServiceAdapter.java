@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.activities.GECartActivity;
@@ -61,7 +60,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         @Override
         public void onClick(View v) {
             Service service = services.get(getAdapterPosition());
-            Cart.getInstance().addService(service);
+            Cart.addService(service);
             Snackbar snackbar = Snackbar.make(add, service.getName().concat(" requested."), Snackbar.LENGTH_INDEFINITE);
             snackbar.setAction("View Cart", new View.OnClickListener() {
                 @Override

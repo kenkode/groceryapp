@@ -9,7 +9,6 @@ import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.core.ApplicationConfiguration;
 
@@ -32,7 +31,7 @@ public class Internet extends BroadcastReceiver {
         }
     }
 
-    public static boolean isConnected(@NonNull Context context) {
+    private static boolean isConnected(@NonNull Context context) {
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
@@ -48,11 +47,11 @@ public class Internet extends BroadcastReceiver {
                 isConnected(connMgr, ConnectivityManager.TYPE_WIFI);
     }
 
-    public static boolean isWifiConnected(@NonNull Context context) {
+    private static boolean isWifiConnected(@NonNull Context context) {
         return isConnected(context, ConnectivityManager.TYPE_WIFI);
     }
 
-    public static boolean isMobileConnected(@NonNull Context context) {
+    private static boolean isMobileConnected(@NonNull Context context) {
         return isConnected(context, ConnectivityManager.TYPE_MOBILE);
     }
 

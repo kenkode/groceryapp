@@ -9,15 +9,10 @@ import com.softark.eddie.gasexpress.models.OrderPrice;
 import com.softark.eddie.gasexpress.models.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-
-/**
- * Created by Eddie on 5/5/2017.
- */
 
 public class Cart {
 
@@ -26,16 +21,12 @@ public class Cart {
     public static final int ACCESSORIES = 1;
     public static final int SERVICES = 2;
     public static final int BULK_GAS = 3;
-    private static ArrayList<Gas> gases;
-    private static ArrayList<BulkGas> bulkGases;
-    private static ArrayList<Accessory> products;
-    private static ArrayList<Service> services;
 
     private Cart() {
-        gases = new ArrayList<>();
-        products = new ArrayList<>();
-        services = new ArrayList<>();
-        bulkGases = new ArrayList<>();
+        ArrayList<Gas> gases = new ArrayList<>();
+        ArrayList<Accessory> products = new ArrayList<>();
+        ArrayList<Service> services = new ArrayList<>();
+        ArrayList<BulkGas> bulkGases = new ArrayList<>();
     }
 
     private static class Helper {

@@ -8,7 +8,7 @@ import com.android.volley.toolbox.Volley;
 
 public class RequestSingleton {
 
-    private Context context;
+    private final Context context;
     private RequestSingleton requestSingleton;
     private RequestQueue requestQueue;
 

@@ -1,8 +1,5 @@
 package com.softark.eddie.gasexpress.models;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-
 public class Gas {
     private String id;
     private String name;

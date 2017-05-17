@@ -1,19 +1,14 @@
 package com.softark.eddie.gasexpress.data;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -28,14 +23,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.activities.GEHistory;
-import com.softark.eddie.gasexpress.activities.GasExpress;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.adapters.HistoryAdapter;
 import com.softark.eddie.gasexpress.adapters.ItemAdapter;
 import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.helpers.Checkout;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
-import com.softark.eddie.gasexpress.helpers.OrderKey;
 import com.softark.eddie.gasexpress.models.OrderHistory;
 import com.softark.eddie.gasexpress.models.OrderItem;
 
@@ -46,7 +39,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class OrderData {
 
@@ -60,13 +52,14 @@ public class OrderData {
         preference = new GEPreference(context);
     }
 
-    public void placeOrder(final String cartItems) {
+    public void placeOrder(final String cartItems, final ProgressDialog progressDialog) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.PLACE_ORDER,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Cart.clearCart();
+                        progressDialog.dismiss();
                         final Dialog dialog = new Dialog(context);
                         dialog.setContentView(R.layout.checkout_success);
                         dialog.setCancelable(false);
@@ -87,6 +80,7 @@ public class OrderData {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
+                        progressDialog.dismiss();
                         String message = "";
                         if(error instanceof TimeoutError || error instanceof NetworkError) {
                             message = "Error connecting to the server. Please try again later.";

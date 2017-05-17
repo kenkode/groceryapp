@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -18,7 +19,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:padding="4dp"
-                android:src="@mipmap/gx_launcher_circle" />
+                android:src="@mipmap/gx_launcher_circle"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/total_text"
@@ -29,7 +31,7 @@
                 android:layout_marginTop="12dp"
                 android:text="Checkout"
                 android:textColor="@color/colorGreenAccent"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
         </RelativeLayout>
@@ -53,7 +55,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="4dp"
             android:layout_marginEnd="4dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/message"
