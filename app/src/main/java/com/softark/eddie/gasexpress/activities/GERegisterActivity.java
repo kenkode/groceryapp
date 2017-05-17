@@ -1,6 +1,7 @@
 package com.softark.eddie.gasexpress.activities;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
@@ -235,7 +236,11 @@ public class GERegisterActivity extends AppCompatActivity {
                         Log.i("ADD_USER", response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            processResults(jsonObject);
+                            if(!jsonObject.getString("status").equals("EE")) {
+                                confirmPin(jsonObject, progressDialog);
+                            }else {
+                                Toast.makeText(GERegisterActivity.this, "Email exists", Toast.LENGTH_LONG).show();
+                            }
                             progressDialog.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -283,6 +288,42 @@ public class GERegisterActivity extends AppCompatActivity {
         singleton.addToRequestQueue(stringRequest);
     }
 
+    private void confirmPin(final JSONObject jsonObject, final ProgressDialog dialog) {
+        try {
+            final String pin = jsonObject.getString("pin");
+            dialog.dismiss();
+            final Dialog dialog1 = new Dialog(GERegisterActivity.this);
+            dialog1.setCancelable(false);
+            dialog1.setContentView(R.layout.pin_input_dialog);
+            Button cancel = (Button) dialog1.findViewById(R.id.cancel);
+            Button submit = (Button) dialog1.findViewById(R.id.ok);
+            final EditText pinText = (EditText) dialog1.findViewById(R.id.pin_edit);
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog1.dismiss();
+                }
+            });
+            submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(pinText.getText().toString().isEmpty()) {
+                        Toast.makeText(GERegisterActivity.this, "Insert pin.", Toast.LENGTH_LONG).show();
+                    }else {
+                        if(pinText.getText().toString().equals(pin.trim())) {
+                            processResults(jsonObject);
+                        }else {
+                            Toast.makeText(GERegisterActivity.this, "Incorrect pin.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+            });
+            dialog1.show();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void processResults(JSONObject jsonObject) {
         try {
             if(jsonObject.getString("status").equals("E")) {
@@ -293,12 +334,8 @@ public class GERegisterActivity extends AppCompatActivity {
                 String email = user.getString("email");
                 preference.setUser(id, name, phn, email);
                 Intent intent = new Intent(GERegisterActivity.this, GasExpress.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
-            }else if(jsonObject.getString("status").equals("EE")) {
-                Toast.makeText(GERegisterActivity.this, "Email exists", Toast.LENGTH_LONG).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();

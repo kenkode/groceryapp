@@ -24,13 +24,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Edward Oirere"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:text=""
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@android:color/white" />
 
     <TextView
         android:id="@+id/ge_userphone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0700460888" />
+        android:text=""
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

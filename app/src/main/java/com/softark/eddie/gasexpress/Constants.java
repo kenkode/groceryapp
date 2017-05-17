@@ -10,6 +10,8 @@ public class Constants {
 
     public static final String GET_GASES = MAIN_URL + "get_gases";
 
+    public static final String CONFIRM_PIN = MAIN_URL + "confirm_pin";
+
     public static final String GET_SIZES = MAIN_URL + "get_sizes";
 
     public static final String GET_BULK = MAIN_URL + "get_bulk_gas";

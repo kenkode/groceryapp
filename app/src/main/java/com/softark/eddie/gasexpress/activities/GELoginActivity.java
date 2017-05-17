@@ -58,12 +58,10 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         progressDialog.setCancelable(false);
         singleton = new RequestSingleton(this);
 
-        UserData userData = new UserData(this);
-
         preference = new GEPreference(this);
 
         if(preference.isUserLogged()) {
-            validateUser(progressDialog, loginButton);
+            startActivity(new Intent(this, GasExpress.class));
         }
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -148,26 +146,29 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
                         @Override
                         public void onResponse(String response) {
                             button.setVisibility(View.VISIBLE);
-                            if(response.equals("E")) {
-                                dialog.dismiss();
-                                Intent intent = new Intent(GELoginActivity.this, GasExpress.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                                finish();
-                            }else {
-                                dialog.dismiss();
-                                preference.unsetUser();
-                                final Snackbar snackbar = Snackbar.make(button, "Account not found in our servers.", Snackbar.LENGTH_INDEFINITE);
-                                snackbar.setAction("Dismiss", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        snackbar.dismiss();
-                                    }
-                                });
-                                //noinspection deprecation
-                                snackbar.setActionTextColor(getResources().getColor(R.color.colorRedAccent));
-                                snackbar.show();
+                            progressDialog.dismiss();
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                if(response.equals("E")) {
+                                    confirmPin(jsonObject, dialog);
+                                }else {
+                                    dialog.dismiss();
+                                    preference.unsetUser();
+                                    final Snackbar snackbar = Snackbar.make(button, "Account not found in our servers.", Snackbar.LENGTH_INDEFINITE);
+                                    snackbar.setAction("Dismiss", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            snackbar.dismiss();
+                                        }
+                                    });
+                                    //noinspection deprecation
+                                    snackbar.setActionTextColor(getResources().getColor(R.color.colorRedAccent));
+                                    snackbar.show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
+
                         }
                     },
                     new Response.ErrorListener() {
@@ -223,11 +224,16 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.i("USER", response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             dialog.dismiss();
-                            processResults(jsonObject, phone);
+                            if(jsonObject.getString("status").equals("E")) {
+                                confirmPin(jsonObject, dialog);
+                            }else {
+                                Intent intent = new Intent(GELoginActivity.this, GERegisterActivity.class);
+                                intent.putExtra("phone", phone);
+                                startActivity(intent);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             dialog.dismiss();
@@ -273,7 +279,6 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
                 preference.setUser(id, name, phn, email);
                 Intent intent = new Intent(GELoginActivity.this, GasExpress.class);
                 startActivity(intent);
-                finish();
             }else if(jsonObject.getString("status").equals("DNE")) {
                 Intent intent = new Intent(GELoginActivity.this, GERegisterActivity.class);
                 intent.putExtra("phone", phone);
@@ -285,5 +290,42 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
             e.printStackTrace();
         }
     }
+
+    private void confirmPin(final JSONObject jsonObject, final ProgressDialog dialog) {
+        try {
+            final String pin = jsonObject.getString("pin");
+            dialog.dismiss();
+            final Dialog dialog1 = new Dialog(GELoginActivity.this);
+            dialog1.setCancelable(false);
+            dialog1.setContentView(R.layout.pin_input_dialog);
+            Button cancel = (Button) dialog1.findViewById(R.id.cancel);
+            Button submit = (Button) dialog1.findViewById(R.id.ok);
+            final EditText pinText = (EditText) dialog1.findViewById(R.id.pin_edit);
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog1.dismiss();
+                }
+            });
+            submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(pinText.getText().toString().isEmpty()) {
+                        Toast.makeText(GELoginActivity.this, "Insert pin.", Toast.LENGTH_LONG).show();
+                    }else {
+                        if(pinText.getText().toString().equals(pin.trim())) {
+                            processResults(jsonObject, phone.getText().toString().trim());
+                        }else {
+                            Toast.makeText(GELoginActivity.this, "Incorrect pin.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+            });
+            dialog1.show();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
