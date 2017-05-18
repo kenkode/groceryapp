@@ -89,8 +89,8 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="8dp"
-                        android:tint="@color/colorPrimary"
                         android:src="@drawable/accessories"
+                        android:tint="@color/colorPrimary"
                         tools:ignore="ContentDescription" />
 
                     <RelativeLayout
@@ -104,7 +104,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="8sp"
                             android:layout_marginStart="8sp"
-                            android:padding="16dp"
+                            android:padding="8dp"
                             android:text="Accessories"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="bold" />
@@ -131,11 +131,11 @@
                     <ImageView
                         android:id="@+id/service_image"
                         android:layout_width="wrap_content"
-                        android:tint="@color/colorPrimary"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="8dp"
                         android:src="@drawable/services"
+                        android:tint="@color/colorPrimary"
                         tools:ignore="ContentDescription" />
 
                     <RelativeLayout
@@ -150,7 +150,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="8sp"
                             android:layout_marginStart="8sp"
-                            android:padding="16dp"
+                            android:padding="8dp"
                             android:text="Services"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="bold" />
@@ -177,10 +177,10 @@
                         android:id="@+id/bulk_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:tint="@color/colorPrimary"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="8dp"
                         android:src="@drawable/bulk"
+                        android:tint="@color/colorPrimary"
                         tools:ignore="ContentDescription" />
 
                     <RelativeLayout
@@ -195,7 +195,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="8sp"
                             android:layout_marginStart="8sp"
-                            android:padding="16dp"
+                            android:padding="8dp"
                             android:text="Bulk Gas"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="bold" />

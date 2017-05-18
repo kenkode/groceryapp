@@ -62,6 +62,7 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
 
         if(preference.isUserLogged()) {
             startActivity(new Intent(this, GasExpress.class));
+            finish();
         }
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +99,6 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
     }
 
     private void submitDetails(String phone) {
@@ -279,6 +279,7 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
                 preference.setUser(id, name, phn, email);
                 Intent intent = new Intent(GELoginActivity.this, GasExpress.class);
                 startActivity(intent);
+                finish();
             }else if(jsonObject.getString("status").equals("DNE")) {
                 Intent intent = new Intent(GELoginActivity.this, GERegisterActivity.class);
                 intent.putExtra("phone", phone);

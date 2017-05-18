@@ -66,8 +66,9 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_gravity="bottom"
-            android:padding="8dp"
-            android:text="Order placed successfully"
+            android:padding="16dp"
+            android:gravity="center"
+            android:text="Order placed successfully. You will receive a message shortly"
             android:theme="@style/CartTextView" />
 
     </RelativeLayout>

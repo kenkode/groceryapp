@@ -233,7 +233,6 @@ public class GERegisterActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.i("ADD_USER", response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if(!jsonObject.getString("status").equals("EE")) {
