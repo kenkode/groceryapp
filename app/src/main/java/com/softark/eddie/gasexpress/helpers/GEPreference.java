@@ -18,7 +18,6 @@ public class GEPreference {
     private static final String USER_LOGGED = "user_logged";
     public static final String USER_FNAME = "user_fname";
     public static final String USER_LNAME = "user_lname";
-    private static final String ORDER_KEY = "order_key";
 
     public GEPreference(Context context) {
         Context context1 = context;
@@ -26,26 +25,8 @@ public class GEPreference {
         editor = sharedPreferences.edit();
     }
 
-    public String getOrderKey() {
-        return sharedPreferences.getString(ORDER_KEY, "");
-    }
-
-    public void setOrderKey(String orderKey) {
-        editor.putString(ORDER_KEY, orderKey);
-        editor.apply();
-    }
-
-    public void setSplashShown(boolean splashShown) {
-        editor.putBoolean(SPLASH_SHOWN, splashShown);
-        editor.apply();
-    }
-
-    public boolean getSplashShown() {
-        return sharedPreferences.getBoolean(SPLASH_SHOWN, false);
-    }
-
 // User preference
-    public void setUser(String id, String fname,String lname, String phone, String email) {
+    public void setUser(String id, String fname, String lname, String phone, String email) {
         editor.putString(USER_ID, id);
         editor.putString(USER_FNAME, fname);
         editor.putString(USER_LNAME, lname);

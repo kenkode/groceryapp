@@ -60,7 +60,7 @@ public class GEMyLocationActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(decorator);
 
         MyLocationData locationData = new MyLocationData(this);
-        locationData.getLocation(recyclerView, null, errorLocation, locationLoader);
+        locationData.getLocation(recyclerView, null, errorLocation, locationLoader, null);
 
     }
 

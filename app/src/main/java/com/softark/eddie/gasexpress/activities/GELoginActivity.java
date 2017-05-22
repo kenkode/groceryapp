@@ -33,6 +33,8 @@ import com.softark.eddie.gasexpress.data.UserData;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.helpers.Internet;
 
+import net.rimoto.intlphoneinput.IntlPhoneInput;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,7 +43,7 @@ import java.util.Map;
 
 public class GELoginActivity extends AppCompatActivity implements Internet.ConnectivityReceiverListener {
 
-    private EditText phone;
+    private IntlPhoneInput phone;
     private GEPreference preference;
     private ProgressDialog progressDialog;
     private FloatingActionButton loginButton;
@@ -52,7 +54,8 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gelogin);
 
-        phone = (EditText) findViewById(R.id.login_customer_phone);
+        phone = (IntlPhoneInput) findViewById(R.id.login_customer_phone);
+        phone.setEmptyDefault("KE");
         loginButton = (FloatingActionButton) findViewById(R.id.login);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
@@ -73,8 +76,7 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
                     InputMethodManager methodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     methodManager.hideSoftInputFromInputMethod(view.getWindowToken(), 0);
                 }
-                String phoneText = phone.getText().toString().trim();
-                if(phoneText.isEmpty()) {
+                if(phone.getPhoneNumber() == null) {
                     final Dialog dialog = new Dialog(GELoginActivity.this);
                     dialog.setContentView(LayoutInflater.from(getApplicationContext()).inflate(R.layout.login_dialog_view, null));
                     Button cancel = (Button) dialog.findViewById(R.id.cancel);
@@ -86,7 +88,9 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
                     });
                     dialog.show();
                 }else {
-                    if(phoneText.matches("\\d{10}")){
+                    String phoneText = String.valueOf(phone.getPhoneNumber().getCountryCode())
+                            .concat(String.valueOf(phone.getPhoneNumber().getNationalNumber()));
+                    if(phone.isValid()){
                         submitDetails(phoneText);
                     }else {
                         Toast.makeText(GELoginActivity.this, "Invalid phone number.", Toast.LENGTH_LONG).show();
@@ -102,13 +106,13 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
     }
 
     private void submitDetails(String phone) {
-        if(Internet.isConnected()) {
-            progressDialog.setMessage("Validating...");
-            progressDialog.show();
-            authUser(this.phone, progressDialog, phone);
-        }else {
-            showSnack();
-        }
+            if(Internet.isConnected()) {
+                progressDialog.setMessage("Validating...");
+                progressDialog.show();
+                authUser(this.phone, progressDialog, phone);
+            }else {
+                showSnack();
+            }
     }
 
     @Override
@@ -218,7 +222,7 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         }
     }
 
-    private void authUser(final TextView phoneTextView, final ProgressDialog dialog, final String phone) {
+    private void authUser(final IntlPhoneInput phoneTextView, final ProgressDialog dialog, final String phone) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.AUTH_USER,
                 new Response.Listener<String>() {
@@ -316,7 +320,8 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
                         Toast.makeText(GELoginActivity.this, "Insert pin.", Toast.LENGTH_LONG).show();
                     }else {
                         if(pinText.getText().toString().equals(pin.trim())) {
-                            processResults(jsonObject, phone.getText().toString().trim());
+                            String recPin = phone.getText().trim();
+                            processResults(jsonObject, recPin);
                         }else {
                             Toast.makeText(GELoginActivity.this, "Incorrect pin.", Toast.LENGTH_LONG).show();
                         }

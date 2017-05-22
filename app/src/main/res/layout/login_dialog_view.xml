@@ -17,6 +17,7 @@
             android:layout_centerVertical="true"
             android:drawableLeft="@drawable/warning"
             android:drawableStart="@drawable/warning"
+            android:drawableTint="@color/colorRedAccent"
             android:drawablePadding="8dp"
             android:layout_marginLeft="16dp"
             android:textColor="@color/colorPrimary"
@@ -24,7 +25,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
             android:padding="8dp"
-            android:text="Please provide your phone number"
+            android:text="Empty or invalid phone number"
             android:theme="@style/CartTextView" />
 
     </RelativeLayout>

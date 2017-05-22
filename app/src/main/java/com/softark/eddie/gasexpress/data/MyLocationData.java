@@ -1,11 +1,13 @@
 package com.softark.eddie.gasexpress.data;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -22,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
+import com.softark.eddie.gasexpress.activities.GELocation;
 import com.softark.eddie.gasexpress.adapters.LocationAdapter;
 import com.softark.eddie.gasexpress.helpers.Checkout;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
@@ -48,7 +51,10 @@ public class MyLocationData {
         preference = new GEPreference(context);
     }
 
-    public void getLocation(final RecyclerView recyclerView, final Spinner spinner, final LinearLayout errorLocation, final ProgressBar loader) {
+    public void getLocation(final RecyclerView recyclerView,
+                            final Spinner spinner,
+                            final LinearLayout errorLocation,
+                            final ProgressBar loader, final Button checkout) {
         final ArrayList<Location> locations = new ArrayList<>();
         final List<String> list = new ArrayList<>();
 
@@ -97,6 +103,10 @@ public class MyLocationData {
                                 });
                             }
 
+                            if(checkout != null && list.size() > 0) {
+                                checkout.setEnabled(true);
+                            }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -128,7 +138,7 @@ public class MyLocationData {
                                 if(loader != null) {
                                     loader.setVisibility(View.VISIBLE);
                                 }
-                                getLocation(recyclerView, spinner, errorLocation, loader);
+                                getLocation(recyclerView, spinner, errorLocation, loader, checkout);
                             }
                         });
                         snackbar.show();

@@ -25,31 +25,34 @@
         android:layout_below="@+id/ge_login_logo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:textColor="@color/colorPrimary"
-        android:text="Please provide your phone number" />
+        android:text="Please provide your phone number"
+        android:textColor="@color/colorPrimary" />
 
-    <EditText
+    <net.rimoto.intlphoneinput.IntlPhoneInput
         android:id="@+id/login_customer_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_message"
         android:layout_marginTop="32sp"
-        android:background="@drawable/edittext_wrapper"
         android:gravity="center"
-        android:hint="Example 0712345678"
         android:inputType="phone"
-        android:theme="@style/EditTextStyle" />
+        android:theme="@style/EditTextStyle"
+        app:flagPaddingBottom="4sp"
+        app:flagPaddingEnd="4sp"
+        app:flagPaddingStart="4sp"
+        app:flagPaddingTop="4sp"
+        app:textSize="16sp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginTop="8dp"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/login_customer_phone"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="8dp"
         android:tint="@android:color/white"
         app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/arrow_forward" />
@@ -58,11 +61,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="8dp"
         android:layout_centerHorizontal="true"
-        android:textColor="@android:color/black"
+        android:layout_marginBottom="8dp"
         android:layout_marginTop="16dp"
-        android:text="Welcome to Gas Express" />
+        android:text="Welcome to Gas Express"
+        android:textColor="@android:color/black" />
 
 
 </RelativeLayout>

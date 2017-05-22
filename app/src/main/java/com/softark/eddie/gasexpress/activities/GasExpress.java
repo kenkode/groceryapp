@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -121,7 +122,8 @@ public class GasExpress extends AppCompatActivity
         userName = (TextView) headerView.findViewById(R.id.ge_username);
         userPhone = (TextView) headerView.findViewById(R.id.ge_userphone);
         user = preference.getUser();
-        userName.setText(user.get(GEPreference.USER_FNAME).concat(" ").concat(GEPreference.USER_LNAME));
+        userName.setText(user.get(GEPreference.USER_FNAME).concat(" ").concat(user.get(GEPreference.USER_LNAME)));
+
         userPhone.setText(user.get(GEPreference.USER_PHONE));
 
         RecyclerDecorator recyclerDecorator = new RecyclerDecorator(this, 2, 10, true);
@@ -163,7 +165,7 @@ public class GasExpress extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        userName.setText(user.get(GEPreference.USER_FNAME).concat("").concat(GEPreference.USER_LNAME));
+        userName.setText(user.get(GEPreference.USER_FNAME).concat(" ").concat(user.get(GEPreference.USER_LNAME)));
         userPhone.setText(user.get(GEPreference.USER_PHONE));
     }
 

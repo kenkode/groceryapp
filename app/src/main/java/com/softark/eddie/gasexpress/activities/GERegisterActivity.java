@@ -149,7 +149,7 @@ public class GERegisterActivity extends AppCompatActivity {
                     String lnm = lname.getText().toString().trim();
                     String eml = email.getText().toString().trim();
                     final String phn = String.valueOf(phone.getPhoneNumber().getCountryCode())
-                            .concat(String.valueOf(phone.getPhoneNumber())).trim();
+                            .concat(String.valueOf(phone.getPhoneNumber().getNationalNumber())).trim();
                     String bd = birthday.getText().toString().trim();
                     String desc = description.getText().toString().trim();
                     final ProgressDialog progressDialog = new ProgressDialog(GERegisterActivity.this);
