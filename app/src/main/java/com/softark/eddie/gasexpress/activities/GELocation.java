@@ -169,6 +169,7 @@ public class GELocation extends AppCompatActivity implements
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         this.googleMap = googleMap;
+        getDeviceLocation();
     }
 
     private void goTo(Place place) {
@@ -180,7 +181,6 @@ public class GELocation extends AppCompatActivity implements
         options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         marker = googleMap.addMarker(options);
         updateLocationUi();
-        getDeviceLocation();
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), DEFAULT_ZOOM));
     }
 
@@ -198,10 +198,10 @@ public class GELocation extends AppCompatActivity implements
             mLastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         }
 
+        updateLocationUi();
         if(mLastKnownLocation != null) {
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()), 15));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
         }else {
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
             googleMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
     }
@@ -228,7 +228,6 @@ public class GELocation extends AppCompatActivity implements
             googleMap.getUiSettings().setMyLocationButtonEnabled(false);
             mLastKnownLocation = null;
         }
-
 
     }
 

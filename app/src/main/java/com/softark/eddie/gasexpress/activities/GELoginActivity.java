@@ -273,10 +273,11 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
             if(jsonObject.getString("status").equals("E")) {
                 JSONObject user = jsonObject.getJSONObject("user");
                 String id = user.getString("id");
-                String name = user.getString("name");
+                String fname = user.getString("fname");
+                String lname = user.getString("lname");
                 String phn = user.getString("phone");
                 String email = user.getString("email");
-                preference.setUser(id, name, phn, email);
+                preference.setUser(id, fname, lname, phn, email);
                 Intent intent = new Intent(GELoginActivity.this, GasExpress.class);
                 startActivity(intent);
                 finish();

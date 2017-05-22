@@ -31,6 +31,8 @@ import com.softark.eddie.gasexpress.data.UserData;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.models.Location;
 
+import net.rimoto.intlphoneinput.IntlPhoneInput;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,7 +44,8 @@ import static com.softark.eddie.gasexpress.Constants.LOCATION_ID;
 
 public class GERegisterActivity extends AppCompatActivity {
 
-    private EditText name, email, phone, location, birthday, description;
+    private EditText fname, lname, email, location, birthday, description;
+    private IntlPhoneInput phone;
     private Location userLocation;
     private GEPreference preference;
     private RequestSingleton singleton;
@@ -66,11 +69,12 @@ public class GERegisterActivity extends AppCompatActivity {
         preference = new GEPreference(this);
         singleton = new RequestSingleton(this);
 
-        UserData userData = new UserData(this);
         userLocation = null;
 
-        name = (EditText) findViewById(R.id.register_customer_name);
-        phone = (EditText) findViewById(R.id.register_customer_phone);
+        fname = (EditText) findViewById(R.id.register_customer_first_name);
+        lname = (EditText) findViewById(R.id.register_customer_last_name);
+        phone = (IntlPhoneInput) findViewById(R.id.register_customer_phone);
+        phone.setEmptyDefault("KE");
         email = (EditText) findViewById(R.id.register_customer_email);
         location = (EditText) findViewById(R.id.register_customer_location);
         birthday = (EditText) findViewById(R.id.register_customer_birthday);
@@ -84,9 +88,10 @@ public class GERegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(GERegisterActivity.this, GELocation.class);
                 startActivityForResult(intent, LOCATION_ID);
-                getIntent().putExtra("name", name.getText().toString().trim());
+                getIntent().putExtra("fname", fname.getText().toString().trim());
+                getIntent().putExtra("lname", lname.getText().toString().trim());
                 getIntent().putExtra("email", email.getText().toString().trim());
-                getIntent().putExtra("phone", phone.getText().toString().trim());
+                getIntent().putExtra("phone", phone.getNumber().trim());
                 getIntent().putExtra("birthday", birthday.getText().toString().trim());
                 getIntent().putExtra("description", description.getText().toString().trim());
             }
@@ -127,9 +132,10 @@ public class GERegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(GERegisterActivity.this, GELocation.class);
                 startActivityForResult(intent, LOCATION_ID);
-                getIntent().putExtra("name", name.getText().toString().trim());
+                getIntent().putExtra("fname", fname.getText().toString().trim());
+                getIntent().putExtra("lname", lname.getText().toString().trim());
                 getIntent().putExtra("email", email.getText().toString().trim());
-                getIntent().putExtra("phone", phone.getText().toString().trim());
+                getIntent().putExtra("phone", phone.getNumber().trim());
                 getIntent().putExtra("birthday", birthday.getText().toString().trim());
                 getIntent().putExtra("description", description.getText().toString().trim());
             }
@@ -139,16 +145,18 @@ public class GERegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isValid() == 0) {
-                    String nm = name.getText().toString().trim();
+                    String fnm = fname.getText().toString().trim();
+                    String lnm = lname.getText().toString().trim();
                     String eml = email.getText().toString().trim();
-                    final String phn = phone.getText().toString().trim();
+                    final String phn = String.valueOf(phone.getPhoneNumber().getCountryCode())
+                            .concat(String.valueOf(phone.getPhoneNumber())).trim();
                     String bd = birthday.getText().toString().trim();
                     String desc = description.getText().toString().trim();
                     final ProgressDialog progressDialog = new ProgressDialog(GERegisterActivity.this);
                     progressDialog.setCancelable(false);
                     progressDialog.setMessage("Registering...");
                     progressDialog.show();
-                    addUser(nm, eml, phn, bd, email, desc, userLocation, progressDialog);
+                    addUser(fnm, lnm, eml, phn, bd, email, desc, userLocation, progressDialog);
                 }else {
                     Toast.makeText(GERegisterActivity.this, MESSAGES[isValid()-1], Toast.LENGTH_LONG).show();
                 }
@@ -158,7 +166,7 @@ public class GERegisterActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if(intent != null) {
-            phone.setText(intent.getStringExtra("phone"));
+            phone.setNumber(intent.getStringExtra("phone"));
         }
     }
 
@@ -172,9 +180,10 @@ public class GERegisterActivity extends AppCompatActivity {
                     location.setText(loc.getAddress());
                 }
                 if(getIntent() != null) {
-                    name.setText(getIntent().getStringExtra("name"));
+                    fname.setText(getIntent().getStringExtra("fname"));
+                    lname.setText(getIntent().getStringExtra("lname"));
                     email.setText(getIntent().getStringExtra("email"));
-                    phone.setText(getIntent().getStringExtra("phone"));
+                    phone.setNumber(getIntent().getStringExtra("phone"));
                     birthday.setText(getIntent().getStringExtra("birthday"));
                     description.setText(getIntent().getStringExtra("description"));
                 }
@@ -183,39 +192,31 @@ public class GERegisterActivity extends AppCompatActivity {
     }
 
     private int isValid() {
-        String nm = name.getText().toString().trim();
+        String fnm = fname.getText().toString().trim();
+        String lnm = lname.getText().toString().trim();
         String eml = email.getText().toString().trim();
-        String phn = phone.getText().toString().trim();
+        String phn = phone.getNumber().trim();
         String bd = birthday.getText().toString().trim();
         String desc= description.getText().toString().trim();
 
-        if(nm.isEmpty()) {
-            int EMPTY_NAME = 1;
-            return EMPTY_NAME;
+        if(fnm.isEmpty() || lnm.isEmpty()) {
+            return 1;
         }else if(eml.isEmpty()) {
-            int EMPTY_EMAIL = 2;
-            return EMPTY_EMAIL;
+            return 2;
         }else if(!Patterns.EMAIL_ADDRESS.matcher(eml).matches()) {
-            int INVALID_EMAIL = 3;
-            return INVALID_EMAIL;
+            return 3;
         }else if(phn.isEmpty()) {
-            int EMPTY_PHONE = 4;
-            return EMPTY_PHONE;
-        }else if(phn.matches("^[+][0-9]{10}$")) {
-            int INVALID_PHONE = 5;
-            return INVALID_PHONE;
+            return 4;
+        }else if(!phone.isValid()) {
+            return 5;
         }else if(bd.isEmpty()) {
-            int EMPTY_BD = 6;
-            return EMPTY_BD;
+            return 6;
         }else if(userLocation == null) {
-            int EMPTY_LOCATION = 7;
-            return EMPTY_LOCATION;
+            return 7;
         }else if(desc.isEmpty()) {
-            int EMPTY_DESC = 9;
-            return EMPTY_DESC;
+            return 9;
         }else if(desc.length() < 15) {
-            int SHORT_DESC = 8;
-            return SHORT_DESC;
+            return 8;
         }
 
         return 0;
@@ -227,7 +228,7 @@ public class GERegisterActivity extends AppCompatActivity {
         finish();
     }
 
-    private void addUser(final String name, final String email, final String phone, final String birthday, final View view, final String description, final Location location, final ProgressDialog progressDialog) {
+    private void addUser(final String fname, final String lname, final String email, final String phone, final String birthday, final View view, final String description, final Location location, final ProgressDialog progressDialog) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.ADD_USER,
                 new Response.Listener<String>() {
@@ -262,7 +263,7 @@ public class GERegisterActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 progressDialog.show();
-                                addUser(name, email, phone, birthday, view, description, location, progressDialog);
+                                addUser(fname, lname, email, phone, birthday, view, description, location, progressDialog);
                             }
                         });
                         snackbar.show();
@@ -272,7 +273,8 @@ public class GERegisterActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("name", name);
+                params.put("fname", fname);
+                params.put("lname", lname);
                 params.put("email", email);
                 params.put("birthday", birthday);
                 params.put("description", description);
@@ -328,10 +330,11 @@ public class GERegisterActivity extends AppCompatActivity {
             if(jsonObject.getString("status").equals("E")) {
                 JSONObject user = jsonObject.getJSONObject("user");
                 String id = user.getString("id");
-                String name = user.getString("name");
+                String fnm = user.getString("fname");
+                String lnm = user.getString("lname");
                 String phn = user.getString("phone");
                 String email = user.getString("email");
-                preference.setUser(id, name, phn, email);
+                preference.setUser(id, fnm, lnm, phn, email);
                 Intent intent = new Intent(GERegisterActivity.this, GasExpress.class);
                 startActivity(intent);
                 finish();

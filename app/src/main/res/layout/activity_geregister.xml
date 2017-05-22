@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,12 +16,24 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/register_customer_name"
+            android:id="@+id/register_customer_first_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/register_edittext_wrapper"
             android:gravity="center_vertical"
-            android:hint="e.g John Smith"
+            android:hint="First name"
+            android:padding="8dp"
+            android:theme="@style/EditTextStyle" />
+
+        <EditText
+            android:id="@+id/register_customer_last_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/register_customer_first_name"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/register_edittext_wrapper"
+            android:gravity="center_vertical"
+            android:hint="Last name"
             android:padding="8dp"
             android:theme="@style/EditTextStyle" />
 
@@ -28,7 +41,7 @@
             android:id="@+id/register_customer_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/register_customer_name"
+            android:layout_below="@+id/register_customer_last_name"
             android:layout_marginTop="16dp"
             android:background="@drawable/register_edittext_wrapper"
             android:gravity="center_vertical"
@@ -37,18 +50,32 @@
             android:padding="8dp"
             android:theme="@style/EditTextStyle" />
 
-        <EditText
+        <!--<EditText-->
+        <!--android:id="@+id/register_customer_phone"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/register_customer_email"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--android:background="@drawable/register_edittext_wrapper"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:hint="+254123456789"-->
+        <!--android:inputType="phone"-->
+        <!--android:padding="8dp"-->
+        <!--android:theme="@style/EditTextStyle" />-->
+
+        <net.rimoto.intlphoneinput.IntlPhoneInput
             android:id="@+id/register_customer_phone"
             android:layout_width="match_parent"
+            app:textSize="16sp"
+            android:layout_marginTop="8dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/register_customer_email"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/register_edittext_wrapper"
-            android:gravity="center_vertical"
-            android:hint="+254123456789"
-            android:inputType="phone"
-            android:padding="8dp"
-            android:theme="@style/EditTextStyle" />
+            android:gravity="center"
+            android:hint="712345678"
+            app:flagPaddingBottom="4dp"
+            app:flagPaddingEnd="4dp"
+            app:flagPaddingStart="4dp"
+            app:flagPaddingTop="4dp" />
 
         <LinearLayout
             android:id="@+id/birthday_details"
@@ -74,7 +101,7 @@
                 android:background="@drawable/register_edittext_wrapper"
                 android:focusable="false"
                 android:gravity="center_vertical"
-                android:hint="Birthday"
+                android:hint="Date of birth"
                 android:padding="8dp"
                 android:theme="@style/EditTextStyle" />
 

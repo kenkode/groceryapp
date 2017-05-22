@@ -121,7 +121,7 @@ public class GasExpress extends AppCompatActivity
         userName = (TextView) headerView.findViewById(R.id.ge_username);
         userPhone = (TextView) headerView.findViewById(R.id.ge_userphone);
         user = preference.getUser();
-        userName.setText(user.get(GEPreference.USER_NAME));
+        userName.setText(user.get(GEPreference.USER_FNAME).concat(" ").concat(GEPreference.USER_LNAME));
         userPhone.setText(user.get(GEPreference.USER_PHONE));
 
         RecyclerDecorator recyclerDecorator = new RecyclerDecorator(this, 2, 10, true);
@@ -163,7 +163,7 @@ public class GasExpress extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        userName.setText(user.get(GEPreference.USER_NAME));
+        userName.setText(user.get(GEPreference.USER_FNAME).concat("").concat(GEPreference.USER_LNAME));
         userPhone.setText(user.get(GEPreference.USER_PHONE));
     }
 

@@ -16,7 +16,8 @@ public class GEPreference {
     public static final String USER_ID = "user_id";
     public static final String USER_PHONE= "user_phone";
     private static final String USER_LOGGED = "user_logged";
-    public static final String USER_NAME = "user_name";
+    public static final String USER_FNAME = "user_fname";
+    public static final String USER_LNAME = "user_lname";
     private static final String ORDER_KEY = "order_key";
 
     public GEPreference(Context context) {
@@ -44,9 +45,10 @@ public class GEPreference {
     }
 
 // User preference
-    public void setUser(String id, String name, String phone, String email) {
+    public void setUser(String id, String fname,String lname, String phone, String email) {
         editor.putString(USER_ID, id);
-        editor.putString(USER_NAME, name);
+        editor.putString(USER_FNAME, fname);
+        editor.putString(USER_LNAME, lname);
         editor.putString(USER_PHONE, phone);
         editor.putString(USER_EMAIL, email);
         editor.putBoolean(USER_LOGGED, true);
@@ -61,7 +63,8 @@ public class GEPreference {
     public Map<String, String> getUser() {
         Map<String, String> user = new HashMap<>();
         user.put(USER_ID, sharedPreferences.getString(USER_ID, ""));
-        user.put(USER_NAME, sharedPreferences.getString(USER_NAME, ""));
+        user.put(USER_FNAME, sharedPreferences.getString(USER_FNAME, ""));
+        user.put(USER_LNAME, sharedPreferences.getString(USER_LNAME, ""));
         user.put(USER_PHONE, sharedPreferences.getString(USER_PHONE, ""));
         user.put(USER_EMAIL, sharedPreferences.getString(USER_EMAIL, ""));
         return user;
