@@ -6,6 +6,7 @@ public class OrderHistory {
     private double price;
     private String date;
     private String orderType;
+    private int status;
 
     public String getOrderType() {
         return orderType;
@@ -17,6 +18,14 @@ public class OrderHistory {
 
     public String getId() {
         return id;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public void setId(String id) {

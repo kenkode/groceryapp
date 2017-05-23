@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -25,6 +27,7 @@ import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.activities.GELocation;
+import com.softark.eddie.gasexpress.activities.GEMyLocationActivity;
 import com.softark.eddie.gasexpress.adapters.LocationAdapter;
 import com.softark.eddie.gasexpress.helpers.Checkout;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
@@ -44,6 +47,8 @@ public class MyLocationData {
     private final Context context;
     private final RequestSingleton singleton;
     private final GEPreference preference;
+    private static LocationAdapter adapter;
+    private static ArrayList<Location> locations;
 
     public MyLocationData(Context context) {
         this.context = context;
@@ -55,7 +60,7 @@ public class MyLocationData {
                             final Spinner spinner,
                             final LinearLayout errorLocation,
                             final ProgressBar loader, final Button checkout) {
-        final ArrayList<Location> locations = new ArrayList<>();
+        locations = new ArrayList<>();
         final List<String> list = new ArrayList<>();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.GET_MY_LOCATIONS,
@@ -83,7 +88,7 @@ public class MyLocationData {
                             }
 
                             if(recyclerView != null) {
-                                LocationAdapter adapter = new LocationAdapter(context, locations);
+                                adapter = new LocationAdapter(context, locations);
                                 recyclerView.setAdapter(adapter);
                             }
 
@@ -105,6 +110,22 @@ public class MyLocationData {
 
                             if(checkout != null && list.size() > 0) {
                                 checkout.setEnabled(true);
+                            }else {
+                                if(list.size() < 1) {
+                                    if(spinner != null) {
+                                        final Snackbar snackbar = Snackbar.make(spinner, "Add a delivery location", Snackbar.LENGTH_INDEFINITE);
+                                        snackbar.setAction("Add", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                snackbar.dismiss();
+                                                Intent intent = new Intent(context, GEMyLocationActivity.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                context.startActivity(intent);
+                                            }
+                                        });
+                                        snackbar.show();
+                                    }
+                                }
                             }
 
                         } catch (JSONException e) {
@@ -160,7 +181,10 @@ public class MyLocationData {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        location.setId(response);
+                        Log.i("OO", response);
+                        locations.add(location);
+                        adapter.notifyDataSetChanged();
                     }
                 },
                 new Response.ErrorListener() {

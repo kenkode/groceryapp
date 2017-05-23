@@ -72,11 +72,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
                 @Override
                 public void onClick(View v) {
                     data.disableLocation(location.getId(), closeButton);
-                    if(locationArrayAdapter.size() > 1) {
-                        locationArrayAdapter.remove(getAdapterPosition());
-                        notifyItemRemoved(getAdapterPosition());
-                        notifyItemRangeChanged(getAdapterPosition(), locationArrayAdapter.size());
-                    }
+                    locationArrayAdapter.remove(getAdapterPosition());
+                    notifyItemRemoved(getAdapterPosition());
+                    notifyItemRangeChanged(getAdapterPosition(), locationArrayAdapter.size());
                     dialog.dismiss();
                 }
             });

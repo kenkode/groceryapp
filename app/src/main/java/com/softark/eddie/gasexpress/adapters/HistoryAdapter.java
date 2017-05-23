@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softark.eddie.gasexpress.R;
@@ -41,6 +42,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         OrderData orderData = new OrderData(context);
         orderData.getOrderItems(history.getId(), holder.itemList);
         holder.itemList.setVisibility(View.GONE);
+
+        if(h.getStatus() == 0) {
+            holder.status.setBackgroundColor(context.getResources().getColor(R.color.colorYellowAccent));
+        }else if(h.getStatus() == 1) {
+            holder.status.setBackgroundColor(context.getResources().getColor(R.color.colorGreenAccent));
+        }
     }
 
     @Override
@@ -56,6 +63,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         public final TextView date;
         public final RecyclerView itemList;
         public final View view;
+        public final ImageView status;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -65,6 +73,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             orderType = (TextView) itemView.findViewById(R.id.order_type);
             price = (TextView) itemView.findViewById(R.id.order_price);
             date = (TextView) itemView.findViewById(R.id.purchase_date);
+            status = (ImageView) itemView.findViewById(R.id.order_status);
             view.setOnClickListener(this);
         }
 

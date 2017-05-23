@@ -24,6 +24,7 @@ import static com.softark.eddie.gasexpress.Constants.LOCATION_ID;
 public class GEMyLocationActivity extends AppCompatActivity {
 
     private FloatingActionButton addLocation;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class GEMyLocationActivity extends AppCompatActivity {
             }
         });
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_location_recy);
+        recyclerView = (RecyclerView) findViewById(R.id.my_location_recy);
         RecyclerDecorator decorator = new RecyclerDecorator(this, 1, 8, true);
         recyclerView.addItemDecoration(decorator);
 

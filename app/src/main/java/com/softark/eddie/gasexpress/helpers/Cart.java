@@ -43,6 +43,11 @@ public class Cart {
 
     private static void updatePrice() {
         Realm realm = Realm.getDefaultInstance();
+        RealmResults<CartItem> cartItems = realm.where(CartItem.class)
+                .findAll();
+        if(cartItems.isEmpty()) {
+            totalPrice = 0.0;
+        }
         OrderPrice orderPrice = realm.where(OrderPrice.class)
                 .equalTo("id", OrderKey.orderKey).findFirst();
         realm.beginTransaction();
