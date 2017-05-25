@@ -1,6 +1,9 @@
 package com.softark.eddie.gasexpress.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,9 +47,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         holder.itemList.setVisibility(View.GONE);
 
         if(h.getStatus() == 0) {
-            holder.status.setBackgroundColor(context.getResources().getColor(R.color.colorYellowAccent));
+            holder.status.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.order_status_yellow));
         }else if(h.getStatus() == 1) {
-            holder.status.setBackgroundColor(context.getResources().getColor(R.color.colorGreenAccent));
+            holder.status.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.order_status_green));
         }
     }
 

@@ -10,6 +10,16 @@
     android:theme="@style/GESplashTheme"
     tools:context="com.softark.eddie.gasexpress.activities.GESplashActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16sp"
+        android:text="Beta Version"
+        android:textColor="@color/colorGrayAccent"
+        android:textStyle="italic" />
+
     <ImageView
         android:id="@+id/logo"
         android:layout_width="108dp"
@@ -32,11 +42,13 @@
         android:progressDrawable="@drawable/logo_wrapper" />
 
     <TextView
+        android:id="@+id/welcome_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16sp"
-        android:text="Welcome to Gas Express" />
+        android:text="Welcome to Gas Express"
+        android:textColor="@color/colorPrimary" />
 
 </RelativeLayout>

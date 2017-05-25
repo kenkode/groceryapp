@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
@@ -38,6 +39,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.softark.eddie.gasexpress.R;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class GELocation extends AppCompatActivity implements
         OnMapReadyCallback,
@@ -51,8 +54,8 @@ public class GELocation extends AppCompatActivity implements
     private GoogleApiClient googleApiClient;
     private boolean mPermissionGranted;
     private Location mLastKnownLocation;
-    private final LatLng mDefaultLocation = new LatLng(1.2921, 36.8219);
     private static Place place;
+    private LatLng mLatLng;
 
     private final int PLACE_AUTOCOMPLETE = 1;
 
@@ -80,42 +83,43 @@ public class GELocation extends AppCompatActivity implements
         if(requestCode == PLACE_AUTOCOMPLETE) {
             if(resultCode == RESULT_OK) {
                 place = PlaceAutocomplete.getPlace(this, data);
-                goTo(place);
+                goTo(place.getLatLng());
             }
         }
     }
 
-//    private void setCurrLocation() {
-//        Geocoder geocoder = new Geocoder(GELocation.this, Locale.getDefault());
-//        List<Address> addresses = null;
-//        if(mLastKnownLocation != null) {
-//            try {
-//                addresses = geocoder.getFromLocation(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude(), 1);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            if(addresses != null) {
-//                String cityName = addresses.get(0).getAddressLine(0);
-//                com.softark.eddie.gasexpress.models.Location location = new com.softark.eddie.gasexpress.models.Location();
-//                location.setAddress(cityName);
-//                location.setType(1);
-//                location.setLat(mLastKnownLocation.getLatitude());
-//                location.setLng(mLastKnownLocation.getLongitude());
-//                Intent intent = new Intent();
-//                intent.putExtra("location", location);
-//                setResult(Activity.RESULT_OK, intent);
-//            }else {
-//                Toast.makeText(GELocation.this, "Please try again", Toast.LENGTH_LONG).show();
-//            }
-//        }else {
-//            Toast.makeText(this, "Location is turned off", Toast.LENGTH_LONG).show();
-//        }
-//        finish();
-//    }
+    private com.softark.eddie.gasexpress.models.Location setSelectedLocation(LatLng latLng) {
+        Geocoder geocoder = new Geocoder(GELocation.this, Locale.getDefault());
+        List<Address> addresses = null;
+        com.softark.eddie.gasexpress.models.Location location = new com.softark.eddie.gasexpress.models.Location();
+        if(latLng != null) {
+            try {
+                addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(addresses != null) {
+                String cityName = addresses.get(0).getAddressLine(0);
+                location.setAddress(cityName);
+                location.setType(1);
+                location.setLat(latLng.latitude);
+                location.setLng(latLng.longitude);
+                Intent intent = new Intent();
+                intent.putExtra("location", location);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+            }else {
+                Toast.makeText(GELocation.this, "Please try again", Toast.LENGTH_LONG).show();
+            }
+        }else {
+            Toast.makeText(GELocation.this, "Location not applicable", Toast.LENGTH_LONG).show();
+        }
+        return location;
+    }
 
     private void setResult() throws IOException {
+        com.softark.eddie.gasexpress.models.Location location = new com.softark.eddie.gasexpress.models.Location();
         if(marker != null && place != null) {
-            com.softark.eddie.gasexpress.models.Location location = new com.softark.eddie.gasexpress.models.Location();
             location.setAddress(String.valueOf(place.getAddress()));
             location.setType(1);
             location.setLat(place.getLatLng().latitude);
@@ -124,16 +128,8 @@ public class GELocation extends AppCompatActivity implements
             intent.putExtra("location", location);
             setResult(Activity.RESULT_OK, intent);
             finish();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        try {
-            setResult();
-        } catch (IOException e) {
-            e.printStackTrace();
+        }else if(marker != null && mLatLng != null) {
+            setSelectedLocation(mLatLng);
         }
     }
 
@@ -170,19 +166,26 @@ public class GELocation extends AppCompatActivity implements
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         this.googleMap = googleMap;
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                mLatLng = latLng;
+                goTo(latLng);
+            }
+        });
         getDeviceLocation();
     }
 
-    private void goTo(Place place) {
+    private void goTo(LatLng latLng) {
         MarkerOptions options = new MarkerOptions();
         if(marker != null) {
             marker.remove();
         }
-        options.position(place.getLatLng());
+        options.position(latLng);
         options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         marker = googleMap.addMarker(options);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLng.latitude, latLng.longitude), DEFAULT_ZOOM));
         updateLocationUi();
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), DEFAULT_ZOOM));
     }
 
     private void getDeviceLocation() {
@@ -199,12 +202,12 @@ public class GELocation extends AppCompatActivity implements
             mLastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         }
 
-        updateLocationUi();
         if(mLastKnownLocation != null) {
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
         }else {
             googleMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
+        updateLocationUi();
     }
 
     private void updateLocationUi() {
@@ -247,7 +250,7 @@ public class GELocation extends AppCompatActivity implements
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.i("LOCATION", connectionResult.getErrorMessage());
+
     }
 
     @Override
@@ -261,7 +264,7 @@ public class GELocation extends AppCompatActivity implements
         switch (item.getItemId()) {
             case R.id.done_selecting_location:
                 try {
-                    if(marker != null && place != null) {
+                    if(marker != null) {
                         setResult();
                     }else {
                         Toast.makeText(GELocation.this, "Please select a location", Toast.LENGTH_LONG).show();

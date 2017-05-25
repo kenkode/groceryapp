@@ -34,8 +34,7 @@
                 android:layout_marginLeft="32dp"
                 android:layout_marginStart="32dp"
                 android:layout_toEndOf="@+id/gx_order_logo"
-                android:layout_toRightOf="@+id/gx_order_logo"
-                android:background="@drawable/order_status" />
+                android:layout_toRightOf="@+id/gx_order_logo" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

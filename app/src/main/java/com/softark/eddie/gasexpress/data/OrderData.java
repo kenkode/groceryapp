@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -123,6 +124,7 @@ public class OrderData {
                                 OrderHistory orderHistory = new OrderHistory();
                                 orderHistory.setDate(orders.getString("created_at"));
                                 orderHistory.setId(orders.getString("order_id"));
+                                orderHistory.setStatus(orders.getInt("status"));
                                 orderHistory.setPrice(orders.getDouble("price"));
                                 orderHistory.setOrderType(o.getString("type"));
                                 orderHistories.add(orderHistory);
@@ -200,13 +202,6 @@ public class OrderData {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        String message = "";
-                        if(error instanceof TimeoutError || error instanceof NetworkError) {
-                            message = "No internet connection. Please try again later.";
-                        }else if(error instanceof ServerError) {
-                            message = "Server experienced internal error. Please try again later.";
-                        }
-                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                     }
                 })
         {

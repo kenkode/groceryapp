@@ -2,6 +2,7 @@ package com.softark.eddie.gasexpress.data;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -45,6 +46,7 @@ public class SizeData {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
                         try {
                             progressBar.setVisibility(View.GONE);
                             if(errorLayout.getVisibility() == View.VISIBLE) {
