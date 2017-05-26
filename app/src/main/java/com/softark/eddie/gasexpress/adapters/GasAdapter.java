@@ -14,16 +14,17 @@ import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.activities.GECartActivity;
 import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.models.Gas;
+import com.softark.eddie.gasexpress.models.RGas;
 
 import java.util.ArrayList;
 
 public class GasAdapter extends BaseAdapter {
 
-    private final ArrayList<Gas> gases;
+    private final ArrayList<RGas> gases;
     private final LayoutInflater inflater;
     private final Context context;
 
-    public GasAdapter(Context context, ArrayList<Gas> gases) {
+    public GasAdapter(Context context, ArrayList<RGas> gases) {
         this.gases = gases;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -50,7 +51,12 @@ public class GasAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.price_list_layout, null);
         }
 
-        final Gas gas = gases.get(position);
+        final RGas rGas = gases.get(position);
+        final Gas gas = new Gas();
+        gas.setId(rGas.getId());
+        gas.setName(rGas.getName());
+        gas.setPrice(rGas.getPrice());
+        gas.setSize(rGas.getSize());
 
         final TextView gasName= (TextView) convertView.findViewById(R.id.gas_name);
         TextView gasPrice = (TextView) convertView.findViewById(R.id.gas_price);
@@ -73,7 +79,7 @@ public class GasAdapter extends BaseAdapter {
             }
         });
 
-        gasName.setText(String.valueOf(gas.getName()));
+        gasName.setText(gas.getName());
         gasPrice.setText(String.valueOf(gas.getPrice()));
 
         return convertView;

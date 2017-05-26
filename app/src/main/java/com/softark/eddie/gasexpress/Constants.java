@@ -12,19 +12,23 @@ public class Constants {
 
     public static final String GET_SIZES = MAIN_URL + "get_sizes";
 
-    public static final String GET_BULK = MAIN_URL + "get_bulk_gas";
+    public static final String GET_BULK = "get_bulk_gas";
 
     public static final String GET_ACC_SERVICE = MAIN_URL + "get_acc_service";
 
-    public static final String PLACE_ORDER = MAIN_URL + "place_order";
+    public static final String GET_ACCESSORIES= "get_accessories";
 
-    public static final String GET_ORDERS = MAIN_URL + "my_orders";
+    public static final String GET_SERVICES = "get_services";
+
+    public static final String PLACE_ORDER = "place_order";
+
+    public static final String GET_ORDERS = "my_orders";
 
     public static final String GET_ORDER_ITEMS = MAIN_URL + "get_items";
 
-    public static final String GET_MY_LOCATIONS = MAIN_URL + "my_locations";
+    public static final String GET_MY_LOCATIONS = "my_locations";
 
-    public static final String ADD_LOCATION = MAIN_URL + "add_location";
+    public static final String ADD_LOCATION = "add_location";
 
     public static final String DISABLE_LOCATION = MAIN_URL + "disable_location";
 

@@ -14,16 +14,17 @@ import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.activities.GECartActivity;
 import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.models.BulkGas;
+import com.softark.eddie.gasexpress.models.RBulkGas;
 
 import java.util.ArrayList;
 
 public class BulkGasAdapter extends RecyclerView.Adapter<BulkGasAdapter.ViewHolder> {
 
     private final Context context;
-    private final ArrayList<BulkGas> gases;
+    private final ArrayList<RBulkGas> gases;
     private final LayoutInflater inflater;
 
-    public BulkGasAdapter(Context context, ArrayList<BulkGas> gases) {
+    public BulkGasAdapter(Context context, ArrayList<RBulkGas> gases) {
         this.context = context;
         this.gases = gases;
         inflater = LayoutInflater.from(context);
@@ -42,7 +43,7 @@ public class BulkGasAdapter extends RecyclerView.Adapter<BulkGasAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final BulkGasAdapter.ViewHolder holder, int position) {
-        BulkGas gas = gases.get(position);
+        RBulkGas gas = gases.get(position);
         String metric;
         if(gas.getMetric() == 1) {
             metric = "Kg";
@@ -69,7 +70,12 @@ public class BulkGasAdapter extends RecyclerView.Adapter<BulkGasAdapter.ViewHold
 
         @Override
         public void onClick(View v) {
-            BulkGas bulkGas = gases.get(getAdapterPosition());
+            RBulkGas rBulkGas= gases.get(getAdapterPosition());
+            BulkGas bulkGas = new BulkGas();
+            bulkGas.setPrice(rBulkGas.getPrice());
+            bulkGas.setSize(rBulkGas.getSize());
+            bulkGas.setId(rBulkGas.getId());
+            bulkGas.setMetric(rBulkGas.getMetric());
             Cart.addBulkGas(bulkGas);
             String metric;
             if(bulkGas.getMetric() == 1) {

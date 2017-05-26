@@ -9,19 +9,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.softark.eddie.gasexpress.Constants;
-import com.softark.eddie.gasexpress.activities.PriceActivity;
 import com.softark.eddie.gasexpress.R;
-import com.softark.eddie.gasexpress.models.Gas;
+import com.softark.eddie.gasexpress.activities.PriceActivity;
+import com.softark.eddie.gasexpress.models.RGas;
 
 import java.util.ArrayList;
 
 public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.ViewHolder> {
 
-    private final ArrayList<Gas> sizes;
+    private final ArrayList<RGas> sizes;
     private final Context context;
     private final LayoutInflater inflater;
 
-    public DistributorAdapter(ArrayList<Gas> sizes, Context context) {
+    public DistributorAdapter(ArrayList<RGas> sizes, Context context) {
         this.sizes = sizes;
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -34,9 +34,8 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
 
     @Override
     public void onBindViewHolder(DistributorAdapter.ViewHolder holder, int position) {
-        final Gas size = sizes.get(position);
+        final RGas size = sizes.get(position);
         holder.distributorName.setText(String.valueOf(size.getSize()));
-
     }
 
     @Override
@@ -64,7 +63,7 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
 
         @Override
         public void onClick(View v) {
-            Gas size = sizes.get(getAdapterPosition());
+            RGas size = sizes.get(getAdapterPosition());
             Intent intent = new Intent(context, PriceActivity.class);
             intent.putExtra(Constants.SIZE, size.getSize());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

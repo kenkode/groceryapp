@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 
 import io.realm.RealmObject;
 
-class GsonHelper {
+public class GsonHelper {
 
     public static final class HELPER {
         private static final GsonBuilder GSON = new GsonBuilder();

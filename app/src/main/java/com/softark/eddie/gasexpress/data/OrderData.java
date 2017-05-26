@@ -14,17 +14,16 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
-import com.softark.eddie.gasexpress.activities.GEHistory;
+import com.softark.eddie.gasexpress.Retrofit.RetrofitInterface;
+import com.softark.eddie.gasexpress.Retrofit.ServiceGenerator;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
+import com.softark.eddie.gasexpress.activities.GEHistory;
 import com.softark.eddie.gasexpress.adapters.HistoryAdapter;
 import com.softark.eddie.gasexpress.adapters.ItemAdapter;
 import com.softark.eddie.gasexpress.helpers.Cart;
@@ -39,7 +38,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class OrderData {
 
@@ -53,124 +56,81 @@ public class OrderData {
         preference = new GEPreference(context);
     }
 
-    public void placeOrder(final String cartItems, final ProgressDialog progressDialog) {
+    public void placeOrder(String payment, String cartItems, final ProgressDialog progressDialog) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.PLACE_ORDER,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Cart.clearCart();
-                        progressDialog.dismiss();
-                        final Dialog dialog = new Dialog(context);
-                        dialog.setContentView(R.layout.checkout_success);
-                        dialog.setCancelable(false);
-                        Button button = (Button) dialog.findViewById(R.id.yes);
-                        button.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                                Intent intent = new Intent(context, GEHistory.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
-                            }
-                        });
-                        dialog.show();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        progressDialog.dismiss();
-                        String message = "";
-                        if(error instanceof TimeoutError || error instanceof NetworkError) {
-                            message = "Error connecting to the server. Please try again later.";
-                        }else if(error instanceof ServerError) {
-                            message = "Server experienced internal error. Please try again later.";
-                        }
-                        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                    }
-                })
-        {
+        RetrofitInterface retrofitInterface = ServiceGenerator.getClient().create(RetrofitInterface.class);
+        Call<String> makeOrder = retrofitInterface.placeOrder(cartItems,
+                preference.getUser().get(GEPreference.USER_ID), Checkout.getLocation().getId(), payment);
+        makeOrder.enqueue(new Callback<String>() {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("user", preference.getUser().get(GEPreference.USER_ID));
-                params.put("location", Checkout.getLocation().getId());
-                params.put("json", cartItems);
-                return params;
+            public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                Cart.clearCart();
+                Log.i("ORDER", response.body());
+                progressDialog.dismiss();
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.checkout_success);
+                dialog.setCancelable(false);
+                Button button = (Button) dialog.findViewById(R.id.yes);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(context, GEHistory.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                });
+                dialog.show();
             }
-        };
-        singleton.addToRequestQueue(stringRequest);
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                progressDialog.dismiss();
+                t.printStackTrace();
+            }
+        });
     }
 
     public void getOrders(final RecyclerView recyclerView, final LinearLayout historyState, final ProgressBar progressBar) {
         final ArrayList<OrderHistory> orderHistories = new ArrayList<>();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.GET_ORDERS,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
-                            progressBar.setVisibility(View.GONE);
-                            if(jsonArray.length() > 0) {
-                                historyState.setVisibility(View.GONE);
-                            }else {
-                                historyState.setVisibility(View.VISIBLE);
-                            }
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject o = jsonArray.getJSONObject(i);
-                                JSONObject orders = o.getJSONObject("orders");
-                                OrderHistory orderHistory = new OrderHistory();
-                                orderHistory.setDate(orders.getString("created_at"));
-                                orderHistory.setId(orders.getString("order_id"));
-                                orderHistory.setStatus(orders.getInt("status"));
-                                orderHistory.setPrice(orders.getDouble("price"));
-                                orderHistory.setOrderType(o.getString("type"));
-                                orderHistories.add(orderHistory);
-                            }
 
-                            HistoryAdapter adapter = new HistoryAdapter(context, orderHistories);
-                            recyclerView.setAdapter(adapter);
+        RetrofitInterface retrofitInterface = ServiceGenerator.getClient().create(RetrofitInterface.class);
+        Call<List<OrderHistory>> orders = retrofitInterface.getOrders(preference.getUser().get(GEPreference.USER_ID));
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progressBar.setVisibility(View.GONE);
-                        String message = "";
-                        if(error instanceof TimeoutError || error instanceof NetworkError) {
-                            message = "No internet connection. Please try again later.";
-                        }else if(error instanceof ServerError) {
-                            message = "Server experienced internal error. Please try again later.";
-                        }
-                        final Snackbar snackbar = Snackbar.make(recyclerView, message, Snackbar.LENGTH_INDEFINITE);
-                        snackbar.setAction("Retry", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                snackbar.dismiss();
-                                progressBar.setVisibility(View.VISIBLE);
-                                getOrders(recyclerView, historyState, progressBar);
-                            }
-                        });
-                        snackbar.show();
-                    }
-                })
-        {
+        orders.enqueue(new Callback<List<OrderHistory>>() {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("user", preference.getUser().get(GEPreference.USER_ID));
-                return params;
+            public void onResponse(Call<List<OrderHistory>> call, retrofit2.Response<List<OrderHistory>> response) {
+                List<OrderHistory> histories = response.body();
+                for (OrderHistory orderHistory :
+                        histories) {
+                    orderHistories.add(orderHistory);
+                }
+                progressBar.setVisibility(View.GONE);
+                if(orderHistories.size() > 0) {
+                    historyState.setVisibility(View.GONE);
+                }else {
+                    historyState.setVisibility(View.VISIBLE);
+                }
+                HistoryAdapter adapter = new HistoryAdapter(context, orderHistories);
+                recyclerView.setAdapter(adapter);
             }
 
-        };
-        singleton.addToRequestQueue(stringRequest);
+            @Override
+            public void onFailure(Call<List<OrderHistory>> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                final Snackbar snackbar = Snackbar.make(recyclerView, "Something went wrong!", Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbar.dismiss();
+                        progressBar.setVisibility(View.VISIBLE);
+                        getOrders(recyclerView, historyState, progressBar);
+                    }
+                });
+                snackbar.show();
+            }
+        });
+
     }
 
     public void getOrderItems(final String id, final RecyclerView listView) {

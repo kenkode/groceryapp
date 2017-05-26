@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.activities.GECartActivity;
 import com.softark.eddie.gasexpress.helpers.Cart;
+import com.softark.eddie.gasexpress.models.RService;
 import com.softark.eddie.gasexpress.models.Service;
 
 import java.util.ArrayList;
@@ -20,10 +21,10 @@ import java.util.ArrayList;
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHolder>{
 
     private final Context context;
-    private final ArrayList<Service> services;
+    private final ArrayList<RService> services;
     private final LayoutInflater inflater;
 
-    public ServiceAdapter(Context context, ArrayList<Service> services) {
+    public ServiceAdapter(Context context, ArrayList<RService> services) {
         this.context = context;
         this.services = services;
         inflater = LayoutInflater.from(context);
@@ -42,7 +43,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ServiceAdapter.ViewHolder holder, final int position) {
-        final Service service = services.get(position);
+        final RService service = services.get(position);
         holder.name.setText(service.getName());
     }
 
@@ -59,7 +60,10 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
 
         @Override
         public void onClick(View v) {
-            Service service = services.get(getAdapterPosition());
+            RService rService= services.get(getAdapterPosition());
+            Service service = new Service();
+            service.setId(rService.getId());
+            service.setName(rService.getName());
             Cart.addService(service);
             Snackbar snackbar = Snackbar.make(add, service.getName().concat(" requested."), Snackbar.LENGTH_INDEFINITE);
             snackbar.setAction("View Cart", new View.OnClickListener() {

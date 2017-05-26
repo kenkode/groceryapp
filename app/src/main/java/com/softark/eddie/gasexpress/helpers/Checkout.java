@@ -39,7 +39,7 @@ public class Checkout {
         return user;
     }
 
-    public void processOrder(ProgressDialog progressDialog) {
+    public void processOrder(String paymentMethods, ProgressDialog progressDialog) {
         Gson gson = GsonHelper.getBuilder().create();
         Realm realm = Realm.getDefaultInstance();
         RealmResults<CartItem> cartItems = realm.where(CartItem.class).equalTo("status", 0).findAll();
@@ -58,7 +58,7 @@ public class Checkout {
         }
 
         String processedItems = gson.toJson(cartItemList);
-        orderData.placeOrder(processedItems, progressDialog);
+        orderData.placeOrder(paymentMethods, processedItems, progressDialog);
     }
 
 }

@@ -14,16 +14,17 @@ import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.activities.GECartActivity;
 import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.models.Accessory;
+import com.softark.eddie.gasexpress.models.RAccessory;
 
 import java.util.ArrayList;
 
 public class AccessoryAdapter extends RecyclerView.Adapter<AccessoryAdapter.ViewHolder> {
 
     private final Context context;
-    private final ArrayList<Accessory> items;
+    private final ArrayList<RAccessory> items;
     private final LayoutInflater inflater;
 
-    public AccessoryAdapter(Context context, ArrayList<Accessory> items) {
+    public AccessoryAdapter(Context context, ArrayList<RAccessory> items) {
         this.context = context;
         this.items = items;
         inflater = LayoutInflater.from(context);
@@ -42,7 +43,7 @@ public class AccessoryAdapter extends RecyclerView.Adapter<AccessoryAdapter.View
 
     @Override
     public void onBindViewHolder(AccessoryAdapter.ViewHolder holder, int position) {
-        final Accessory accessory = items.get(position);
+        final RAccessory accessory = items.get(position);
         holder.name.setText(accessory.getName());
         holder.price.setText(String.valueOf(accessory.getPrice()));
     }
@@ -62,7 +63,11 @@ public class AccessoryAdapter extends RecyclerView.Adapter<AccessoryAdapter.View
 
         @Override
         public void onClick(View v) {
-            Accessory accessory = items.get(getAdapterPosition());
+            RAccessory rAccessory = items.get(getAdapterPosition());
+            Accessory accessory = new Accessory();
+            accessory.setName(rAccessory.getName());
+            accessory.setId(rAccessory.getId());
+            accessory.setPrice(rAccessory.getPrice());
             Cart.addProduct(accessory);
             Snackbar snackbar = Snackbar.make(name, accessory.getName().concat(" added to cart"), Snackbar.LENGTH_INDEFINITE);
             snackbar.setAction("View Cart", new View.OnClickListener() {

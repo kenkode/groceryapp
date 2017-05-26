@@ -14,6 +14,8 @@ import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
 
 public class GEAccessoryActivity extends AppCompatActivity {
 
+    private LinearLayout errorLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +23,7 @@ public class GEAccessoryActivity extends AppCompatActivity {
 
         AccessoryServiceData data = new AccessoryServiceData(this);
 
-        LinearLayout errorLayout = (LinearLayout) findViewById(R.id.error_layout_accessories);
+        errorLayout = (LinearLayout) findViewById(R.id.error_layout_accessories);
         errorLayout.setVisibility(View.GONE);
         ProgressBar loader = (ProgressBar) findViewById(R.id.load_accessories);
 
@@ -35,7 +37,8 @@ public class GEAccessoryActivity extends AppCompatActivity {
         serviceList.setLayoutManager(gridLayoutManager);
         serviceList.addItemDecoration(serviceDecorator);
 
-        data.getAccService(accessoriesList, serviceList, errorLayout, loader);
+        data.getServices(serviceList, errorLayout, loader);
+        data.getAccessories(accessoriesList, errorLayout, loader);
 
     }
 }

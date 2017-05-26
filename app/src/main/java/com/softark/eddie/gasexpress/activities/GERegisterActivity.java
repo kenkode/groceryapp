@@ -27,7 +27,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
-import com.softark.eddie.gasexpress.data.UserData;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.models.Location;
 
@@ -282,7 +281,6 @@ public class GERegisterActivity extends AppCompatActivity {
                 params.put("address", location.getAddress());
                 params.put("lat", String.valueOf(location.getLat()));
                 params.put("lng", String.valueOf(location.getLng()));
-                Log.i("PARAMS", params.toString());
                 return params;
             }
         };

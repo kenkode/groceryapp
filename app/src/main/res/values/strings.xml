@@ -3,4 +3,8 @@
     <string name="title_activity_gas_express">Gas Express</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string-array name="payment_methods">
+        <item>Cash</item>
+        <item>M-Pesa</item>
+    </string-array>
 </resources>

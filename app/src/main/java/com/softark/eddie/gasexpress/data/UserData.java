@@ -15,9 +15,9 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
-import com.softark.eddie.gasexpress.activities.GasExpress;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
+import com.softark.eddie.gasexpress.activities.GasExpress;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 
 import java.util.HashMap;

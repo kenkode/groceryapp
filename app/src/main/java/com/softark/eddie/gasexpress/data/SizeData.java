@@ -2,29 +2,22 @@ package com.softark.eddie.gasexpress.data;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.softark.eddie.gasexpress.Constants;
+import com.softark.eddie.gasexpress.Retrofit.RetrofitInterface;
+import com.softark.eddie.gasexpress.Retrofit.ServiceGenerator;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.adapters.DistributorAdapter;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
-import com.softark.eddie.gasexpress.models.Gas;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.softark.eddie.gasexpress.models.RGas;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class SizeData {
 
@@ -40,54 +33,35 @@ public class SizeData {
     }
 
     public void getSizes(final LinearLayout errorLayout, final RecyclerView recyclerView, final ProgressBar progressBar) {
-        final ArrayList<Gas> gases = new ArrayList<>();
+        final ArrayList<RGas> rGases = new ArrayList<>();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.GET_SIZES,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+        RetrofitInterface retrofitInterface = ServiceGenerator.getClient().create(RetrofitInterface.class);
 
-                        try {
-                            progressBar.setVisibility(View.GONE);
-                            if(errorLayout.getVisibility() == View.VISIBLE) {
-                                errorLayout.setVisibility(View.GONE);
-                            }
-                            JSONArray jsonArray= new JSONArray(response);
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject object = jsonArray.getJSONObject(i);
-                                Gas gas = new Gas();
-                                gas.setId(object.getString("id"));
-                                gas.setPrice(object.getDouble("price"));
-                                gas.setSize(object.getInt("size"));
-                                gases.add(gas);
-                            }
-                            adapter = new DistributorAdapter(gases, context);
-                            recyclerView.setAdapter(adapter);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progressBar.setVisibility(View.GONE);
-                        if(errorLayout.getVisibility() == View.GONE) {
-                            errorLayout.setVisibility(View.VISIBLE);
-                        }
-                        error.printStackTrace();
-                    }
-                })
-        {
+        Call<List<RGas>> retroGases = retrofitInterface.getGases(0);
+
+        retroGases.enqueue(new Callback<List<RGas>>() {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("user", preference.getUser().get(GEPreference.USER_ID));
-                return params;
+            public void onResponse(Call<List<RGas>> call, retrofit2.Response<List<RGas>> response) {
+                List<RGas> gases = response.body();
+                for (RGas rGas : gases) {
+                    rGases.add(rGas);
+                }
+                progressBar.setVisibility(View.GONE);
+                if(errorLayout.getVisibility() == View.VISIBLE) {
+                  errorLayout.setVisibility(View.GONE);
+                }
+                DistributorAdapter adapter = new DistributorAdapter(rGases, context);
+                recyclerView.setAdapter(adapter);
             }
-        };
 
-        requestSingleton.addToRequestQueue(stringRequest);
+            @Override
+            public void onFailure(Call<List<RGas>> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                if(errorLayout.getVisibility() == View.GONE) {
+                    errorLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
 }

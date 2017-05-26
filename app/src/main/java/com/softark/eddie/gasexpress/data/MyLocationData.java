@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -23,24 +21,27 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
+import com.softark.eddie.gasexpress.Retrofit.RetrofitInterface;
+import com.softark.eddie.gasexpress.Retrofit.ServiceGenerator;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
-import com.softark.eddie.gasexpress.activities.GELocation;
 import com.softark.eddie.gasexpress.activities.GEMyLocationActivity;
 import com.softark.eddie.gasexpress.adapters.LocationAdapter;
 import com.softark.eddie.gasexpress.helpers.Checkout;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
+import com.softark.eddie.gasexpress.helpers.GsonHelper;
 import com.softark.eddie.gasexpress.models.Location;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.softark.eddie.gasexpress.models.RLocation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class MyLocationData {
 
@@ -63,150 +64,124 @@ public class MyLocationData {
         locations = new ArrayList<>();
         final List<String> list = new ArrayList<>();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.GET_MY_LOCATIONS,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
-                            if(errorLocation != null) {
-                                errorLocation.setVisibility(View.GONE);
-                            }
-                            if(loader != null) {
-                                loader.setVisibility(View.GONE);
-                            }
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject object = jsonArray.getJSONObject(i);
-                                Location location = new Location();
-                                location.setLng(object.getDouble("lng"));
-                                location.setLat(object.getDouble("lat"));
-                                location.setAddress(object.getString("address"));
-                                location.setType(object.getInt("type"));
-                                location.setId(object.getString("location_id"));
-                                list.add(object.getString("address"));
-                                locations.add(location);
-                            }
+        RetrofitInterface retrofitInterface = ServiceGenerator.getClient().create(RetrofitInterface.class);
 
-                            if(recyclerView != null) {
-                                adapter = new LocationAdapter(context, locations);
-                                recyclerView.setAdapter(adapter);
-                            }
-
-                            if(spinner != null) {
-                                spinner.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_custom, list));
-                                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                        Location location = locations.get(position);
-                                        Checkout.setLocation(location);
-                                    }
-
-                                    @Override
-                                    public void onNothingSelected(AdapterView<?> parent) {
-
-                                    }
-                                });
-                            }
-
-                            if(checkout != null && list.size() > 0) {
-                                checkout.setEnabled(true);
-                            }else {
-                                if(list.size() < 1) {
-                                    if(spinner != null) {
-                                        final Snackbar snackbar = Snackbar.make(spinner, "Add a delivery location", Snackbar.LENGTH_INDEFINITE);
-                                        snackbar.setAction("Add", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                snackbar.dismiss();
-                                                Intent intent = new Intent(context, GEMyLocationActivity.class);
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                context.startActivity(intent);
-                                            }
-                                        });
-                                        snackbar.show();
-                                    }
-                                }
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(final VolleyError error) {
-                        String message = "";
-                        if(errorLocation != null) {
-                            errorLocation.setVisibility(View.VISIBLE);
-                        }
-                        if(loader != null) {
-                            loader.setVisibility(View.GONE);
-                        }
-                        if(error instanceof TimeoutError || error instanceof NetworkError) {
-                            message = "No internet connection. Please try again later.";
-                        }else if(error instanceof ServerError) {
-                            message = "Server experienced internal error. Please try again later.";
-                        }
-                        final Snackbar snackbar = Snackbar.make(recyclerView, message, Snackbar.LENGTH_INDEFINITE);
-                        snackbar.setAction("Retry", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                snackbar.dismiss();
-                                if(errorLocation != null) {
-                                    errorLocation.setVisibility(View.GONE);
-                                }
-                                if(loader != null) {
-                                    loader.setVisibility(View.VISIBLE);
-                                }
-                                getLocation(recyclerView, spinner, errorLocation, loader, checkout);
-                            }
-                        });
-                        snackbar.show();
-                    }
-                })
-        {
+        Call<List<Location>> callLocations = retrofitInterface.getLocations(preference.getUser().get(GEPreference.USER_ID));
+        callLocations.enqueue(new Callback<List<Location>>() {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("user", preference.getUser().get(GEPreference.USER_ID));
-                return params;
+            public void onResponse(Call<List<Location>> call, retrofit2.Response<List<Location>> response) {
+                List<Location> locationList = response.body();
+                for (Location location :
+                        locationList) {
+                    locations.add(location);
+                    list.add(location.getAddress());
+                }
+
+                if (errorLocation != null) {
+                    errorLocation.setVisibility(View.GONE);
+                }
+                if (loader != null) {
+                    loader.setVisibility(View.GONE);
+                }
+
+                if (recyclerView != null) {
+                    adapter = new LocationAdapter(context, locations);
+                    recyclerView.setAdapter(adapter);
+                }
+
+                if (spinner != null) {
+                    spinner.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_custom, list));
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            Location location = locations.get(position);
+                            Checkout.setLocation(location);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                }
+
+                if (checkout != null && list.size() > 0) {
+                    checkout.setEnabled(true);
+                } else {
+                    if (list.size() < 1) {
+                        if (spinner != null) {
+                            final Snackbar snackbar = Snackbar.make(spinner, "Add a delivery location", Snackbar.LENGTH_INDEFINITE);
+                            snackbar.setAction("Add", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    snackbar.dismiss();
+                                    Intent intent = new Intent(context, GEMyLocationActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    context.startActivity(intent);
+                                }
+                            });
+                            snackbar.show();
+                        }
+                    }
+                }
             }
-        };
-        singleton.addToRequestQueue(stringRequest);
+
+            @Override
+            public void onFailure(Call<List<Location>> call, Throwable t) {
+                if (errorLocation != null) {
+                    errorLocation.setVisibility(View.VISIBLE);
+                }
+                if (loader != null) {
+                    loader.setVisibility(View.GONE);
+                }
+
+                final Snackbar snackbar = Snackbar.make(recyclerView, "Oops! Something went wrong", Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbar.dismiss();
+                        if (errorLocation != null) {
+                            errorLocation.setVisibility(View.GONE);
+                        }
+                        if (loader != null) {
+                            loader.setVisibility(View.VISIBLE);
+                        }
+                        getLocation(recyclerView, spinner, errorLocation, loader, checkout);
+                    }
+                });
+                snackbar.show();
+            }
+        });
     }
 
     public void addLocation(final Location location) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.ADD_LOCATION,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        location.setId(response);
-                        Log.i("OO", response);
-                        locations.add(location);
-                        adapter.notifyDataSetChanged();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
-                })
-        {
+
+        RLocation rLocation = new RLocation();
+        rLocation.setLocation_id(location.getId());
+        rLocation.setAddress(location.getAddress());
+        rLocation.setDescription(location.getDescription());
+        rLocation.setLat(location.getLat());
+        rLocation.setLng(location.getLng());
+        rLocation.setType(location.getType());
+        Gson gson = GsonHelper.getBuilder().create();
+        String loc = gson.toJson(rLocation);
+
+        RetrofitInterface retrofitInterface = ServiceGenerator.getClient().create(RetrofitInterface.class);
+
+        Call<String> addLocation = retrofitInterface.addLocation(loc, preference.getUser().get(GEPreference.USER_ID));
+        addLocation.enqueue(new Callback<String>() {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("lng", String.valueOf(location.getLng()));
-                params.put("lat", String.valueOf(location.getLat()));
-                params.put("address", location.getAddress());
-                params.put("type", String.valueOf(location.getType()));
-                params.put("desc", String.valueOf(location.getDescription()));
-                params.put("user", preference.getUser().get(GEPreference.USER_ID));
-                return params;
+            public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                location.setId(response.body());
+                locations.add(location);
+                adapter.notifyDataSetChanged();
             }
-        };
-        singleton.addToRequestQueue(stringRequest);
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     public void disableLocation(final String id, final ImageButton button) {
@@ -222,9 +197,9 @@ public class MyLocationData {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         String message = "";
-                        if(error instanceof TimeoutError || error instanceof NetworkError) {
+                        if (error instanceof TimeoutError || error instanceof NetworkError) {
                             message = "Error connecting to the internet. Please try again later.";
-                        }else if(error instanceof ServerError) {
+                        } else if (error instanceof ServerError) {
                             message = "Server experienced internal error. Please try again later.";
                         }
                         final Snackbar snackbar = Snackbar.make(button, message, Snackbar.LENGTH_INDEFINITE);
@@ -237,8 +212,7 @@ public class MyLocationData {
                         });
                         snackbar.show();
                     }
-                })
-        {
+                }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();

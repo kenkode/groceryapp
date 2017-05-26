@@ -142,6 +142,7 @@ public class GECartActivity extends AppCompatActivity {
                 dialog.setCancelable(false);
                 TextView total = (TextView) dialog.findViewById(R.id.total_text);
                 Button cancel = (Button) dialog.findViewById(R.id.cancel);
+                final Spinner paymentMethod = (Spinner) dialog.findViewById(R.id.payment_spinner);
                 Button checkout = (Button) dialog.findViewById(R.id.check_out);
                 final Spinner spinner = (Spinner) dialog.findViewById(R.id.location_spinner);
                 MyLocationData myLocationData = new MyLocationData(GECartActivity.this);
@@ -166,7 +167,7 @@ public class GECartActivity extends AppCompatActivity {
                                 Checkout c = new Checkout(GECartActivity.this);
                                 ProgressDialog progressDialog = new ProgressDialog(GECartActivity.this);
                                 progressDialog.setMessage("Processing order...");
-                                c.processOrder(progressDialog);
+                                c.processOrder(paymentMethod.getSelectedItem().toString(), progressDialog);
                                 dialog.dismiss();
                                 progressDialog.show();
                             }
