@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.activities.GECartActivity;
@@ -59,7 +60,7 @@ public class GasAdapter extends BaseAdapter {
         gas.setSize(rGas.getSize());
 
         final TextView gasName= (TextView) convertView.findViewById(R.id.gas_name);
-        TextView gasPrice = (TextView) convertView.findViewById(R.id.gas_price);
+        final TextView gasPrice = (TextView) convertView.findViewById(R.id.gas_price);
         ImageButton addToCart = (ImageButton) convertView.findViewById(R.id.purchase_button);
 
         addToCart.setOnClickListener(new View.OnClickListener() {

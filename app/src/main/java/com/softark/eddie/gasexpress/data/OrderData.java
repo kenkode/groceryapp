@@ -57,7 +57,6 @@ public class OrderData {
     }
 
     public void placeOrder(String payment, String cartItems, final ProgressDialog progressDialog) {
-
         RetrofitInterface retrofitInterface = ServiceGenerator.getClient().create(RetrofitInterface.class);
         Call<String> makeOrder = retrofitInterface.placeOrder(cartItems,
                 preference.getUser().get(GEPreference.USER_ID), Checkout.getLocation().getId(), payment);
@@ -65,7 +64,6 @@ public class OrderData {
             @Override
             public void onResponse(Call<String> call, retrofit2.Response<String> response) {
                 Cart.clearCart();
-                Log.i("ORDER", response.body());
                 progressDialog.dismiss();
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.checkout_success);
@@ -134,47 +132,30 @@ public class OrderData {
     }
 
     public void getOrderItems(final String id, final RecyclerView listView) {
-        final ArrayList<OrderItem> orderItems = new ArrayList<>();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.GET_ORDER_ITEMS,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject object = jsonArray.getJSONObject(i);
-                                OrderItem orderItem = new OrderItem();
-                                orderItem.setName(object.getString("name"));
-                                orderItem.setId(object.getString("id"));
-                                orderItem.setPrice(object.getDouble("price"));
-                                orderItem.setQuantity(object.getInt("qty"));
-                                orderItems.add(orderItem);
-                            }
-                            ItemAdapter itemAdapter = new ItemAdapter(context, orderItems);
-                            listView.setAdapter(itemAdapter);
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+        RetrofitInterface retrofitInterface = ServiceGenerator.getClient().create(RetrofitInterface.class);
 
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                })
-        {
+        final Call<List<OrderItem>> orderItems = retrofitInterface.getOrderItems(preference.getUser().get(GEPreference.USER_ID),
+                id);
+
+        orderItems.enqueue(new Callback<List<OrderItem>>() {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("user", preference.getUser().get(GEPreference.USER_ID));
-                params.put("id", id);
-                return params;
+            public void onResponse(Call<List<OrderItem>> call, retrofit2.Response<List<OrderItem>> response) {
+                ArrayList<OrderItem> orderItemArrayList = new ArrayList<OrderItem>();
+                for (OrderItem orderItem :
+                        response.body()) {
+                    orderItemArrayList.add(orderItem);
+                }
+                ItemAdapter itemAdapter = new ItemAdapter(context, orderItemArrayList);
+                listView.setAdapter(itemAdapter);
             }
 
-        };
-        singleton.addToRequestQueue(stringRequest);
+            @Override
+            public void onFailure(Call<List<OrderItem>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
     }
 
 }

@@ -24,11 +24,18 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
+import com.softark.eddie.gasexpress.Retrofit.RetrofitInterface;
+import com.softark.eddie.gasexpress.Retrofit.ServiceGenerator;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
+import com.softark.eddie.gasexpress.helpers.GsonHelper;
 import com.softark.eddie.gasexpress.models.Location;
+import com.softark.eddie.gasexpress.models.RLocation;
+import com.softark.eddie.gasexpress.models.User;
+import com.softark.eddie.gasexpress.models.UserAuth;
 
 import net.rimoto.intlphoneinput.IntlPhoneInput;
 
@@ -38,6 +45,9 @@ import org.json.JSONObject;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 import static com.softark.eddie.gasexpress.Constants.LOCATION_ID;
 
@@ -49,7 +59,7 @@ public class GERegisterActivity extends AppCompatActivity {
     private GEPreference preference;
     private RequestSingleton singleton;
 
-    private final String[] MESSAGES = new String[] {
+    private final String[] MESSAGES = new String[]{
             "Please provide your name",
             "Please provide your email",
             "Invalid email",
@@ -143,7 +153,7 @@ public class GERegisterActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isValid() == 0) {
+                if (isValid() == 0) {
                     String fnm = fname.getText().toString().trim();
                     String lnm = lname.getText().toString().trim();
                     String eml = email.getText().toString().trim();
@@ -155,30 +165,37 @@ public class GERegisterActivity extends AppCompatActivity {
                     progressDialog.setCancelable(false);
                     progressDialog.setMessage("Registering...");
                     progressDialog.show();
-                    addUser(fnm, lnm, eml, phn, bd, email, desc, userLocation, progressDialog);
-                }else {
-                    Toast.makeText(GERegisterActivity.this, MESSAGES[isValid()-1], Toast.LENGTH_LONG).show();
+                    User user = new User(lnm, fnm, eml, phn, bd);
+                    RLocation location = new RLocation();
+                    location.setType(userLocation.getType());
+                    location.setLng(userLocation.getLng());
+                    location.setLat(userLocation.getLat());
+                    location.setDescription(desc);
+                    location.setAddress(userLocation.getAddress());
+                    addUser(user, location, progressDialog);
+                } else {
+                    Toast.makeText(GERegisterActivity.this, MESSAGES[isValid() - 1], Toast.LENGTH_LONG).show();
                 }
 
             }
         });
 
         Intent intent = getIntent();
-        if(intent != null) {
+        if (intent != null) {
             phone.setNumber(intent.getStringExtra("phone"));
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK) {
-            if(requestCode == LOCATION_ID) {
-                if(data != null) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == LOCATION_ID) {
+                if (data != null) {
                     Location loc = data.getParcelableExtra("location");
                     userLocation = loc;
                     location.setText(loc.getAddress());
                 }
-                if(getIntent() != null) {
+                if (getIntent() != null) {
                     fname.setText(getIntent().getStringExtra("fname"));
                     lname.setText(getIntent().getStringExtra("lname"));
                     email.setText(getIntent().getStringExtra("email"));
@@ -196,25 +213,25 @@ public class GERegisterActivity extends AppCompatActivity {
         String eml = email.getText().toString().trim();
         String phn = phone.getNumber().trim();
         String bd = birthday.getText().toString().trim();
-        String desc= description.getText().toString().trim();
+        String desc = description.getText().toString().trim();
 
-        if(fnm.isEmpty() || lnm.isEmpty()) {
+        if (fnm.isEmpty() || lnm.isEmpty()) {
             return 1;
-        }else if(eml.isEmpty()) {
+        } else if (eml.isEmpty()) {
             return 2;
-        }else if(!Patterns.EMAIL_ADDRESS.matcher(eml).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(eml).matches()) {
             return 3;
-        }else if(phn.isEmpty()) {
+        } else if (phn.isEmpty()) {
             return 4;
-        }else if(!phone.isValid()) {
+        } else if (!phone.isValid()) {
             return 5;
-        }else if(bd.isEmpty()) {
+        } else if (bd.isEmpty()) {
             return 6;
-        }else if(userLocation == null) {
+        } else if (userLocation == null) {
             return 7;
-        }else if(desc.isEmpty()) {
+        } else if (desc.isEmpty()) {
             return 9;
-        }else if(desc.length() < 15) {
+        } else if (desc.length() < 15) {
             return 8;
         }
 
@@ -227,64 +244,46 @@ public class GERegisterActivity extends AppCompatActivity {
         finish();
     }
 
-    private void addUser(final String fname, final String lname, final String email, final String phone, final String birthday, final View view, final String description, final Location location, final ProgressDialog progressDialog) {
+    private void addUser(final User user, final RLocation location, final ProgressDialog progressDialog) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.ADD_USER,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            if(!jsonObject.getString("status").equals("EE")) {
-                                confirmPin(jsonObject, progressDialog);
-                            }else {
-                                Toast.makeText(GERegisterActivity.this, "Email exists", Toast.LENGTH_LONG).show();
-                            }
-                            progressDialog.dismiss();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        progressDialog.dismiss();
-                        String message = "";
-                        if(error instanceof TimeoutError || error instanceof NetworkError) {
-                            message = "Server took long to respond. Please try again.";
-                        }else if(error instanceof ServerError) {
-                            message = "Server experienced internal error. Please try again later.";
-                        }
-                        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
-                        snackbar.setAction("Retry", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                progressDialog.show();
-                                addUser(fname, lname, email, phone, birthday, view, description, location, progressDialog);
-                            }
-                        });
-                        snackbar.show();
-                    }
-                })
-        {
+        RetrofitInterface retrofitInterface = ServiceGenerator.getClient().create(RetrofitInterface.class);
+        Gson gson = GsonHelper.getBuilder().create();
+        String userJson = gson.toJson(user);
+        String locationJson = gson.toJson(location);
+        Call<String> registerUser = retrofitInterface.addUser(userJson, locationJson);
+
+        Log.i("INFO", userJson);
+        Log.i("INFO", locationJson);
+
+        registerUser.enqueue(new Callback<String>() {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("fname", fname);
-                params.put("lname", lname);
-                params.put("email", email);
-                params.put("birthday", birthday);
-                params.put("description", description);
-                params.put("phone", phone);
-                params.put("address", location.getAddress());
-                params.put("lat", String.valueOf(location.getLat()));
-                params.put("lng", String.valueOf(location.getLng()));
-                return params;
+            public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                if (!response.body().equals("EE")) {
+//                    confirmPin(response.body(), progressDialog);
+                } else {
+                    Toast.makeText(GERegisterActivity.this, "Email exists", Toast.LENGTH_LONG).show();
+                }
+                progressDialog.dismiss();
+//                Toast.makeText(GERegisterActivity.this, response.body(), Toast.LENGTH_LONG).show();
             }
-        };
-        singleton.addToRequestQueue(stringRequest);
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+//                t.printStackTrace();
+//                progressDialog.dismiss();
+//                Snackbar snackbar = Snackbar.make(email, "Something went wrong", Snackbar.LENGTH_LONG);
+//                snackbar.setAction("Retry", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        progressDialog.show();
+//                        addUser(user, location, progressDialog);
+//                    }
+//                });
+//                snackbar.show();
+//                Toast.makeText(GERegisterActivity.this, "Error", Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     private void confirmPin(final JSONObject jsonObject, final ProgressDialog dialog) {
@@ -306,12 +305,12 @@ public class GERegisterActivity extends AppCompatActivity {
             submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(pinText.getText().toString().isEmpty()) {
+                    if (pinText.getText().toString().isEmpty()) {
                         Toast.makeText(GERegisterActivity.this, "Insert pin.", Toast.LENGTH_LONG).show();
-                    }else {
-                        if(pinText.getText().toString().equals(pin.trim())) {
+                    } else {
+                        if (pinText.getText().toString().equals(pin.trim())) {
                             processResults(jsonObject);
-                        }else {
+                        } else {
                             Toast.makeText(GERegisterActivity.this, "Incorrect pin.", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -325,7 +324,7 @@ public class GERegisterActivity extends AppCompatActivity {
 
     private void processResults(JSONObject jsonObject) {
         try {
-            if(jsonObject.getString("status").equals("E")) {
+            if (jsonObject.getString("status").equals("E")) {
                 JSONObject user = jsonObject.getJSONObject("user");
                 String id = user.getString("id");
                 String fnm = user.getString("fname");

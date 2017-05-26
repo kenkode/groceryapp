@@ -2,6 +2,7 @@ package com.softark.eddie.gasexpress.helpers;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.softark.eddie.gasexpress.data.OrderData;
@@ -54,6 +55,7 @@ public class Checkout {
             cartItem.setType(item.getType());
             cartItem.setOrderId(item.getOrderId());
             cartItem.setQuantity(item.getQuantity());
+            cartItem.setPrice(item.getPrice());
             cartItemList.add(cartItem);
         }
 

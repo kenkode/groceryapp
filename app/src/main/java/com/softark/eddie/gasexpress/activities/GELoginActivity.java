@@ -165,7 +165,6 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
                     intent.putExtra("phone", phone);
                     startActivity(intent);
                 }
-                Toast.makeText(GELoginActivity.this, response.body().getStatus(), Toast.LENGTH_LONG).show();
             }
 
             @Override

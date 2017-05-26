@@ -1,16 +1,23 @@
 package com.softark.eddie.gasexpress.models;
 
+import com.google.gson.annotations.Expose;
+
 public class User {
 
+    @Expose
     private String id;
+    @Expose
     private String lname;
+    @Expose
     private String fname;
+    @Expose
     private String email;
+    @Expose
     private String phone;
+    @Expose
     private String birthday;
 
-    public User(String id, String lname, String fname, String email, String phone, String birthday) {
-        this.id = id;
+    public User(String lname, String fname, String email, String phone, String birthday) {
         this.lname = lname;
         this.fname = fname;
         this.email = email;
@@ -20,10 +27,6 @@ public class User {
 
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getLname() {

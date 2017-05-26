@@ -2,6 +2,7 @@ package com.softark.eddie.gasexpress.data;
 
 import android.content.Context;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;

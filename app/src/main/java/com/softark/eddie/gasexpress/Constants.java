@@ -10,7 +10,7 @@ public class Constants {
 
     public static final String GET_GASES = MAIN_URL + "get_gases";
 
-    public static final String GET_SIZES = MAIN_URL + "get_sizes";
+    public static final String GET_SIZES = "get_sizes";
 
     public static final String GET_BULK = "get_bulk_gas";
 
@@ -24,7 +24,7 @@ public class Constants {
 
     public static final String GET_ORDERS = "my_orders";
 
-    public static final String GET_ORDER_ITEMS = MAIN_URL + "get_items";
+    public static final String GET_ORDER_ITEMS = "get_items";
 
     public static final String GET_MY_LOCATIONS = "my_locations";
 
@@ -32,9 +32,9 @@ public class Constants {
 
     public static final String DISABLE_LOCATION = MAIN_URL + "disable_location";
 
-    public static final String AUTH_USER = MAIN_URL + "authenticate_user";
+    public static final String AUTH_USER = "authenticate_user";
 
-    public static final String ADD_USER = MAIN_URL + "add_user";
+    public static final String ADD_USER = "add_user";
 
     public static final String VALIDATE_USER = MAIN_URL + "validate_user";
 
