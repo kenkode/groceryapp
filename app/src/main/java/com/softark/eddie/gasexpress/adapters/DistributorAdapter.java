@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
@@ -17,11 +18,11 @@ import java.util.ArrayList;
 
 public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.ViewHolder> {
 
-    private final ArrayList<RGas> sizes;
+    private final int[] sizes;
     private final Context context;
     private final LayoutInflater inflater;
 
-    public DistributorAdapter(ArrayList<RGas> sizes, Context context) {
+    public DistributorAdapter(int[] sizes, Context context) {
         this.sizes = sizes;
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -29,13 +30,13 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
 
     @Override
     public int getItemCount() {
-        return sizes.size();
+        return sizes.length;
     }
 
     @Override
     public void onBindViewHolder(DistributorAdapter.ViewHolder holder, int position) {
-        final RGas size = sizes.get(position);
-        holder.distributorName.setText(String.valueOf(size.getSize()));
+        int size = sizes[position];
+        holder.distributorName.setText(String.valueOf(size));
     }
 
     @Override
@@ -63,9 +64,9 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
 
         @Override
         public void onClick(View v) {
-            RGas size = sizes.get(getAdapterPosition());
+            int size = sizes[getAdapterPosition()];
             Intent intent = new Intent(context, PriceActivity.class);
-            intent.putExtra(Constants.SIZE, size.getSize());
+            intent.putExtra(Constants.SIZE, size);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }

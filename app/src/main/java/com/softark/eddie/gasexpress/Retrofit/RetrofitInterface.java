@@ -23,6 +23,9 @@ import retrofit2.http.Query;
 public interface RetrofitInterface {
 
     @GET(Constants.GET_SIZES)
+    Call<int[]> getSizes();
+
+    @GET(Constants.GET_GASES)
     Call<List<RGas>> getGases(@Query("size") int size);
 
     @GET(Constants.GET_ACCESSORIES)

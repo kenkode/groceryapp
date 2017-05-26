@@ -6,15 +6,13 @@ public class Constants {
 
     public static final int LOCATION_ID = 1089;
 
-    private static final String MAIN_URL = "http://45.55.201.219/gas_express/";
-
-    public static final String GET_GASES = MAIN_URL + "get_gases";
+    public static final String GET_GASES = "get_gases";
 
     public static final String GET_SIZES = "get_sizes";
 
     public static final String GET_BULK = "get_bulk_gas";
 
-    public static final String GET_ACC_SERVICE = MAIN_URL + "get_acc_service";
+    public static final String GET_ACC_SERVICE = "get_acc_service";
 
     public static final String GET_ACCESSORIES= "get_accessories";
 
@@ -30,12 +28,12 @@ public class Constants {
 
     public static final String ADD_LOCATION = "add_location";
 
-    public static final String DISABLE_LOCATION = MAIN_URL + "disable_location";
+    public static final String DISABLE_LOCATION = "disable_location";
 
     public static final String AUTH_USER = "authenticate_user";
 
     public static final String ADD_USER = "add_user";
 
-    public static final String VALIDATE_USER = MAIN_URL + "validate_user";
+    public static final String VALIDATE_USER = "validate_user";
 
 }

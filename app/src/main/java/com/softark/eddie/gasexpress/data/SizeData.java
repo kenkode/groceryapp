@@ -33,30 +33,27 @@ public class SizeData {
     }
 
     public void getSizes(final LinearLayout errorLayout, final RecyclerView recyclerView, final ProgressBar progressBar) {
-        final ArrayList<RGas> rGases = new ArrayList<>();
 
         RetrofitInterface retrofitInterface = ServiceGenerator.getClient().create(RetrofitInterface.class);
 
-        Call<List<RGas>> retroGases = retrofitInterface.getGases(0);
+        final Call<int[]> sizes = retrofitInterface.getSizes();
 
-        retroGases.enqueue(new Callback<List<RGas>>() {
+        sizes.enqueue(new Callback<int[]>() {
             @Override
-            public void onResponse(Call<List<RGas>> call, retrofit2.Response<List<RGas>> response) {
-                List<RGas> gases = response.body();
-                for (RGas rGas : gases) {
-                    rGases.add(rGas);
-                }
+            public void onResponse(Call<int[]> call, retrofit2.Response<int[]> response) {
+                int[] gases = response.body();
                 progressBar.setVisibility(View.GONE);
                 if(errorLayout.getVisibility() == View.VISIBLE) {
                   errorLayout.setVisibility(View.GONE);
                 }
-                DistributorAdapter adapter = new DistributorAdapter(rGases, context);
+                DistributorAdapter adapter = new DistributorAdapter(gases, context);
                 recyclerView.setAdapter(adapter);
             }
 
             @Override
-            public void onFailure(Call<List<RGas>> call, Throwable t) {
+            public void onFailure(Call<int[]> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
+                t.printStackTrace();
                 if(errorLayout.getVisibility() == View.GONE) {
                     errorLayout.setVisibility(View.VISIBLE);
                 }

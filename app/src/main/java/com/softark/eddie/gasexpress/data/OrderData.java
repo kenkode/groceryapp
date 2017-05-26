@@ -64,6 +64,7 @@ public class OrderData {
             @Override
             public void onResponse(Call<String> call, retrofit2.Response<String> response) {
                 Cart.clearCart();
+                Log.i("ORDER", response.body());
                 progressDialog.dismiss();
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.checkout_success);
