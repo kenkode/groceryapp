@@ -180,6 +180,9 @@ public class GasExpress extends AppCompatActivity
         } else if (id == R.id.my_locations) {
             Intent intent = new Intent(GasExpress.this, GEMyLocationActivity.class);
             startActivity(intent);
+        } else if (id == R.id.payment) {
+            Intent intent = new Intent(GasExpress.this, GEMyLocationActivity.class);
+            startActivity(intent);
         } else if(id == R.id.my_cart) {
             Intent intent = new Intent(GasExpress.this, GECartActivity.class);
             startActivity(intent);

@@ -25,6 +25,7 @@ public class GEMyLocationActivity extends AppCompatActivity {
 
     private FloatingActionButton addLocation;
     private RecyclerView recyclerView;
+    private LinearLayout emptyLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,10 @@ public class GEMyLocationActivity extends AppCompatActivity {
         LinearLayout errorLocation = (LinearLayout) findViewById(R.id.error_location_layout);
         errorLocation.setVisibility(View.GONE);
 
+        emptyLocation = (LinearLayout) findViewById(R.id.no_location_layout);
+        emptyLocation.setVisibility(View.GONE);
+
+
         ProgressBar locationLoader = (ProgressBar) findViewById(R.id.location_loader);
 
         addLocation.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +48,7 @@ public class GEMyLocationActivity extends AppCompatActivity {
                 if(Internet.isConnected()) {
                     Intent intent = new Intent(GEMyLocationActivity.this, GELocation.class);
                     startActivityForResult(intent, LOCATION_ID);
+                    emptyLocation.setVisibility(View.GONE);
                 }else {
                     final Snackbar snackbar = Snackbar.make(addLocation, "Check your internet connection and try again.", Snackbar.LENGTH_INDEFINITE);
                     snackbar.setAction("Dismiss", new View.OnClickListener() {
@@ -61,7 +67,7 @@ public class GEMyLocationActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(decorator);
 
         MyLocationData locationData = new MyLocationData(this);
-        locationData.getLocation(recyclerView, null, errorLocation, locationLoader, null);
+        locationData.getLocation(recyclerView, null, emptyLocation, errorLocation, locationLoader, null);
 
     }
 

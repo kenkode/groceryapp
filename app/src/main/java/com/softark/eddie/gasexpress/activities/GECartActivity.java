@@ -147,7 +147,7 @@ public class GECartActivity extends AppCompatActivity {
                 final Spinner spinner = (Spinner) dialog.findViewById(R.id.location_spinner);
                 MyLocationData myLocationData = new MyLocationData(GECartActivity.this);
                 checkout.setEnabled(false);
-                myLocationData.getLocation(null, spinner, null, null, checkout);
+                myLocationData.getLocation(null, spinner, null, null, null, checkout);
                 total.setText(String.valueOf(realm.where(OrderPrice.class).equalTo("id", OrderKey.orderKey).findFirst().getPrice()));
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override

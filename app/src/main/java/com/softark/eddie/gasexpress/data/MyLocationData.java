@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -59,6 +60,7 @@ public class MyLocationData {
 
     public void getLocation(final RecyclerView recyclerView,
                             final Spinner spinner,
+                            final LinearLayout emptyLocation,
                             final LinearLayout errorLocation,
                             final ProgressBar loader, final Button checkout) {
         locations = new ArrayList<>();
@@ -75,6 +77,14 @@ public class MyLocationData {
                         locationList) {
                     locations.add(location);
                     list.add(location.getAddress());
+                }
+
+                if(emptyLocation != null) {
+                    if(locationList.size() <= 0) {
+                        emptyLocation.setVisibility(View.VISIBLE);
+                    }else {
+                        emptyLocation.setVisibility(View.GONE);
+                    }
                 }
 
                 if (errorLocation != null) {
@@ -127,9 +137,12 @@ public class MyLocationData {
             }
 
             @Override
-            public void onFailure(Call<List<Location>> call, Throwable t) {
+            public void onFailure(final Call<List<Location>> call, Throwable t) {
                 if (errorLocation != null) {
                     errorLocation.setVisibility(View.VISIBLE);
+                }
+                if (emptyLocation != null) {
+                    emptyLocation.setVisibility(View.GONE);
                 }
                 if (loader != null) {
                     loader.setVisibility(View.GONE);
@@ -146,7 +159,8 @@ public class MyLocationData {
                         if (loader != null) {
                             loader.setVisibility(View.VISIBLE);
                         }
-                        getLocation(recyclerView, spinner, errorLocation, loader, checkout);
+                        call.cancel();
+                        getLocation(recyclerView, spinner, emptyLocation, errorLocation, loader, checkout);
                     }
                 });
                 snackbar.show();
@@ -157,7 +171,7 @@ public class MyLocationData {
     public void addLocation(final Location location) {
 
         RLocation rLocation = new RLocation();
-        rLocation.setLocation_id(location.getId());
+        rLocation.setId(location.getId());
         rLocation.setAddress(location.getAddress());
         rLocation.setDescription(location.getDescription());
         rLocation.setLat(location.getLat());
@@ -185,44 +199,20 @@ public class MyLocationData {
     }
 
     public void disableLocation(final String id, final ImageButton button) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.DISABLE_LOCATION,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Snackbar snackbar = Snackbar.make(button, response, Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        String message = "";
-                        if (error instanceof TimeoutError || error instanceof NetworkError) {
-                            message = "Error connecting to the internet. Please try again later.";
-                        } else if (error instanceof ServerError) {
-                            message = "Server experienced internal error. Please try again later.";
-                        }
-                        final Snackbar snackbar = Snackbar.make(button, message, Snackbar.LENGTH_INDEFINITE);
-                        snackbar.setAction("Retry", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                snackbar.dismiss();
-                                disableLocation(id, button);
-                            }
-                        });
-                        snackbar.show();
-                    }
-                }) {
+
+        RetrofitInterface retrofitInterface = ServiceGenerator.getClient().create(RetrofitInterface.class);
+        Call<String> disableLocation = retrofitInterface.disableLocation(id, preference.getUser().get(GEPreference.USER_ID));
+
+        disableLocation.enqueue(new Callback<String>() {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("location", id);
-                GEPreference preference = new GEPreference(context);
-                params.put("user", preference.getUser().get(GEPreference.USER_ID));
-                return params;
+            public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                Toast.makeText(context, response.body(), Toast.LENGTH_SHORT).show();
             }
-        };
-        singleton.addToRequestQueue(stringRequest);
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+            }
+        });
     }
 
 }

@@ -36,7 +36,7 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
     @Override
     public void onBindViewHolder(DistributorAdapter.ViewHolder holder, int position) {
         int size = sizes[position];
-        holder.distributorName.setText(String.valueOf(size));
+        holder.gasSize.setText(String.valueOf(size));
     }
 
     @Override
@@ -47,19 +47,17 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public final TextView distributorName;
-        public final View view;
+        public TextView gasSize;
+        public View view;
 //        public final ImageButton moreInfo;
         public final View mainView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             view = itemView;
-            distributorName = (TextView) itemView.findViewById(R.id.gas_size);
-//            moreInfo = (ImageButton) itemView.findViewById(R.id.size_more_info);
+            gasSize = (TextView) itemView.findViewById(R.id.gas_size);
             mainView = itemView;
             mainView.setOnClickListener(this);
-//            moreInfo.setOnClickListener(this);
         }
 
         @Override

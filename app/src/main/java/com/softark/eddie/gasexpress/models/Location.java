@@ -3,8 +3,11 @@ package com.softark.eddie.gasexpress.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Location implements Parcelable {
 
+    @SerializedName("location_id")
     private String id;
     private double lng;
     private double lat;

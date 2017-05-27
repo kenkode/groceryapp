@@ -41,6 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -58,13 +59,12 @@ public class OrderData {
 
     public void placeOrder(String payment, String cartItems, final ProgressDialog progressDialog) {
         RetrofitInterface retrofitInterface = ServiceGenerator.getClient().create(RetrofitInterface.class);
-        Call<String> makeOrder = retrofitInterface.placeOrder(cartItems,
+        Call<ResponseBody> makeOrder = retrofitInterface.placeOrder(cartItems,
                 preference.getUser().get(GEPreference.USER_ID), Checkout.getLocation().getId(), payment);
-        makeOrder.enqueue(new Callback<String>() {
+        makeOrder.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
                 Cart.clearCart();
-                Log.i("ORDER", response.body());
                 progressDialog.dismiss();
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.checkout_success);
@@ -83,7 +83,7 @@ public class OrderData {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 progressDialog.dismiss();
                 t.printStackTrace();
             }

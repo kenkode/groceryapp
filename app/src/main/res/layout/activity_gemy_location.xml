@@ -24,6 +24,32 @@
         android:layout_marginTop="96dp" />
 
     <LinearLayout
+        android:id="@+id/no_location_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="96dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="108dp"
+            android:layout_height="108dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="fitCenter"
+            android:src="@drawable/empty_location"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="No locations found."
+            android:textColor="@color/colorGrayAccent"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/error_location_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

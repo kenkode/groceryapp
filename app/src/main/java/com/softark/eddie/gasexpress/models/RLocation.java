@@ -1,11 +1,12 @@
 package com.softark.eddie.gasexpress.models;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class RLocation {
 
     @Expose
-    private String location_id;
+    private String id;
     @Expose
     private double lng;
     @Expose
@@ -17,12 +18,12 @@ public class RLocation {
     @Expose
     private String description;
 
-    public String getLocation_id() {
-        return location_id;
+    public String getId() {
+        return id;
     }
 
-    public void setLocation_id(String location_id) {
-        this.location_id = location_id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public double getLng() {

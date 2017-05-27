@@ -13,6 +13,7 @@ import com.softark.eddie.gasexpress.models.UserAuth;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -51,6 +52,10 @@ public interface RetrofitInterface {
     Call<String> addLocation(@Field("location") String location, @Field("user") String user);
 
     @FormUrlEncoded
+    @POST(Constants.DISABLE_LOCATION)
+    Call<String> disableLocation(@Field("location") String location, @Field("user") String user);
+
+    @FormUrlEncoded
     @POST(Constants.ADD_USER)
     Call<String> addUser(@Field("user") String user, @Field("location") String location);
 
@@ -59,9 +64,9 @@ public interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST(Constants.PLACE_ORDER)
-    Call<String> placeOrder(@Field("json") String json,
-                            @Field("user") String user,
-                            @Field("location") String location,
-                            @Field("payment") String payment);
+    Call<ResponseBody> placeOrder(@Field("json") String json,
+                                  @Field("user") String user,
+                                  @Field("location") String location,
+                                  @Field("payment") String payment);
 
 }
