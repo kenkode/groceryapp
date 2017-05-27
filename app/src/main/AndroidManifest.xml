@@ -118,7 +118,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.GasExpress" />
         </activity>
-        <activity android:name=".GEPaymentActivity"></activity>
+        <activity android:name=".GEPaymentActivity"
+            android:parentActivityName=".activities.GasExpress"
+            android:theme="@style/ListViewTheme"
+            android:label="Payment">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.GasExpress" />
+        </activity>
     </application>
 
 </manifest>

@@ -26,9 +26,12 @@ import com.softark.eddie.gasexpress.data.MyLocationData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
 import com.softark.eddie.gasexpress.helpers.Cart;
 import com.softark.eddie.gasexpress.helpers.Checkout;
+import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.helpers.OrderKey;
 import com.softark.eddie.gasexpress.models.CartItem;
 import com.softark.eddie.gasexpress.models.OrderPrice;
+
+import java.util.Arrays;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -37,11 +40,13 @@ public class GECartActivity extends AppCompatActivity {
 
     private Button clearCart, checkout;
     private Realm realm;
+    private GEPreference preference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+        preference = new GEPreference(this);
         realm = Realm.getDefaultInstance();
 
         TextView totalPrice = (TextView) findViewById(R.id.total_price);
@@ -143,6 +148,13 @@ public class GECartActivity extends AppCompatActivity {
                 TextView total = (TextView) dialog.findViewById(R.id.total_text);
                 Button cancel = (Button) dialog.findViewById(R.id.cancel);
                 final Spinner paymentMethod = (Spinner) dialog.findViewById(R.id.payment_spinner);
+                String payments[] = getResources().getStringArray(R.array.payment_methods);
+                for (int i = 0;i < payments.length;i++) {
+                    if(payments[i].equals(preference.getPaymentOption())) {
+                        paymentMethod.setSelection(i);
+                        break;
+                    }
+                }
                 Button checkout = (Button) dialog.findViewById(R.id.check_out);
                 final Spinner spinner = (Spinner) dialog.findViewById(R.id.location_spinner);
                 MyLocationData myLocationData = new MyLocationData(GECartActivity.this);

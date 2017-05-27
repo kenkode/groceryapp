@@ -5,6 +5,15 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string-array name="payment_methods">
         <item>Cash</item>
-        <item>M-Pesa</item>
+        <item>Mpesa</item>
+    </string-array>
+    <string-array name="mpesa_payment">
+        <item>1.Go to Mpesa menu</item>
+        <item>2.Select payment services</item>
+        <item>3.Click on lipa na mpesa</item>
+        <item>4.Enter agent number as </item>
+        <item>5.Enter the amount to transfer</item>
+        <item>6.Enter your Mpesa pin and Confirm request</item>
+        <item>7.You will receive an SMS from Mpesa to confirm transaction</item>
     </string-array>
 </resources>

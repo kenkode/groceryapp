@@ -25,6 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.softark.eddie.gasexpress.GEPaymentActivity;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.data.SizeData;
 import com.softark.eddie.gasexpress.decorators.RecyclerDecorator;
@@ -181,7 +182,7 @@ public class GasExpress extends AppCompatActivity
             Intent intent = new Intent(GasExpress.this, GEMyLocationActivity.class);
             startActivity(intent);
         } else if (id == R.id.payment) {
-            Intent intent = new Intent(GasExpress.this, GEMyLocationActivity.class);
+            Intent intent = new Intent(GasExpress.this, GEPaymentActivity.class);
             startActivity(intent);
         } else if(id == R.id.my_cart) {
             Intent intent = new Intent(GasExpress.this, GECartActivity.class);
