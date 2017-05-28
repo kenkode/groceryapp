@@ -13,16 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Retrofit.RetrofitInterface;
 import com.softark.eddie.gasexpress.Retrofit.ServiceGenerator;
-import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.activities.GEHistory;
 import com.softark.eddie.gasexpress.adapters.HistoryAdapter;
 import com.softark.eddie.gasexpress.adapters.ItemAdapter;
@@ -32,14 +26,8 @@ import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.models.OrderHistory;
 import com.softark.eddie.gasexpress.models.OrderItem;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -48,12 +36,10 @@ import retrofit2.Callback;
 public class OrderData {
 
     private final Context context;
-    private final RequestSingleton singleton;
     private final GEPreference preference;
 
     public OrderData(Context context) {
         this.context = context;
-        singleton = new RequestSingleton(context);
         preference = new GEPreference(context);
     }
 
@@ -65,6 +51,7 @@ public class OrderData {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
                 Cart.clearCart();
+                response.body();
                 progressDialog.dismiss();
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.checkout_success);

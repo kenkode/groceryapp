@@ -14,20 +14,11 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Retrofit.RetrofitInterface;
 import com.softark.eddie.gasexpress.Retrofit.ServiceGenerator;
-import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.activities.GEMyLocationActivity;
 import com.softark.eddie.gasexpress.adapters.LocationAdapter;
 import com.softark.eddie.gasexpress.helpers.Checkout;
@@ -47,14 +38,12 @@ import retrofit2.Callback;
 public class MyLocationData {
 
     private final Context context;
-    private final RequestSingleton singleton;
     private final GEPreference preference;
     private static LocationAdapter adapter;
     private static ArrayList<Location> locations;
 
     public MyLocationData(Context context) {
         this.context = context;
-        singleton = new RequestSingleton(context);
         preference = new GEPreference(context);
     }
 

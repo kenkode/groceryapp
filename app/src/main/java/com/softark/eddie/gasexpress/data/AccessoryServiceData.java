@@ -10,7 +10,6 @@ import android.widget.ProgressBar;
 
 import com.softark.eddie.gasexpress.Retrofit.RetrofitInterface;
 import com.softark.eddie.gasexpress.Retrofit.ServiceGenerator;
-import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.adapters.AccessoryAdapter;
 import com.softark.eddie.gasexpress.adapters.ServiceAdapter;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
@@ -26,12 +25,10 @@ import retrofit2.Callback;
 public class AccessoryServiceData {
 
     private final Context context;
-    private final RequestSingleton singleton;
     private final GEPreference preference;
 
     public AccessoryServiceData(Context context) {
         this.context = context;
-        singleton = new RequestSingleton(context);
         preference = new GEPreference(context);
     }
 

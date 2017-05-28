@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Retrofit.RetrofitInterface;
 import com.softark.eddie.gasexpress.Retrofit.ServiceGenerator;
-import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.core.ApplicationConfiguration;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.helpers.Internet;
@@ -36,7 +35,6 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
     private GEPreference preference;
     private ProgressDialog progressDialog;
     private FloatingActionButton loginButton;
-    private RequestSingleton singleton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +46,6 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         loginButton = (FloatingActionButton) findViewById(R.id.login);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
-        singleton = new RequestSingleton(this);
 
         preference = new GEPreference(this);
 

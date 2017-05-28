@@ -15,20 +15,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Retrofit.RetrofitInterface;
 import com.softark.eddie.gasexpress.Retrofit.ServiceGenerator;
-import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.helpers.GsonHelper;
 import com.softark.eddie.gasexpress.helpers.Token;
@@ -57,7 +48,6 @@ public class GERegisterActivity extends AppCompatActivity {
     private IntlPhoneInput phone;
     private Location userLocation;
     private GEPreference preference;
-    private RequestSingleton singleton;
 
     private final String[] MESSAGES = new String[]{
             "Please provide your name",
@@ -76,7 +66,6 @@ public class GERegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_geregister);
         preference = new GEPreference(this);
-        singleton = new RequestSingleton(this);
 
         userLocation = null;
 

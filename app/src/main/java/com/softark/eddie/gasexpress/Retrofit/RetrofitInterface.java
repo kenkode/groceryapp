@@ -47,26 +47,22 @@ public interface RetrofitInterface {
     @GET(Constants.GET_MY_LOCATIONS)
     Call<List<Location>> getLocations(@Query("user") String user);
 
-    @FormUrlEncoded
-    @POST(Constants.ADD_LOCATION)
-    Call<String> addLocation(@Field("location") String location, @Field("user") String user);
+    @GET(Constants.ADD_LOCATION)
+    Call<String> addLocation(@Query("location") String location, @Query("user") String user);
 
-    @FormUrlEncoded
-    @POST(Constants.DISABLE_LOCATION)
-    Call<String> disableLocation(@Field("location") String location, @Field("user") String user);
+    @GET(Constants.DISABLE_LOCATION)
+    Call<String> disableLocation(@Query("location") String location, @Query("user") String user);
 
-    @FormUrlEncoded
-    @POST(Constants.ADD_USER)
-    Call<UserAuth> addUser(@Field("user") String user, @Field("location") String location);
+    @GET(Constants.ADD_USER)
+    Call<UserAuth> addUser(@Query("user") String user, @Query("location") String location);
 
     @GET(Constants.AUTH_USER)
     Call<UserAuth> authUser(@Query("phone") String phone);
 
-    @FormUrlEncoded
-    @POST(Constants.PLACE_ORDER)
-    Call<ResponseBody> placeOrder(@Field("json") String json,
-                                  @Field("user") String user,
-                                  @Field("location") String location,
-                                  @Field("payment") String payment);
+    @GET(Constants.PLACE_ORDER)
+    Call<ResponseBody> placeOrder(@Query("json") String json,
+                                  @Query("user") String user,
+                                  @Query("location") String location,
+                                  @Query("payment") String payment);
 
 }

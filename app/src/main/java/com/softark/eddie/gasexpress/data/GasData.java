@@ -10,7 +10,6 @@ import android.widget.ProgressBar;
 
 import com.softark.eddie.gasexpress.Retrofit.RetrofitInterface;
 import com.softark.eddie.gasexpress.Retrofit.ServiceGenerator;
-import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.adapters.GasAdapter;
 import com.softark.eddie.gasexpress.models.RGas;
 
@@ -22,12 +21,10 @@ import retrofit2.Callback;
 
 public class GasData {
 
-    private final RequestSingleton requestSingleton;
     private final Context context;
 
     public GasData(Context context) {
         this.context = context;
-        requestSingleton = new RequestSingleton(context);
     }
 
     public void getGases(final int size, final ListView listView, final LinearLayout errorLinear, final ProgressBar loadPrice) {

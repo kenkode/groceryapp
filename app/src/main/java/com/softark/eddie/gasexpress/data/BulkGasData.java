@@ -9,7 +9,6 @@ import android.widget.ProgressBar;
 
 import com.softark.eddie.gasexpress.Retrofit.RetrofitInterface;
 import com.softark.eddie.gasexpress.Retrofit.ServiceGenerator;
-import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.adapters.BulkGasAdapter;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.models.RBulkGas;
@@ -24,12 +23,10 @@ public class BulkGasData {
 
     private final Context context;
     private final GEPreference preference;
-    private final RequestSingleton singleton;
 
     public BulkGasData(Context context) {
         this.context = context;
         preference = new GEPreference(context);
-        singleton = new RequestSingleton(context);
     }
 
     public void getBulkGases(final RecyclerView recyclerView, final LinearLayout errorLayout, final ProgressBar loader) {
