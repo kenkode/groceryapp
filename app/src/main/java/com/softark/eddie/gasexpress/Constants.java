@@ -12,8 +12,6 @@ public class Constants {
 
     public static final String GET_BULK = "get_bulk_gas";
 
-    public static final String GET_ACC_SERVICE = "get_acc_service";
-
     public static final String GET_ACCESSORIES= "get_accessories";
 
     public static final String GET_SERVICES = "get_services";
@@ -33,7 +31,5 @@ public class Constants {
     public static final String AUTH_USER = "authenticate_user";
 
     public static final String ADD_USER = "add_user";
-
-    public static final String VALIDATE_USER = "validate_user";
 
 }

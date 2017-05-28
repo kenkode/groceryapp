@@ -8,42 +8,24 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Retrofit.RetrofitInterface;
 import com.softark.eddie.gasexpress.Retrofit.ServiceGenerator;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.core.ApplicationConfiguration;
-import com.softark.eddie.gasexpress.data.UserData;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.helpers.Internet;
-import com.softark.eddie.gasexpress.models.User;
+import com.softark.eddie.gasexpress.helpers.Token;
 import com.softark.eddie.gasexpress.models.UserAuth;
 
 import net.rimoto.intlphoneinput.IntlPhoneInput;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,6 +53,7 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         preference = new GEPreference(this);
 
         if (preference.isUserLogged()) {
+            Token.setToken(preference.getToken());
             startActivity(new Intent(this, GasExpress.class));
             finish();
         }
@@ -116,7 +99,7 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         if (Internet.isConnected()) {
             progressDialog.setMessage("Validating...");
             progressDialog.show();
-            authUser(this.phone, progressDialog, phone);
+            authUser(progressDialog, phone);
         } else {
             showSnack();
         }
@@ -148,7 +131,7 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         ApplicationConfiguration.getInstance().setConnectivityListener(this);
     }
 
-    private void authUser(final IntlPhoneInput phoneTextView, final ProgressDialog dialog, final String phone) {
+    private void authUser(final ProgressDialog dialog, final String phone) {
 
         RetrofitInterface retrofitInterface = ServiceGenerator.getClient().create(RetrofitInterface.class);
         Call<UserAuth> userAuthCall = retrofitInterface.authUser(phone);
@@ -183,6 +166,8 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
             String phn = userAuth.getUser().getPhone();
             String email = userAuth.getUser().getEmail();
             preference.setUser(id, fname, lname, phn, email);
+            Token.setToken(userAuth.getToken());
+            preference.setToken(userAuth.getToken());
             Intent intent = new Intent(GELoginActivity.this, GasExpress.class);
             startActivity(intent);
             finish();
@@ -219,6 +204,7 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
                     if (pinText.getText().toString().equals(pin.trim())) {
                         String recPin = phone.getText().trim();
                         processResults(user, recPin);
+                        dialog1.dismiss();
                     } else {
                         Toast.makeText(GELoginActivity.this, "Incorrect pin.", Toast.LENGTH_LONG).show();
                     }
@@ -227,6 +213,4 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
         });
         dialog1.show();
     }
-
-
 }

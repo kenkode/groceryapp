@@ -57,7 +57,7 @@ public interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST(Constants.ADD_USER)
-    Call<String> addUser(@Field("user") String user, @Field("location") String location);
+    Call<UserAuth> addUser(@Field("user") String user, @Field("location") String location);
 
     @GET(Constants.AUTH_USER)
     Call<UserAuth> authUser(@Query("phone") String phone);

@@ -20,6 +20,7 @@ public class GEPreference {
     public static final String USER_LNAME = "user_lname";
 
     public static final String PAYMENT_OPTION = "payment_option";
+    public static final String TOKEN = "token";
 
     public GEPreference(Context context) {
         Context context1 = context;
@@ -34,6 +35,15 @@ public class GEPreference {
 
     public String getPaymentOption() {
         return sharedPreferences.getString(PAYMENT_OPTION, "");
+    }
+
+    public void setToken(String token) {
+        editor.putString(TOKEN, token);
+        editor.apply();
+    }
+
+    public String getToken() {
+        return sharedPreferences.getString(TOKEN, "");
     }
 
 // User preference

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +31,7 @@ import com.softark.eddie.gasexpress.Retrofit.ServiceGenerator;
 import com.softark.eddie.gasexpress.Singleton.RequestSingleton;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.helpers.GsonHelper;
+import com.softark.eddie.gasexpress.helpers.Token;
 import com.softark.eddie.gasexpress.models.Location;
 import com.softark.eddie.gasexpress.models.RLocation;
 import com.softark.eddie.gasexpress.models.User;
@@ -250,94 +250,84 @@ public class GERegisterActivity extends AppCompatActivity {
         Gson gson = GsonHelper.getBuilder().create();
         String userJson = gson.toJson(user);
         String locationJson = gson.toJson(location);
-        Call<String> registerUser = retrofitInterface.addUser(userJson, locationJson);
+        Call<UserAuth> registerUser = retrofitInterface.addUser(userJson, locationJson);
 
-        Log.i("INFO", userJson);
-        Log.i("INFO", locationJson);
-
-        registerUser.enqueue(new Callback<String>() {
+        registerUser.enqueue(new Callback<UserAuth>() {
             @Override
-            public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-                if (!response.body().equals("EE")) {
-//                    confirmPin(response.body(), progressDialog);
+            public void onResponse(Call<UserAuth> call, retrofit2.Response<UserAuth> response) {
+                UserAuth user = response.body();
+                if (!user.getStatus().equals("EE")) {
+                    confirmPin(user, progressDialog);
                 } else {
                     Toast.makeText(GERegisterActivity.this, "Email exists", Toast.LENGTH_LONG).show();
                 }
                 progressDialog.dismiss();
-//                Toast.makeText(GERegisterActivity.this, response.body(), Toast.LENGTH_LONG).show();
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-//                t.printStackTrace();
-//                progressDialog.dismiss();
-//                Snackbar snackbar = Snackbar.make(email, "Something went wrong", Snackbar.LENGTH_LONG);
-//                snackbar.setAction("Retry", new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        progressDialog.show();
-//                        addUser(user, location, progressDialog);
-//                    }
-//                });
-//                snackbar.show();
-//                Toast.makeText(GERegisterActivity.this, "Error", Toast.LENGTH_LONG).show();
+            public void onFailure(Call<UserAuth> call, Throwable t) {
+                t.printStackTrace();
+                progressDialog.dismiss();
+                Snackbar snackbar = Snackbar.make(email, "Something went wrong", Snackbar.LENGTH_LONG);
+                snackbar.setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        progressDialog.show();
+                        addUser(user, location, progressDialog);
+                    }
+                });
+                snackbar.show();
+                Toast.makeText(GERegisterActivity.this, "Error", Toast.LENGTH_LONG).show();
             }
         });
 
     }
 
-    private void confirmPin(final JSONObject jsonObject, final ProgressDialog dialog) {
-        try {
-            final String pin = jsonObject.getString("pin");
-            dialog.dismiss();
-            final Dialog dialog1 = new Dialog(GERegisterActivity.this);
-            dialog1.setCancelable(false);
-            dialog1.setContentView(R.layout.pin_input_dialog);
-            Button cancel = (Button) dialog1.findViewById(R.id.cancel);
-            Button submit = (Button) dialog1.findViewById(R.id.ok);
-            final EditText pinText = (EditText) dialog1.findViewById(R.id.pin_edit);
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog1.dismiss();
-                }
-            });
-            submit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (pinText.getText().toString().isEmpty()) {
-                        Toast.makeText(GERegisterActivity.this, "Insert pin.", Toast.LENGTH_LONG).show();
+    private void confirmPin(final UserAuth user, final ProgressDialog dialog) {
+        final String pin = user.getPin();
+        dialog.dismiss();
+        final Dialog dialog1 = new Dialog(GERegisterActivity.this);
+        dialog1.setCancelable(false);
+        dialog1.setContentView(R.layout.pin_input_dialog);
+        Button cancel = (Button) dialog1.findViewById(R.id.cancel);
+        Button submit = (Button) dialog1.findViewById(R.id.ok);
+        final EditText pinText = (EditText) dialog1.findViewById(R.id.pin_edit);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog1.dismiss();
+            }
+        });
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (pinText.getText().toString().isEmpty()) {
+                    Toast.makeText(GERegisterActivity.this, "Insert pin.", Toast.LENGTH_LONG).show();
+                } else {
+                    if (pinText.getText().toString().equals(pin.trim())) {
+                        processResults(user);
                     } else {
-                        if (pinText.getText().toString().equals(pin.trim())) {
-                            processResults(jsonObject);
-                        } else {
-                            Toast.makeText(GERegisterActivity.this, "Incorrect pin.", Toast.LENGTH_LONG).show();
-                        }
+                        Toast.makeText(GERegisterActivity.this, "Incorrect pin.", Toast.LENGTH_LONG).show();
                     }
                 }
-            });
-            dialog1.show();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            }
+        });
+        dialog1.show();
     }
 
-    private void processResults(JSONObject jsonObject) {
-        try {
-            if (jsonObject.getString("status").equals("E")) {
-                JSONObject user = jsonObject.getJSONObject("user");
-                String id = user.getString("id");
-                String fnm = user.getString("fname");
-                String lnm = user.getString("lname");
-                String phn = user.getString("phone");
-                String email = user.getString("email");
-                preference.setUser(id, fnm, lnm, phn, email);
-                Intent intent = new Intent(GERegisterActivity.this, GasExpress.class);
-                startActivity(intent);
-                finish();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+    private void processResults(UserAuth user) {
+        if (user.getStatus().equals("E")) {
+            String id = user.getUser().getId();
+            String fnm = user.getUser().getFname();
+            String lnm = user.getUser().getLname();
+            String phn = user.getUser().getPhone();
+            String email = user.getUser().getEmail();
+            preference.setUser(id, fnm, lnm, phn, email);
+            Token.setToken(user.getToken());
+            preference.setToken(user.getToken());
+            Intent intent = new Intent(GERegisterActivity.this, GasExpress.class);
+            startActivity(intent);
+            finish();
         }
     }
 

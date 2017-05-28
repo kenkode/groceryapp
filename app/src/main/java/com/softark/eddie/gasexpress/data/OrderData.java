@@ -85,7 +85,6 @@ public class OrderData {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 progressDialog.dismiss();
-                t.printStackTrace();
             }
         });
     }

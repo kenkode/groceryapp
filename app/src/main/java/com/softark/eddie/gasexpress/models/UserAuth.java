@@ -5,11 +5,13 @@ public class UserAuth {
     private String status;
     private String pin;
     private User user;
+    private String token;
 
-    public UserAuth(String status, String pin, User user) {
+    public UserAuth(String status, String pin, User user, String token) {
         this.status = status;
         this.pin = pin;
         this.user = user;
+        this.token = token;
     }
 
     public String getStatus() {
@@ -34,5 +36,13 @@ public class UserAuth {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
