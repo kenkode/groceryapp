@@ -44,15 +44,8 @@ public class CartBulkGasAdapter extends RecyclerView.Adapter<CartBulkGasAdapter.
     public void onBindViewHolder(CartBulkGasAdapter.ViewHolder holder, int position) {
         BulkGas bulkGas = items.get(position);
         String metric;
-        Log.i("BULK-AD", String.valueOf(bulkGas.getPrice()));
-
-        if(bulkGas.getMetric() == 1) {
-            metric = "Kg";
-        }else {
-            metric = "Tons";
-        }
         holder.price.setText(String.valueOf(bulkGas.getPrice()));
-        holder.name.setText(bulkGas.getName().concat(" ").concat(String.valueOf(bulkGas.getSize())).concat(" ").concat(metric));
+        holder.name.setText(bulkGas.getName());
         holder.quantitySelect.setValue(bulkGas.getQuantity());
     }
 

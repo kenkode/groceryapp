@@ -5,14 +5,20 @@ import io.realm.annotations.PrimaryKey;
 
 public class BulkGas extends RealmObject {
 
-    private String name;
-    private int size;
-    private int metric;
-    private int quantity;
     @PrimaryKey
     private String id;
+    private int quantity;
     private double price;
-    private int status;
+    private int metric;
+    private String name;
+
+    public int getMetric() {
+        return metric;
+    }
+
+    public void setMetric(int metric) {
+        this.metric = metric;
+    }
 
     public String getName() {
         return name;
@@ -20,30 +26,6 @@ public class BulkGas extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public double getPrice() {
@@ -54,20 +36,19 @@ public class BulkGas extends RealmObject {
         this.price = price;
     }
 
-    public int getSize() {
-        return size;
+    public String getId() {
+        return id;
     }
 
-    public void setSize(int size) {
-        this.size = size;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public int getMetric() {
-        return metric;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setMetric(int metric) {
-        this.metric = metric;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
-
 }

@@ -9,41 +9,157 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.softark.eddie.gasexpress.activities.GEBulkGasActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/bulk_gas_list"
+    <android.support.v7.widget.CardView
+        android:id="@+id/price_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/price_per_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/price_per"
+                android:padding="8dp"
+                android:text="Price Per Kg"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/price_per"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:padding="8dp"
+                android:text="120/Kg"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/bulk_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:padding="8dp"
+                android:text="Bulk Price"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/bulk_price_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/bulk_text"
+                android:padding="8dp"
+                android:text="10000"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/total_size_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/price_wrapper"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/total_size_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="Total size selected(Kg)"
+                android:layout_alignParentLeft="true"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/total_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:textStyle="bold"
+                android:layout_alignParentRight="true"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimary" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/select_bulk_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/total_size_wrapper"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Select bulk quantity"
+        android:textColor="@color/colorPrimary" />
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/select_bulk_desc"
+        android:layout_marginTop="16dp">
 
-    <LinearLayout
-        android:id="@+id/error_layout_bulk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="101.8dp"
-            android:layout_height="99.4dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/distributor"
-            android:tint="@color/colorRedAccent"
-            tools:ignore="ContentDescription" />
-
-        <TextView
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="No data"
-            android:textColor="@color/colorRedAccent" />
+            android:layout_height="wrap_content">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:text="Quantity"
+                android:textColor="@color/colorPrimary" />
 
-    <ProgressBar
-        android:id="@+id/load_bulk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true" />
+            <NumberPicker
+                android:id="@+id/bulk_quantity_select"
+                android:layout_width="wrap_content"
+                android:layout_height="64dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                android:theme="@style/EditTextStyle" />
+
+            <Button
+                android:id="@+id/bulk_buy"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/ge_buy_button"
+                android:text="Buy"
+                android:tint="@color/colorPrimary"
+                tools:ignore="ContentDescription" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>

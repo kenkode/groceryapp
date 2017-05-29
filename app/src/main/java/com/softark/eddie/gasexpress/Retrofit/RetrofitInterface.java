@@ -36,7 +36,7 @@ public interface RetrofitInterface {
     Call<List<RService>> getServices();
 
     @GET(Constants.GET_BULK)
-    Call<List<RBulkGas>> getBulkGases();
+    Call<Integer> getBulkPrice();
 
     @GET(Constants.GET_ORDERS)
     Call<List<OrderHistory>> getOrders(@Query("user") String user);

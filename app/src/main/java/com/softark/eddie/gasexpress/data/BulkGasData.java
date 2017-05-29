@@ -4,12 +4,15 @@ import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.Retrofit.RetrofitInterface;
 import com.softark.eddie.gasexpress.Retrofit.ServiceGenerator;
-import com.softark.eddie.gasexpress.adapters.BulkGasAdapter;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 import com.softark.eddie.gasexpress.models.RBulkGas;
 
@@ -29,45 +32,22 @@ public class BulkGasData {
         preference = new GEPreference(context);
     }
 
-    public void getBulkGases(final RecyclerView recyclerView, final LinearLayout errorLayout, final ProgressBar loader) {
-
-        final ArrayList<RBulkGas> gases = new ArrayList<>();
+    public void getBulkPrice(final TextView textView, final Button button, final NumberPicker numberPicker) {
 
         RetrofitInterface retrofitInterface = ServiceGenerator.getClient().create(RetrofitInterface.class);
-        Call<List<RBulkGas>> bulkGases = retrofitInterface.getBulkGases();
-        bulkGases.enqueue(new Callback<List<RBulkGas>>() {
+        Call<Integer> bulkGases = retrofitInterface.getBulkPrice();
+        bulkGases.enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Call<List<RBulkGas>> call, retrofit2.Response<List<RBulkGas>> response) {
-                List<RBulkGas> bulkGasesList = response.body();
-                for (RBulkGas rBulkGas :
-                        bulkGasesList) {
-                    gases.add(rBulkGas);
-                }
-                loader.setVisibility(View.GONE);
-                if(gases.size() <= 0) {
-                    errorLayout.setVisibility(View.VISIBLE);
-                }else {
-                    errorLayout.setVisibility(View.GONE);
-                }
-                BulkGasAdapter adapter = new BulkGasAdapter(context, gases);
-                recyclerView.setAdapter(adapter);
+            public void onResponse(Call<Integer> call, retrofit2.Response<Integer> response) {
+                int price = response.body();
+                textView.setText(String.valueOf(price));
+                button.setEnabled(true);
+                numberPicker.setEnabled(true);
             }
 
             @Override
-            public void onFailure(Call<List<RBulkGas>> call, Throwable t) {
-                loader.setVisibility(View.GONE);
-                errorLayout.setVisibility(View.VISIBLE);
-                final Snackbar snackbar = Snackbar.make(errorLayout, "Oops!Something went wrong", Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction("Retry", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackbar.dismiss();
-                        errorLayout.setVisibility(View.GONE);
-                        loader.setVisibility(View.VISIBLE);
-                        getBulkGases(recyclerView, errorLayout, loader);
-                    }
-                });
-                snackbar.show();
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Toast.makeText(context, "Error fetching bulk price", Toast.LENGTH_SHORT).show();
             }
         });
     }
