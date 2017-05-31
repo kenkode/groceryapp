@@ -36,7 +36,7 @@ public class MyLocationData {
 
     private final Context context;
     private final GEPreference preference;
-    private LocationAdapter adapter;
+    private static LocationAdapter adapter;
     private static ArrayList<Location> locations;
 
     public MyLocationData(Context context) {
