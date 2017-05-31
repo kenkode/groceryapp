@@ -1,22 +1,17 @@
-package com.softark.eddie.gasexpress;
+package com.softark.eddie.gasexpress.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.helpers.GEPreference;
 
 public class GEPaymentActivity extends AppCompatActivity {
 
-    private ListView listView;
-    private RadioGroup paymentGroup;
     private GEPreference preference;
 
     @Override
@@ -25,10 +20,10 @@ public class GEPaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gepayment);
         preference = new GEPreference(this);
 
-        listView = (ListView) findViewById(R.id.saf_listview);
-        paymentGroup = (RadioGroup) findViewById(R.id.payment_option);
+        ListView listView = (ListView) findViewById(R.id.saf_listview);
+        RadioGroup paymentGroup = (RadioGroup) findViewById(R.id.payment_option);
 
-        for(int i = 0;i < paymentGroup.getChildCount();i++) {
+        for(int i = 0; i < paymentGroup.getChildCount(); i++) {
             RadioButton radioButton = (RadioButton) paymentGroup.getChildAt(i);
             if(radioButton.getText().equals(preference.getPaymentOption())) {
                 radioButton.setChecked(true);

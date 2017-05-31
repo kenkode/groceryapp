@@ -45,18 +45,18 @@ public class Cart {
         Realm realm = Realm.getDefaultInstance();
         RealmResults<CartItem> cartItems = realm.where(CartItem.class)
                 .findAll();
-        if(cartItems.isEmpty()) {
+        if (cartItems.isEmpty()) {
             totalPrice = 0.0;
         }
         OrderPrice orderPrice = realm.where(OrderPrice.class)
                 .equalTo("id", OrderKey.orderKey).findFirst();
         realm.beginTransaction();
-        if(orderPrice == null) {
+        if (orderPrice == null) {
             orderPrice = new OrderPrice();
             orderPrice.setId(OrderKey.orderKey);
             orderPrice.setPrice(totalPrice);
             realm.copyToRealm(orderPrice);
-        }else {
+        } else {
             orderPrice.setPrice(totalPrice);
         }
         realm.commitTransaction();
@@ -109,11 +109,11 @@ public class Cart {
         switch (type) {
             case GASES:
                 Gas gas = (Gas) object;
-                if(realm.where(CartItem.class)
+                if (realm.where(CartItem.class)
                         .equalTo("id", gas.getId())
                         .equalTo("type", GASES)
                         .equalTo("orderId", OrderKey.orderKey).findFirst() == null) {
-                    totalPrice+=gas.getPrice();
+                    totalPrice += gas.getPrice();
                     cartItem.setId(gas.getId());
                     cartItem.setOrderId(OrderKey.orderKey);
                     cartItem.setQuantity(1);
@@ -128,7 +128,7 @@ public class Cart {
                 break;
             case SERVICES:
                 Service service = (Service) object;
-                if(realm.where(CartItem.class).equalTo("id", service.getId())
+                if (realm.where(CartItem.class).equalTo("id", service.getId())
                         .equalTo("orderId", OrderKey.orderKey)
                         .equalTo("type", SERVICES)
                         .findFirst() == null) {
@@ -145,11 +145,11 @@ public class Cart {
                 break;
             case ACCESSORIES:
                 Accessory accessory = (Accessory) object;
-                if(realm.where(CartItem.class).equalTo("id", accessory.getId())
+                if (realm.where(CartItem.class).equalTo("id", accessory.getId())
                         .equalTo("orderId", OrderKey.orderKey)
                         .equalTo("type", ACCESSORIES)
                         .findFirst() == null) {
-                    totalPrice+=accessory.getPrice();
+                    totalPrice += accessory.getPrice();
                     cartItem.setId(accessory.getId());
                     cartItem.setOrderId(OrderKey.orderKey);
                     cartItem.setQuantity(1);
@@ -157,6 +157,25 @@ public class Cart {
                     cartItem.setName(accessory.getName());
                     cartItem.setStatus(0);
                     cartItem.setType(ACCESSORIES);
+                    realm.beginTransaction();
+                    realm.copyToRealm(cartItem);
+                    realm.commitTransaction();
+                }
+                break;
+            case BULK_GAS:
+                BulkGas bulkGas = (BulkGas) object;
+                if (realm.where(CartItem.class).equalTo("id", bulkGas.getId())
+                        .equalTo("orderId", OrderKey.orderKey)
+                        .equalTo("type", BULK_GAS)
+                        .findFirst() == null) {
+                    totalPrice += bulkGas.getPrice() * bulkGas.getQuantity();
+                    cartItem.setId(bulkGas.getId());
+                    cartItem.setOrderId(OrderKey.orderKey);
+                    cartItem.setQuantity(bulkGas.getQuantity());
+                    cartItem.setPrice(bulkGas.getPrice());
+                    cartItem.setName(bulkGas.getName());
+                    cartItem.setStatus(0);
+                    cartItem.setType(BULK_GAS);
                     realm.beginTransaction();
                     realm.copyToRealm(cartItem);
                     realm.commitTransaction();
@@ -173,7 +192,7 @@ public class Cart {
         switch (type) {
             case GASES:
                 Gas gas = (Gas) object;
-                if(realm.where(CartItem.class)
+                if (realm.where(CartItem.class)
                         .equalTo("id", gas.getId())
                         .equalTo("type", GASES)
                         .equalTo("orderId", OrderKey.orderKey).findFirst() != null) {
@@ -182,12 +201,12 @@ public class Cart {
                     g.deleteFromRealm();
                     realm.commitTransaction();
                     double itemPrice = gas.getPrice() * gas.getQuantity();
-                    totalPrice-=itemPrice;
+                    totalPrice -= itemPrice;
                 }
                 break;
             case SERVICES:
                 Service service = (Service) object;
-                if(realm.where(CartItem.class).equalTo("id", service.getId())
+                if (realm.where(CartItem.class).equalTo("id", service.getId())
                         .equalTo("orderId", OrderKey.orderKey)
                         .equalTo("type", SERVICES)
                         .findFirst() != null) {
@@ -202,7 +221,7 @@ public class Cart {
                 break;
             case ACCESSORIES:
                 Accessory accessory = (Accessory) object;
-                if(realm.where(CartItem.class).equalTo("id", accessory.getId())
+                if (realm.where(CartItem.class).equalTo("id", accessory.getId())
                         .equalTo("orderId", OrderKey.orderKey)
                         .equalTo("type", ACCESSORIES)
                         .findFirst() != null) {
@@ -211,33 +230,33 @@ public class Cart {
                     a.deleteFromRealm();
                     realm.commitTransaction();
                     double itemPrice = accessory.getPrice() * accessory.getQuantity();
-                    totalPrice-=itemPrice;
+                    totalPrice -= itemPrice;
                 }
                 break;
             case BULK_GAS:
                 BulkGas bulkGas = (BulkGas) object;
-                if(realm.where(CartItem.class).equalTo("id", bulkGas.getId())
+                if (realm.where(CartItem.class).equalTo("id", bulkGas.getId())
                         .equalTo("orderId", OrderKey.orderKey)
-                        .equalTo("type", ACCESSORIES)
+                        .equalTo("type", BULK_GAS)
                         .findFirst() != null) {
                     realm.beginTransaction();
                     CartItem a = realm.where(CartItem.class).equalTo("id", bulkGas.getId()).equalTo("orderId", OrderKey.orderKey).findFirst();
                     a.deleteFromRealm();
                     realm.commitTransaction();
                     double itemPrice = bulkGas.getPrice() * bulkGas.getQuantity();
-                    totalPrice-=itemPrice;
+                    totalPrice -= itemPrice;
                 }
                 break;
         }
         updatePrice();
     }
 
-    public static void updateCartItem(Object object,int type, int qty) {
+    public static void updateCartItem(Object object, int type, int qty) {
         Realm realm = Realm.getDefaultInstance();
         switch (type) {
             case GASES:
                 Gas gas = (Gas) object;
-                if(realm.where(CartItem.class)
+                if (realm.where(CartItem.class)
                         .equalTo("id", gas.getId())
                         .equalTo("type", GASES)
                         .equalTo("orderId", OrderKey.orderKey).findFirst() != null) {
@@ -246,10 +265,10 @@ public class Cart {
                     g.setQuantity(qty);
                     realm.commitTransaction();
                     double itemPrice;
-                    if(gas.getQuantity() > g.getQuantity()) {
+                    if (gas.getQuantity() > g.getQuantity()) {
                         itemPrice = gas.getPrice() * (gas.getQuantity() - g.getQuantity());
                         totalPrice -= itemPrice;
-                    }else {
+                    } else {
                         itemPrice = gas.getPrice() * (g.getQuantity() - gas.getQuantity());
                         totalPrice += itemPrice;
                     }
@@ -258,7 +277,7 @@ public class Cart {
                 break;
             case ACCESSORIES:
                 Accessory accessory = (Accessory) object;
-                if(realm.where(CartItem.class).equalTo("id", accessory.getId())
+                if (realm.where(CartItem.class).equalTo("id", accessory.getId())
                         .equalTo("orderId", OrderKey.orderKey)
                         .equalTo("type", ACCESSORIES)
                         .findFirst() != null) {
@@ -267,11 +286,31 @@ public class Cart {
                     a.setQuantity(qty);
                     realm.commitTransaction();
                     double itemPrice;
-                    if(accessory.getQuantity() > a.getQuantity()) {
+                    if (accessory.getQuantity() > a.getQuantity()) {
                         itemPrice = accessory.getPrice() * (accessory.getQuantity() - a.getQuantity());
                         totalPrice -= itemPrice;
-                    }else {
+                    } else {
                         itemPrice = accessory.getPrice() * (a.getQuantity() - accessory.getQuantity());
+                        totalPrice += itemPrice;
+                    }
+                }
+                break;
+            case BULK_GAS:
+                BulkGas bulkGas = (BulkGas) object;
+                if (realm.where(CartItem.class).equalTo("id", bulkGas.getId())
+                        .equalTo("orderId", OrderKey.orderKey)
+                        .equalTo("type", BULK_GAS)
+                        .findFirst() != null) {
+                    realm.beginTransaction();
+                    CartItem a = realm.where(CartItem.class).equalTo("id", bulkGas.getId()).equalTo("orderId", OrderKey.orderKey).findFirst();
+                    a.setQuantity(qty);
+                    realm.commitTransaction();
+                    double itemPrice;
+                    if (bulkGas.getQuantity() > a.getQuantity()) {
+                        itemPrice = bulkGas.getPrice() * (bulkGas.getQuantity() - a.getQuantity());
+                        totalPrice -= itemPrice;
+                    } else {
+                        itemPrice = bulkGas.getPrice() * (a.getQuantity() - bulkGas.getQuantity());
                         totalPrice += itemPrice;
                     }
                 }
@@ -280,37 +319,37 @@ public class Cart {
         updatePrice();
     }
 
-    public static void updateBulkPrice(int quantity, double ttlPrice, double oldPrice, double newPrice) {
-        double price;
-        Realm realm = Realm.getDefaultInstance();
-        if(newPrice > oldPrice) {
-            price = newPrice - oldPrice;
-            totalPrice += price;
-        }else {
-            price = oldPrice - newPrice;
-            totalPrice -= price;
-        }
-        CartItem realmGas = realm.where(CartItem.class)
-                .equalTo("id", OrderKey.orderKey)
-                .equalTo("type", Cart.BULK_GAS)
-                .findFirst();
-
-        realm.beginTransaction();
-        if(realmGas != null) {
-            realmGas.setQuantity(quantity);
-            realmGas.setPrice(ttlPrice);
-        }else {
-            CartItem bulkGas = new CartItem();
-            bulkGas.setId(OrderKey.orderKey);
-            bulkGas.setName("Bulk Gas");
-            bulkGas.setStatus(0);
-            bulkGas.setOrderId(OrderKey.orderKey);
-            bulkGas.setQuantity(quantity);
-            bulkGas.setType(Cart.BULK_GAS);
-            bulkGas.setPrice(ttlPrice);
-            realm.copyToRealm(bulkGas);
-        }
-        realm.commitTransaction();
-        updatePrice();
-    }
+//    public static void updateBulkPrice(int quantity, double ttlPrice, double oldPrice, double newPrice) {
+//        double price;
+//        Realm realm = Realm.getDefaultInstance();
+//        if (newPrice > oldPrice) {
+//            price = newPrice - oldPrice;
+//            totalPrice += price;
+//        } else {
+//            price = oldPrice - newPrice;
+//            totalPrice -= price;
+//        }
+//        CartItem realmGas = realm.where(CartItem.class)
+//                .equalTo("id", OrderKey.orderKey)
+//                .equalTo("type", Cart.BULK_GAS)
+//                .findFirst();
+//
+//        realm.beginTransaction();
+//        if (realmGas != null) {
+//            realmGas.setQuantity(quantity);
+//            realmGas.setPrice(ttlPrice);
+//        } else {
+//            CartItem bulkGas = new CartItem();
+//            bulkGas.setId(OrderKey.orderKey);
+//            bulkGas.setName("Bulk Gas");
+//            bulkGas.setStatus(0);
+//            bulkGas.setOrderId(OrderKey.orderKey);
+//            bulkGas.setQuantity(quantity);
+//            bulkGas.setType(Cart.BULK_GAS);
+//            bulkGas.setPrice(ttlPrice);
+//            realm.copyToRealm(bulkGas);
+//        }
+//        realm.commitTransaction();
+//        updatePrice();
+//    }
 }

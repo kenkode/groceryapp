@@ -7,9 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.activities.GECartActivity;
@@ -61,13 +60,13 @@ public class GasAdapter extends BaseAdapter {
 
         final TextView gasName= (TextView) convertView.findViewById(R.id.gas_name);
         final TextView gasPrice = (TextView) convertView.findViewById(R.id.gas_price);
-        ImageButton addToCart = (ImageButton) convertView.findViewById(R.id.purchase_button);
+        Button addToCart = (Button) convertView.findViewById(R.id.purchase_button);
 
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar snackbar = Snackbar.make(gasName, gas.getName().concat(" added to cart"), Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction("View Cart", new View.OnClickListener() {
+                Snackbar snackbar = Snackbar.make(gasName, gas.getName().concat(" added to orders"), Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction("View Orders", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, GECartActivity.class);

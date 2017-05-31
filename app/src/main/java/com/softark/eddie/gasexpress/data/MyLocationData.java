@@ -15,7 +15,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Retrofit.RetrofitInterface;
 import com.softark.eddie.gasexpress.Retrofit.ServiceGenerator;
@@ -28,9 +27,7 @@ import com.softark.eddie.gasexpress.models.Location;
 import com.softark.eddie.gasexpress.models.RLocation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +36,7 @@ public class MyLocationData {
 
     private final Context context;
     private final GEPreference preference;
-    private static LocationAdapter adapter;
+    private LocationAdapter adapter;
     private static ArrayList<Location> locations;
 
     public MyLocationData(Context context) {
@@ -187,7 +184,7 @@ public class MyLocationData {
         });
     }
 
-    public void disableLocation(final String id, final ImageButton button) {
+    public void disableLocation(final String id) {
 
         RetrofitInterface retrofitInterface = ServiceGenerator.getClient().create(RetrofitInterface.class);
         Call<String> disableLocation = retrofitInterface.disableLocation(id, preference.getUser().get(GEPreference.USER_ID));

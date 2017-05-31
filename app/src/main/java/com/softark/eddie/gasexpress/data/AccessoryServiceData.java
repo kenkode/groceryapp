@@ -25,11 +25,9 @@ import retrofit2.Callback;
 public class AccessoryServiceData {
 
     private final Context context;
-    private final GEPreference preference;
 
     public AccessoryServiceData(Context context) {
         this.context = context;
-        preference = new GEPreference(context);
     }
 
     public void getAccessories(final RecyclerView accessoriesRv, final LinearLayout errorLayout, final ProgressBar progressBar) {

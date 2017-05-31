@@ -12,14 +12,6 @@ public class BulkGas extends RealmObject {
     private int metric;
     private String name;
 
-    public int getMetric() {
-        return metric;
-    }
-
-    public void setMetric(int metric) {
-        this.metric = metric;
-    }
-
     public String getName() {
         return name;
     }

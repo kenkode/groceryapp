@@ -7,7 +7,10 @@
     <android.support.v7.widget.CardView
         android:id="@+id/checkout_card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/white"
+        android:backgroundTint="@android:color/white">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -47,28 +50,28 @@
         android:padding="8dp">
 
         <ImageView
-            android:src="@drawable/check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
             android:layout_toLeftOf="@+id/message"
             android:layout_toStartOf="@+id/message"
+            android:src="@drawable/check"
             android:tint="@color/colorGreenAccent"
-            android:layout_width="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_height="wrap_content"
             tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorGreenAccent"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_gravity="bottom"
-            android:padding="16dp"
             android:gravity="center"
+            android:padding="16dp"
             android:text="Order placed successfully. You will receive a message shortly"
+            android:textColor="@color/colorGreenAccent"
             android:theme="@style/CartTextView" />
 
     </RelativeLayout>

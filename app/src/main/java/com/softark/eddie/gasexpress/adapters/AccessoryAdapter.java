@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.softark.eddie.gasexpress.R;
@@ -51,13 +51,13 @@ public class AccessoryAdapter extends RecyclerView.Adapter<AccessoryAdapter.View
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView name;
         public final TextView price;
-        public final ImageButton add;
+        public final Button add;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.accessories_name);
             price = (TextView) itemView.findViewById(R.id.accessories_price);
-            add = (ImageButton) itemView.findViewById(R.id.add_to_cart);
+            add = (Button) itemView.findViewById(R.id.add_to_cart);
             add.setOnClickListener(this);
         }
 
@@ -69,8 +69,8 @@ public class AccessoryAdapter extends RecyclerView.Adapter<AccessoryAdapter.View
             accessory.setId(rAccessory.getId());
             accessory.setPrice(rAccessory.getPrice());
             Cart.addProduct(accessory);
-            Snackbar snackbar = Snackbar.make(name, accessory.getName().concat(" added to cart"), Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction("View Cart", new View.OnClickListener() {
+            Snackbar snackbar = Snackbar.make(name, accessory.getName().concat(" added to orders"), Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction("View Orders", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, GECartActivity.class);

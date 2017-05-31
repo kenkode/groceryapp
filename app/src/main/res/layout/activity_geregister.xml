@@ -66,16 +66,16 @@
         <net.rimoto.intlphoneinput.IntlPhoneInput
             android:id="@+id/register_customer_phone"
             android:layout_width="match_parent"
-            app:textSize="16sp"
-            android:layout_marginTop="8dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/register_customer_email"
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:hint="712345678"
             app:flagPaddingBottom="4dp"
             app:flagPaddingEnd="4dp"
             app:flagPaddingStart="4dp"
-            app:flagPaddingTop="4dp" />
+            app:flagPaddingTop="4dp"
+            app:textSize="16sp" />
 
         <LinearLayout
             android:id="@+id/birthday_details"
@@ -131,7 +131,7 @@
                 android:background="@drawable/register_edittext_wrapper"
                 android:focusable="false"
                 android:gravity="center_vertical"
-                android:hint="Location"
+                android:hint="Delivery Location"
                 android:padding="8dp"
                 android:theme="@style/EditTextStyle" />
 
@@ -144,7 +144,8 @@
             android:layout_below="@+id/location_details"
             android:layout_marginTop="32sp"
             android:background="@drawable/edittext_wrapper"
-            android:hint="Location description. Be descriptive"
+            android:hint="Estate, House Number, additional delivery details"
+            android:inputType="textLongMessage"
             android:padding="4dp"
             android:theme="@style/EditTextStyle" />
 
@@ -169,6 +170,5 @@
             android:textColor="@android:color/black" />
 
     </RelativeLayout>
-
 
 </ScrollView>

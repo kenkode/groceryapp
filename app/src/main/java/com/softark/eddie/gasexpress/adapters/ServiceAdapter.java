@@ -65,8 +65,8 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
             service.setId(rService.getId());
             service.setName(rService.getName());
             Cart.addService(service);
-            Snackbar snackbar = Snackbar.make(add, service.getName().concat(" requested."), Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction("View Cart", new View.OnClickListener() {
+            Snackbar snackbar = Snackbar.make(add, service.getName().concat(" added to requests"), Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction("View Orders", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, GECartActivity.class);

@@ -8,7 +8,9 @@
         android:id="@+id/checkout_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:background="@android:color/white"
+        android:backgroundTint="@android:color/white">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -48,10 +50,10 @@
         android:padding="8dp">
 
         <TextView
+            android:id="@+id/delivery_location_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:id="@+id/delivery_location_text"
             android:layout_gravity="bottom"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
@@ -62,11 +64,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_toRightOf="@+id/delivery_location_text"
-            android:layout_toEndOf="@+id/delivery_location_text"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="8dp"
+            android:layout_toEndOf="@+id/delivery_location_text"
+            android:layout_toRightOf="@+id/delivery_location_text"
             android:gravity="end"
             android:theme="@style/EditTextStyle" />
 

@@ -18,7 +18,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     private final LayoutInflater layoutInflater;
 
     public ItemAdapter(Context context, ArrayList<OrderItem> orderItems) {
-        Context context1 = context;
         this.orderItems = orderItems;
         layoutInflater = LayoutInflater.from(context);
     }

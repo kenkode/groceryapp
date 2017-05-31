@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -21,7 +21,6 @@ public class CartServiceAdapter extends RecyclerView.Adapter<CartServiceAdapter.
     private final LayoutInflater inflater;
 
     public CartServiceAdapter(Context context, ArrayList<Service> services) {
-        Context context1 = context;
         this.items = services;
         inflater = LayoutInflater.from(context);
     }
@@ -48,14 +47,14 @@ public class CartServiceAdapter extends RecyclerView.Adapter<CartServiceAdapter.
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView name;
         public final TextView price;
-        public final ImageButton remove;
+        public final Button remove;
         public final NumberPicker numberPicker;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.cart_item_name);
             price = (TextView) itemView.findViewById(R.id.cart_item_price);
-            remove = (ImageButton) itemView.findViewById(R.id.remove_from_cart);
+            remove = (Button) itemView.findViewById(R.id.remove_from_cart);
             remove.setOnClickListener(this);
             numberPicker = (NumberPicker) itemView.findViewById(R.id.quantity_select);
             numberPicker.setEnabled(false);

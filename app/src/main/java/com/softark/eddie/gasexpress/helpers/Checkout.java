@@ -2,7 +2,6 @@ package com.softark.eddie.gasexpress.helpers;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.softark.eddie.gasexpress.data.OrderData;
@@ -23,8 +22,6 @@ public class Checkout {
     private final OrderData orderData;
 
     public Checkout (Context context) {
-        Context context1 = context;
-        GEPreference preference = new GEPreference(context);
         orderData = new OrderData(context);
     }
 

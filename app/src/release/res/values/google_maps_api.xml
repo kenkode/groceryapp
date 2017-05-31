@@ -1,6 +1,2 @@
 <!--suppress ALL -->
-<resources>
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
-        AIzaSyCQWEcHRAVHVNPQLfntrr7T3P6rmOfO4NI
-    </string>
-</resources>
+<resources></resources>

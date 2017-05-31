@@ -26,7 +26,7 @@ public class ServiceGenerator {
 
     private static final String BASE_URL = "http://45.55.201.219/gas_express/";
 
-    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+    private static final OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     private static Gson gson = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)

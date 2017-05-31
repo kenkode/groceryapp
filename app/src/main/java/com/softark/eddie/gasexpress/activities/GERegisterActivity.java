@@ -16,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.Retrofit.RetrofitInterface;
 import com.softark.eddie.gasexpress.Retrofit.ServiceGenerator;
@@ -30,12 +29,7 @@ import com.softark.eddie.gasexpress.models.UserAuth;
 
 import net.rimoto.intlphoneinput.IntlPhoneInput;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;

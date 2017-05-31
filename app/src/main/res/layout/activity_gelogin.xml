@@ -13,7 +13,7 @@
     <ImageView
         android:id="@+id/ge_login_logo"
         android:layout_width="128dp"
-        android:layout_height="wrap_content"
+        android:layout_height="128dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/gx_launcher_circle"
         tools:ignore="ContentDescription" />
@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_message"
-        android:layout_marginTop="32sp"
+        android:layout_marginTop="12sp"
         android:gravity="center"
         android:inputType="phone"
         android:theme="@style/EditTextStyle"
@@ -64,6 +64,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="16dp"
+        android:shadowColor="@color/colorPrimary"
         android:text="Welcome to Gas Express"
         android:textColor="@android:color/black" />
 

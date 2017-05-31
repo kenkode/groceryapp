@@ -5,7 +5,7 @@ import io.realm.RealmObject;
 public class BulkCart extends RealmObject {
 
     private String id;
-    private int metric, size;
+    private int size;
 
     public String getId() {
         return id;
@@ -13,14 +13,6 @@ public class BulkCart extends RealmObject {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public int getMetric() {
-        return metric;
-    }
-
-    public void setMetric(int metric) {
-        this.metric = metric;
     }
 
     public int getSize() {

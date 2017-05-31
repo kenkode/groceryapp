@@ -1,6 +1,6 @@
 package com.softark.eddie.gasexpress.models;
 
-public class RBulkGas {
+class RBulkGas {
 
     private int size;
     private int metric;

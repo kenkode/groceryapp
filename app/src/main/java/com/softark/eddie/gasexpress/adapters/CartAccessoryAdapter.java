@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -22,7 +22,6 @@ public class CartAccessoryAdapter extends RecyclerView.Adapter<CartAccessoryAdap
     private final TextView totalPrice;
 
     public CartAccessoryAdapter(Context context, ArrayList<Accessory> accessories, TextView totalPrice) {
-        Context context1 = context;
         this.items = accessories;
         inflater = LayoutInflater.from(context);
         this.totalPrice = totalPrice;
@@ -50,7 +49,7 @@ public class CartAccessoryAdapter extends RecyclerView.Adapter<CartAccessoryAdap
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, NumberPicker.OnScrollListener, NumberPicker.OnValueChangeListener {
         public final TextView name;
         public final TextView price;
-        public final ImageButton remove;
+        public final Button remove;
         public final NumberPicker quantitySelect;
         private int scrollState = 0;
 
@@ -58,7 +57,7 @@ public class CartAccessoryAdapter extends RecyclerView.Adapter<CartAccessoryAdap
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.cart_item_name);
             price = (TextView) itemView.findViewById(R.id.cart_item_price);
-            remove = (ImageButton) itemView.findViewById(R.id.remove_from_cart);
+            remove = (Button) itemView.findViewById(R.id.remove_from_cart);
             remove.setOnClickListener(this);
             quantitySelect = (NumberPicker) itemView.findViewById(R.id.quantity_select);
             quantitySelect.setMinValue(1);

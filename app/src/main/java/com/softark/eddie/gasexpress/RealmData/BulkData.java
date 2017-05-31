@@ -1,7 +1,6 @@
 package com.softark.eddie.gasexpress.RealmData;
 
 import com.softark.eddie.gasexpress.helpers.Cart;
-import com.softark.eddie.gasexpress.models.BulkCart;
 import com.softark.eddie.gasexpress.models.BulkGas;
 import com.softark.eddie.gasexpress.models.CartItem;
 

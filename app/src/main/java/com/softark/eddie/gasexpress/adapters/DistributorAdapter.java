@@ -7,14 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.Constants;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.activities.PriceActivity;
-import com.softark.eddie.gasexpress.models.RGas;
-
-import java.util.ArrayList;
 
 public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.ViewHolder> {
 
@@ -47,8 +43,8 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView gasSize;
-        public View view;
+        public final TextView gasSize;
+        public final View view;
 //        public final ImageButton moreInfo;
         public final View mainView;
 

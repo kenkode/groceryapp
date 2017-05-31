@@ -9,10 +9,6 @@ import java.util.ArrayList;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-/**
- * Created by Eddie on 5/9/2017.
- */
-
 public class AccessoryData {
 
     private final ArrayList<Accessory> accessories = new ArrayList<>();

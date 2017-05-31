@@ -17,7 +17,7 @@
         <item
             android:id="@+id/my_cart"
             android:icon="@drawable/shopping_cart"
-            android:title="Cart" />
+            android:title="Orders" />
     </group>
 
     <item

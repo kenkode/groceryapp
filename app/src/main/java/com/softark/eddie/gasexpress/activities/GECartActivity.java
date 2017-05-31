@@ -3,6 +3,9 @@ package com.softark.eddie.gasexpress.activities;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -31,8 +34,6 @@ import com.softark.eddie.gasexpress.helpers.OrderKey;
 import com.softark.eddie.gasexpress.models.CartItem;
 import com.softark.eddie.gasexpress.models.OrderPrice;
 
-import java.util.Arrays;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -59,7 +60,7 @@ public class GECartActivity extends AppCompatActivity {
             totalPrice.setText(String.valueOf(Cart.totalPrice));
         }
 
-        GasData gasData = new GasData(this);
+        GasData gasData = new GasData();
         ServiceData serviceData = new ServiceData();
         AccessoryData accessoryData = new AccessoryData();
         BulkData bulkData = new BulkData();
@@ -72,6 +73,11 @@ public class GECartActivity extends AppCompatActivity {
         LinearLayout emptyCartLayout = (LinearLayout) findViewById(R.id.empty_cart_layout);
         clearCart = (Button) findViewById(R.id.clear_cart);
         checkout = (Button) findViewById(R.id.check_out);
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ge_buy_button);
+            checkout.setBackgroundDrawable(drawable);
+        }
 
         RealmResults<CartItem> cartItems = realm.where(CartItem.class)
                 .equalTo("status", 0)

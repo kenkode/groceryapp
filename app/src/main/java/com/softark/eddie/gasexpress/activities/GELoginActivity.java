@@ -34,7 +34,6 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
     private IntlPhoneInput phone;
     private GEPreference preference;
     private ProgressDialog progressDialog;
-    private FloatingActionButton loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
 
         phone = (IntlPhoneInput) findViewById(R.id.login_customer_phone);
         phone.setEmptyDefault("KE");
-        loginButton = (FloatingActionButton) findViewById(R.id.login);
+        FloatingActionButton loginButton = (FloatingActionButton) findViewById(R.id.login);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
 
@@ -85,11 +84,6 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
                 }
             }
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     private void submitDetails(String phone) {

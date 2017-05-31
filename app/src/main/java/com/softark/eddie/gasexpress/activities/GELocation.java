@@ -87,7 +87,7 @@ public class GELocation extends AppCompatActivity implements
         }
     }
 
-    private com.softark.eddie.gasexpress.models.Location setSelectedLocation(LatLng latLng) {
+    private void setSelectedLocation(LatLng latLng) {
         Geocoder geocoder = new Geocoder(GELocation.this, Locale.getDefault());
         List<Address> addresses = null;
         com.softark.eddie.gasexpress.models.Location location = new com.softark.eddie.gasexpress.models.Location();
@@ -113,7 +113,6 @@ public class GELocation extends AppCompatActivity implements
         }else {
             Toast.makeText(GELocation.this, "Location not applicable", Toast.LENGTH_LONG).show();
         }
-        return location;
     }
 
     private void setResult() throws IOException {

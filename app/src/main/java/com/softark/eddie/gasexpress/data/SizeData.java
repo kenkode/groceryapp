@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.softark.eddie.gasexpress.Retrofit.RetrofitInterface;
 import com.softark.eddie.gasexpress.Retrofit.ServiceGenerator;
@@ -16,12 +17,9 @@ import retrofit2.Callback;
 public class SizeData {
 
     private final Context context;
-    private DistributorAdapter adapter;
-    private final GEPreference preference;
 
     public SizeData(Context context) {
         this.context = context;
-        preference = new GEPreference(context);
     }
 
     public void getSizes(final LinearLayout errorLayout, final RecyclerView recyclerView, final ProgressBar progressBar) {
@@ -38,8 +36,12 @@ public class SizeData {
                 if(errorLayout.getVisibility() == View.VISIBLE) {
                   errorLayout.setVisibility(View.GONE);
                 }
-                DistributorAdapter adapter = new DistributorAdapter(gases, context);
-                recyclerView.setAdapter(adapter);
+                if(gases.length >= 1) {
+                    DistributorAdapter adapter = new DistributorAdapter(gases, context);
+                    recyclerView.setAdapter(adapter);
+                }else {
+                    Toast.makeText(context, "No gases found", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

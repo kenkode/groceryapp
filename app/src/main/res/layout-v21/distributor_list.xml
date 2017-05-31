@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:backgroundTint="@android:color/white"
+    android:background="@android:color/white"
     android:layout_height="match_parent"
     android:padding="4sp">
 
@@ -24,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/white"
+            android:background="@android:color/white"
             android:layout_below="@+id/size_image">
 
             <RelativeLayout
@@ -35,7 +37,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="16sp"
                     android:layout_marginStart="16sp"
                     android:layout_centerHorizontal="true"
                     android:textColor="@android:color/black"
@@ -48,7 +49,6 @@
                     android:layout_alignBaseline="@+id/gas_size"
                     android:layout_centerHorizontal="true"
                     android:layout_toEndOf="@+id/gas_size"
-                    android:layout_toRightOf="@+id/gas_size"
                     android:text="Kg"
                     android:textSize="14sp" />
 

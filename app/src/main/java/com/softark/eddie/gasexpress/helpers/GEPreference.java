@@ -19,11 +19,10 @@ public class GEPreference {
     public static final String USER_FNAME = "user_fname";
     public static final String USER_LNAME = "user_lname";
 
-    public static final String PAYMENT_OPTION = "payment_option";
-    public static final String TOKEN = "token";
+    private static final String PAYMENT_OPTION = "payment_option";
+    private static final String TOKEN = "token";
 
     public GEPreference(Context context) {
-        Context context1 = context;
         sharedPreferences = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
