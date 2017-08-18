@@ -26,26 +26,28 @@ public class SizeData {
 
         RetrofitInterface retrofitInterface = ServiceGenerator.getClient().create(RetrofitInterface.class);
 
-        final Call<int[]> sizes = retrofitInterface.getSizes();
+        //final Call<int[]> sizes = retrofitInterface.getSizes();
 
-        sizes.enqueue(new Callback<int[]>() {
+        final Call<String[]> categories = retrofitInterface.getCategories();
+
+        categories.enqueue(new Callback<String[]>() {
             @Override
-            public void onResponse(Call<int[]> call, retrofit2.Response<int[]> response) {
-                int[] gases = response.body();
+            public void onResponse(Call<String[]> call, retrofit2.Response<String[]> response) {
+                String[] names = response.body();
                 progressBar.setVisibility(View.GONE);
                 if(errorLayout.getVisibility() == View.VISIBLE) {
                   errorLayout.setVisibility(View.GONE);
                 }
-                if(gases.length >= 1) {
-                    DistributorAdapter adapter = new DistributorAdapter(gases, context);
+                if(names.length >= 1) {
+                    DistributorAdapter adapter = new DistributorAdapter(names, context);
                     recyclerView.setAdapter(adapter);
                 }else {
-                    Toast.makeText(context, "No gases found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "No products found", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<int[]> call, Throwable t) {
+            public void onFailure(Call<String[]> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
                 t.printStackTrace();
                 if(errorLayout.getVisibility() == View.GONE) {

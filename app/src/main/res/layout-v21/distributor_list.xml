@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/size_image"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:padding="8dp"
             android:layout_centerHorizontal="true"
             android:src="@mipmap/gas_size_image"
@@ -35,22 +35,23 @@
                 <TextView
                     android:id="@+id/gas_size"
                     android:layout_width="wrap_content"
+                    android:padding="8dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16sp"
                     android:layout_centerHorizontal="true"
                     android:textColor="@android:color/black"
-                    android:textSize="32sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <TextView
+                <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/gas_size"
                     android:layout_centerHorizontal="true"
                     android:layout_toEndOf="@+id/gas_size"
                     android:text="Kg"
-                    android:textSize="14sp" />
+                    android:textSize="14sp" />-->
 
             </RelativeLayout>
 

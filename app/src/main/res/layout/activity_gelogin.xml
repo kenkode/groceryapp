@@ -15,7 +15,7 @@
         android:layout_width="128dp"
         android:layout_height="128dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/gx_launcher_circle"
+        android:src="@drawable/duka_logo"
         tools:ignore="ContentDescription" />
 
     <TextView
@@ -65,7 +65,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="16dp"
         android:shadowColor="@color/colorPrimary"
-        android:text="Welcome to Gas Express"
+        android:text="Welcome to Superr Duka App"
         android:textColor="@android:color/black" />
 
 

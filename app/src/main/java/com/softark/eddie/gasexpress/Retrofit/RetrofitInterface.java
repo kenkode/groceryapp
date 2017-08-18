@@ -1,6 +1,7 @@
 package com.softark.eddie.gasexpress.Retrofit;
 
 import com.softark.eddie.gasexpress.Constants;
+import com.softark.eddie.gasexpress.models.Category;
 import com.softark.eddie.gasexpress.models.Location;
 import com.softark.eddie.gasexpress.models.OrderHistory;
 import com.softark.eddie.gasexpress.models.OrderItem;
@@ -18,11 +19,14 @@ import retrofit2.http.Query;
 
 public interface RetrofitInterface {
 
+    @GET(Constants.GET_CATEGORY)
+    Call<String[]> getCategories();
+
     @GET(Constants.GET_SIZES)
     Call<int[]> getSizes();
 
-    @GET(Constants.GET_GASES)
-    Call<List<RGas>> getGases(@Query("size") int size);
+    @GET(Constants.GET_PRODUCT)
+    Call<List<RGas>> getProducts(@Query("name") String name);
 
     @GET(Constants.GET_ACCESSORIES)
     Call<List<RAccessory>> getAccessories();

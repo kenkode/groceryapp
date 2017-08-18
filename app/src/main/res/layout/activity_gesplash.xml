@@ -25,7 +25,7 @@
         android:layout_width="108dp"
         android:layout_height="108dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/gx_launcher_circle"
+        android:src="@drawable/duka_logo"
         tools:ignore="ContentDescription" />
 
     <ProgressBar
@@ -47,7 +47,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16sp"
-        android:text="Welcome to Gas Express"
+        android:text="Welcome to SupeRR Duka App"
         android:textColor="@color/colorPrimary" />
 
 </RelativeLayout>

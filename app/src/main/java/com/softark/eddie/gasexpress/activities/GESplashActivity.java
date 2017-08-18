@@ -26,6 +26,7 @@ public class GESplashActivity extends AppCompatActivity {
             public void run() {
                 updateProgress();
                 Intent intent = new Intent(GESplashActivity.this, GELoginActivity.class);
+                //Intent intent = new Intent(GESplashActivity.this, GasExpress.class);
                 startActivity(intent);
                 finish();
             }

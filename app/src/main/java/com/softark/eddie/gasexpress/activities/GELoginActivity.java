@@ -132,18 +132,20 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
             public void onResponse(Call<UserAuth> call, retrofit2.Response<UserAuth> response) {
                 dialog.dismiss();
                 UserAuth userAuth = response.body();
-                if (userAuth.getStatus().equals("E")) {
+                /*if (userAuth.getStatus().equals("E")) {
                     confirmPin(userAuth, dialog);
                 } else {
                     Intent intent = new Intent(GELoginActivity.this, GERegisterActivity.class);
                     intent.putExtra("phone", phone);
                     startActivity(intent);
-                }
+                }*/
+                confirmPin(userAuth, dialog);
             }
 
             @Override
             public void onFailure(Call<UserAuth> call, Throwable t) {
                 Toast.makeText(GELoginActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                t.printStackTrace();
                 dialog.dismiss();
             }
         });
@@ -172,13 +174,13 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
     }
 
     private void confirmPin(final UserAuth user, final ProgressDialog dialog) {
-        final String pin = user.getPin();
+//        final String pin = user.getPin();
         dialog.dismiss();
-        final Dialog dialog1 = new Dialog(GELoginActivity.this);
-        dialog1.setCancelable(false);
-        dialog1.setContentView(R.layout.pin_input_dialog);
-        Button cancel = (Button) dialog1.findViewById(R.id.cancel);
-        Button submit = (Button) dialog1.findViewById(R.id.ok);
+        //final Dialog dialog1 = new Dialog(GELoginActivity.this);
+        //dialog1.setCancelable(false);
+        //dialog1.setContentView(R.layout.pin_input_dialog);
+        //Button cancel = (Button) dialog1.findViewById(R.id.cancel);
+        /*Button submit = (Button) dialog1.findViewById(R.id.ok);
         final EditText pinText = (EditText) dialog1.findViewById(R.id.pin_edit);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,17 +193,30 @@ public class GELoginActivity extends AppCompatActivity implements Internet.Conne
             public void onClick(View v) {
                 if (pinText.getText().toString().isEmpty()) {
                     Toast.makeText(GELoginActivity.this, "Insert pin.", Toast.LENGTH_LONG).show();
-                } else {
-                    if (pinText.getText().toString().equals(pin.trim())) {
-                        String recPin = phone.getText().trim();
-                        processResults(user, recPin);
-                        dialog1.dismiss();
-                    } else {
-                        Toast.makeText(GELoginActivity.this, "Incorrect pin.", Toast.LENGTH_LONG).show();
-                    }
-                }
+                } else {*/
+
+                    /*String id = user.getUser().getId();
+                    String fname = user.getUser().getFname();
+                    String lname = user.getUser().getLname();
+                    String phn = user.getUser().getPhone();
+                    String email = user.getUser().getEmail();*/
+                    preference.setUser("2", "Kennedy", "Wango", "0725145304", "wangoken2@gmail.com");
+                    Token.setToken("$1$.GgtFClg$OGz7.R6jGF9V5peVdOl9X.");
+                    preference.setToken("$1$.GgtFClg$OGz7.R6jGF9V5peVdOl9X.");
+                    Intent intent = new Intent(GELoginActivity.this, GasExpress.class);
+                    startActivity(intent);
+                    finish();
+
+                    //if (pinText.getText().toString().equals(pin.trim())) {
+                        //String recPin = phone.getText().trim();
+                        //processResults(user, recPin);
+                        //dialog1.dismiss();
+                   // } /*else {
+                       // Toast.makeText(GELoginActivity.this, "Incorrect pin.", Toast.LENGTH_LONG).show();
+                   // }*/
+               /* }
             }
         });
-        dialog1.show();
+        dialog1.show();*/
     }
 }

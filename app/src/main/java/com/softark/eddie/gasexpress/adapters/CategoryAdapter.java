@@ -13,31 +13,32 @@ import android.widget.TextView;
 import com.softark.eddie.gasexpress.R;
 import com.softark.eddie.gasexpress.activities.GECartActivity;
 import com.softark.eddie.gasexpress.helpers.Cart;
+import com.softark.eddie.gasexpress.models.Category;
 import com.softark.eddie.gasexpress.models.Gas;
 import com.softark.eddie.gasexpress.models.RGas;
 
 import java.util.ArrayList;
 
-public class GasAdapter extends BaseAdapter {
+public class CategoryAdapter extends BaseAdapter {
 
-    private final ArrayList<RGas> gases;
+    private final ArrayList<Category> categories;
     private final LayoutInflater inflater;
     private final Context context;
 
-    public GasAdapter(Context context, ArrayList<RGas> gases) {
-        this.gases = gases;
+    public CategoryAdapter(Context context, ArrayList<Category> categories) {
+        this.categories = categories;
         this.context = context;
         inflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return gases.size();
+        return categories.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return gases.get(position);
+        return categories.get(position);
     }
 
     @Override
@@ -51,11 +52,11 @@ public class GasAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.price_list_layout, null);
         }
 
-        final RGas rGas = gases.get(position);
+        final Category rCategory = categories.get(position);
         final Gas gas = new Gas();
-        gas.setId(rGas.getId());
-        gas.setName(rGas.getName());
-        gas.setPrice(rGas.getPrice());
+        gas.setId(rCategory.getId());
+        gas.setName(rCategory.getName());
+        //gas.setPrice(rGas.getPrice());
         //gas.setSize(rGas.getSize());
 
         final TextView gasName= (TextView) convertView.findViewById(R.id.gas_name);

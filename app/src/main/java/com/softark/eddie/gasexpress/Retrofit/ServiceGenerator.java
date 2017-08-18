@@ -24,7 +24,8 @@ public class ServiceGenerator {
     private GEPreference preference;
     private static Retrofit retrofit;
 
-    private static final String BASE_URL = "http://45.55.201.219/gas_express/";
+    private static final String BASE_URL = "http://45.55.201.219/duka/public/";
+    //private static final String BASE_URL = "http://10.0.2.2:81/duka/public/";
 
     private static final OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 

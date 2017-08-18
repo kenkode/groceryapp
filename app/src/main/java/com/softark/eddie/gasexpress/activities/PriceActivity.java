@@ -19,19 +19,22 @@ public class PriceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_price);
 
+        Bundle bundle = getIntent().getExtras();
+        final String name = bundle.getString("name");
+
         LinearLayout errorLayout = (LinearLayout) findViewById(R.id.error_layout_price);
         errorLayout.setVisibility(View.GONE);
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.load_prices);
 
         Intent intent = getIntent();
-        int size = intent.getIntExtra(Constants.SIZE, 0);
+        //int size = intent.getIntExtra(Constants.NAME, 0);
 
         if(getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(size + " Kg");
+            getSupportActionBar().setTitle(name);
         }
 
         ListView listView = (ListView) findViewById(R.id.price_list);
         GasData gas = new GasData(this);
-        gas.getGases(size, listView, errorLayout, progressBar);
+        gas.getGases(name, listView, errorLayout, progressBar);
     }
 }

@@ -57,9 +57,9 @@ public class GasExpress extends AppCompatActivity
 
         sizeData = new SizeData(this);
 
-        CardView accessoriesView = (CardView) findViewById(R.id.a_s);
-        CardView bulkGasView = (CardView) findViewById(R.id.bulk_card);
-        CardView serviceView = (CardView) findViewById(R.id.service_card);
+        //CardView accessoriesView = (CardView) findViewById(R.id.a_s);
+        //CardView bulkGasView = (CardView) findViewById(R.id.bulk_card);
+        //CardView serviceView = (CardView) findViewById(R.id.service_card);
         sizeProgressBar = (ProgressBar) findViewById(R.id.gas_size_progress);
 
         ImageView refreshView = (ImageView) findViewById(R.id.refresh_page);
@@ -75,7 +75,7 @@ public class GasExpress extends AppCompatActivity
             }
         });
 
-        bulkGasView.setOnClickListener(new View.OnClickListener() {
+       /* bulkGasView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(GasExpress.this, GEBulkGasActivity.class));
@@ -94,7 +94,7 @@ public class GasExpress extends AppCompatActivity
             public void onClick(View v) {
                 startActivity(new Intent(GasExpress.this, GEAccessoryActivity.class));
             }
-        });
+        });*/
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 

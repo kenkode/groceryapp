@@ -26,13 +26,13 @@ public class GasData {
         this.context = context;
     }
 
-    public void getGases(final int size, final ListView listView, final LinearLayout errorLinear, final ProgressBar loadPrice) {
+    public void getGases(final String name, final ListView listView, final LinearLayout errorLinear, final ProgressBar loadPrice) {
 
         final ArrayList<RGas> rGases = new ArrayList<>();
 
         RetrofitInterface retrofitInterface = ServiceGenerator.getClient().create(RetrofitInterface.class);
 
-        Call<List<RGas>> retroGases = retrofitInterface.getGases(size);
+        Call<List<RGas>> retroGases = retrofitInterface.getProducts(name);
 
         retroGases.enqueue(new Callback<List<RGas>>() {
             @Override
@@ -56,6 +56,7 @@ public class GasData {
                 t.printStackTrace();
                 errorLinear.setVisibility(View.VISIBLE);
                 loadPrice.setVisibility(View.GONE);
+                t.printStackTrace();
                 final Snackbar snackbar = Snackbar.make(listView, "Something went wrong!", Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction("Retry", new View.OnClickListener() {
                     @Override
@@ -63,7 +64,7 @@ public class GasData {
                         snackbar.dismiss();
                         errorLinear.setVisibility(View.GONE);
                         loadPrice.setVisibility(View.VISIBLE);
-                        getGases(size, listView, errorLinear, loadPrice);
+                        getGases(name, listView, errorLinear, loadPrice);
                     }
                 });
                 snackbar.show();

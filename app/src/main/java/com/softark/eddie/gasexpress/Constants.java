@@ -2,11 +2,13 @@ package com.softark.eddie.gasexpress;
 
 public class Constants {
 
-    public static final String SIZE = "size";
+    public static final String NAME = "size";
 
     public static final int LOCATION_ID = 1089;
 
-    public static final String GET_GASES = "get_gases";
+    public static final String GET_PRODUCT = "get_products";
+
+    public static final String GET_CATEGORY = "get_categories";
 
     public static final String GET_SIZES = "get_sizes";
 

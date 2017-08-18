@@ -239,11 +239,12 @@ public class GERegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserAuth> call, retrofit2.Response<UserAuth> response) {
                 UserAuth user = response.body();
-                if (!user.getStatus().equals("EE")) {
+                /*if (!user.getStatus().equals("EE")) {
                     confirmPin(user, progressDialog);
                 } else {
                     Toast.makeText(GERegisterActivity.this, "Email exists", Toast.LENGTH_LONG).show();
-                }
+                }*/
+                confirmPin(user, progressDialog);
                 progressDialog.dismiss();
             }
 
