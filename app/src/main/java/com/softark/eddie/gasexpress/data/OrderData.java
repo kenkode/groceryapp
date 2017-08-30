@@ -83,10 +83,10 @@ public class OrderData {
             @Override
             public void onResponse(Call<List<OrderHistory>> call, retrofit2.Response<List<OrderHistory>> response) {
                 List<OrderHistory> histories = response.body();
-                for (OrderHistory orderHistory :
+                /*for (OrderHistory orderHistory :
                         histories) {
                     orderHistories.add(orderHistory);
-                }
+                }*/
                 progressBar.setVisibility(View.GONE);
                 if(orderHistories.size() > 0) {
                     historyState.setVisibility(View.GONE);
